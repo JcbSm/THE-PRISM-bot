@@ -77,7 +77,7 @@ class HelpCommand extends Command {
                 .setAuthor(message.author.tag, message.author.avatarURL)
                 .setColor(color.purple)
                 .setThumbnail(this.client.user.avatarURL)
-                .addField(`${config.client.prefix}avatar <user>`, 'Shows the avatar of the target user. If no user is given, the bot will display your own.')
+                .addField(`${config.prefix}avatar <user>`, 'Shows the avatar of the target user. If no user is given, the bot will display your own.')
 
             message.channel.send(helpAvatarEmbed);
 

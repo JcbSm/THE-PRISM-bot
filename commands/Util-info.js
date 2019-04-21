@@ -24,6 +24,7 @@ class InfoCommand extends Command {
             .addField('Version', packageFile.version, true)
             .addField('Server count', this.client.guilds.size, true)
             .addField('Created on', createdDate.format('DD MMM YYYY hh:mm A'), true)
+            .addField('Invite to your server', 'https://tinyurl.com/prism-bot', true)
     
         message.channel.send(infoEmbed);
     }

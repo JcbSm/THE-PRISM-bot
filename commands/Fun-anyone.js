@@ -12,11 +12,17 @@ class AnyoneCommand extends Command {
 
     exec(message) {
 
-        let randomMember = message.guild.members.random()
-        let stringTwo = ['Hi..', 'You have been summoned!', 'Ping!', 'You there..', 'Hellooo', 'Is this annoying?', 'You didnt get an actual message, it\'s just me.', 'pranked ;)', 'noob', 'Hey there sweet sutff ;)']
-        let response = Math.floor(Math.random()*stringTwo.length)
+        //Filter COllection to remove bot
+        let membersFiltered = message.guild.members.filter(tag => tag.id !== this.client.user.id) 
 
-    message.channel.send(`${randomMember.user}, ${stringTwo[response]}`)
+        //Select random member
+        let randomMember = membersFiltered.random()
+
+        //Select radnom message
+        let responses = ['Hi..', 'You have been summoned!', 'Ping!', 'You there..', 'Hellooo', 'Is this annoying?', 'You didnt get an actual message, it\'s just me.', 'pranked ;)', 'noob', 'Hey there sweet sutff ;)']
+        let rng = Math.floor(Math.random()*responses.length)
+
+    message.channel.send(`${randomMember.user}, ${responses[rng]}`)
     }
 }
 

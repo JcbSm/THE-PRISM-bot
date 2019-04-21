@@ -21,6 +21,7 @@ class AvatarCommand extends Command {
             //No user targeted, own avatar shown
             let OwnAvatarEmbed = new Discord.RichEmbed()
                 .setImage(message.author.avatarURL)
+                .setFooter('Couldn\'t find a target user, displaying own avatar')
                 .setColor(color.purple)
             
             message.channel.send(OwnAvatarEmbed);

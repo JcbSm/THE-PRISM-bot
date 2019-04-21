@@ -5,13 +5,14 @@ function getConfig() {
 		const config = require('./config.json');
 		const tokenFile = require('./token.json')
 		const token = tokenFile.token;
-		const prefix = config.prefix;
+		const prefix = config.testPrefix;
 		console.log('Starting using locally stored value for token.');
 		return {'token': token, 'prefix': prefix}
 	}
 	catch(error) {
 		const token = process.env.TOKEN;
-		const prefix = '-';
+		const config = require('./config.json');
+		const prefix = config.prefix;
 		console.log('Starting using token stored on Heroku');
 		return {'token': token, 'prefix': prefix}
 	}
