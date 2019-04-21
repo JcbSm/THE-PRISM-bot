@@ -2,8 +2,9 @@ const Discord = require('discord.js');
 
 function getConfig() {
 	try {
-		const config = require("./config.json");
-		const token = config.token;
+		const config = require('./config.json');
+		const tokenFile = require('./token.json')
+		const token = tokenFile.token;
 		const prefix = config.prefix;
 		console.log('Starting using locally stored value for token.');
 		return {'token': token, 'prefix': prefix}
