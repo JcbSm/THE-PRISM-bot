@@ -1,11 +1,27 @@
-const { AkairoClient } = require('discord-akairo');
 const Discord = require('discord.js');
-const tokenfile = require('./token.json');
-const config = require('./config.json');
 
+function getConfig() {
+	try {
+		const config = require("./config.json");
+		const token = config.token;
+		const prefix = config.prefix;
+		console.log('Starting using locally stored value for token.');
+		return {'token': token, 'prefix': prefix}
+	}
+	catch(error) {
+		const token = process.env.TOKEN;
+		const prefix = '-';
+		console.log('Starting using token stored on Heroku');
+		return {'token': token, 'prefix': prefix}
+	}
+}
+
+
+const config = getConfig();
+const { AkairoClient } = require('discord-akairo');
 const client = new AkairoClient({
     ownerID: '227848397447626752',
-    prefix: config.prefix,
+    prefix: config['prefix'],
     allowMention: true,
     commandDirectory: './commands/',
     inhibitorDirectory: './inhibitors/',
@@ -22,4 +38,4 @@ client.on('ready', () => {
     }
 })
 
-client.login(tokenfile.token);
+client.login(config['token']);
