@@ -5,7 +5,11 @@ class NicknameCommand extends Command {
         super('nickname', {
             aliases: ['nickname'],
             ownerOnly: false,
-            channelRestriction: 'guild'
+            channelRestriction: 'guild',
+            description: {
+                content: 'Returns your nickname (very pointless, yes)',
+                usage: 'nickname'
+            }
         });
     };
 

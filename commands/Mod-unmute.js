@@ -13,7 +13,11 @@ class UnmuteCommand extends Command {
             ],
             clientPermission: ['MANAGE_ROLES'],
             channelRestriction: 'guild',
-            userPermissions: ['MANAGE_ROLES']
+            userPermissions: ['MANAGE_ROLES'],
+            description: {
+                content: 'Unmutes a muted user, *requires \'manage roles\' permission.*',
+                usage: 'unmute <user>'
+            }
         });
     }
 

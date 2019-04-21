@@ -1,6 +1,6 @@
 {
   "name": "prism-bot",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "The PRISM Discord bot.",
   "main": "index.js",
   "scripts": {

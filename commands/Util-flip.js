@@ -9,8 +9,11 @@ class FlipCommand extends Command {
                     id: 'side',
                     type: 'string'
                 }
-            ]
-
+            ],
+            description: {
+                content: 'Flips a coin, you can choose heads or tails, if you don\'t, it will flip it anyway.',
+                usage: 'flip <side>'
+            }
         })
     }
 

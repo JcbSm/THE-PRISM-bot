@@ -14,6 +14,10 @@ class ProfileCommand extends Command {
                     type: 'member'
                 }
             ],
+            description: {
+                content: 'View the profile of a user for the server, if no user is given, it will display your own.',
+                usage: `profile <user>`
+            }
         });
     }
 

@@ -12,7 +12,11 @@ class RollCommand extends Command {
                     default: 6,
                 }
 
-            ]
+            ],
+            description: {
+                content: 'Rolls a dice',
+                usage: 'roll <max>'
+            }
         })
     }
 

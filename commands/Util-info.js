@@ -7,7 +7,11 @@ const packageFile = require('../package.json')
 class InfoCommand extends Command {
     constructor() {
         super('info', {
-            aliases: ['info']
+            aliases: ['info'],
+            description: {
+                content: 'Shows information about the bot',
+                usage: 'info'
+            }
         })
     }
 

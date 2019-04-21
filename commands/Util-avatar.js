@@ -11,7 +11,11 @@ class AvatarCommand extends Command {
                     id: 'member',
                     type: 'member'
                 }
-            ]
+            ],
+            description: {
+                content: 'View a user\'s avatar on a larger scale, if you don\'t specify a user, your own avatar will be shown.',
+                usage: 'avatar <member>'
+            }
         });
     }
 

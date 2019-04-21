@@ -9,11 +9,20 @@ class MuteCommand extends Command {
                 {
                     id: 'member',
                     type: 'member'
+                },
+                {
+                    id: 'reason',
+                    match: 'rest',
+                    type: 'string'
                 }
             ],
             clientPermission: ['MANAGE_ROLES'],
             channelRestriction: 'guild',
-            userPermissions: ['MANAGE_ROLES']
+            userPermissions: ['MANAGE_ROLES'],
+            description: {
+                content: 'Mutes a user, *requires \'manage roles\' permission*',
+                usage: 'mute <user> <reason>'
+            }
         });
     }
 
@@ -26,7 +35,10 @@ class MuteCommand extends Command {
 
         //Mutes user
         return args.member.addRole(roles.mute).then(() => {
-            return message.channel.send(`***${args.member.user.tag} has been muted.***`)
+            if(!args.reason){
+                return message.channel.send(`***${args.member.user.tag} has been muted.***`)
+            }
+            return message.channel.send(`***${args.member.user.tag} has been muted for ${args.reason}.***`)
         })
     }
 }

@@ -9,7 +9,11 @@ class RpsCommand extends Command {
                     id: 'choice',
                     type: 'string'
                 }
-            ]
+            ],
+            description: {
+                content: 'Play rock, paper, scissors with the bot.',
+                usage: 'rps <rock | paper | scissors>'
+            }
         })
     }
 

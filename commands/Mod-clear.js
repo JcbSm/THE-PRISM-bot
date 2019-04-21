@@ -12,7 +12,11 @@ class ClearCommand extends Command {
                     id: 'amount',
                     type: 'number'
                 }
-            ]
+            ],
+            description: {
+                content: 'Bulk deletes messages. *requires \'manage messages\' permission*',
+                usage: 'clear <amount>'
+            }
         });
     }
 

@@ -120,7 +120,11 @@ const { Command } = require('discord-akairo');
 class FactCommand extends Command {
     constructor() {
         super('fact', {
-            aliases: ['fact']
+            aliases: ['fact'],
+            description: {
+                content: 'Gives you a nice fun fact.',
+                usage: 'fact'
+            }
         })
     }
 

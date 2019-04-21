@@ -6,7 +6,11 @@ let changelogLink = 'https://github.com/JcbSm/THE-PRISM-bot/commits/master';
 class ChangeCommand extends Command {
     constructor() {
         super('changelog', {
-            aliases: ['changelog', 'changes', 'updates']
+            aliases: ['changelog', 'changes', 'updates'],
+            description: {
+                content: 'Send\'s a link to the changelog of the bot',
+                usage: 'changelog'
+            }
         })
     }
 
