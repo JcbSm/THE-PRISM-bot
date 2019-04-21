@@ -49,7 +49,7 @@ class HelpCommand extends Command {
                 .setAuthor(message.author.tag, message.author.avatarURL)
                 .setColor(color.purple)
                 .setThumbnail(this.client.user.avatarURL)
-                .addField(`${this.prefix}roll <max>`, `Rolls a dice with a number of sides equal to <max>.`)
+                .addField(`${config.prefix}roll <max>`, `Rolls a dice with a number of sides equal to <max>.`)
 
             message.channel.send(helpRollEmbed);
 
@@ -63,7 +63,7 @@ class HelpCommand extends Command {
                 .setAuthor(message.author.tag, message.author.avatarURL)
                 .setColor(color.purple)
                 .setThumbnail(this.client.user.avatarURL)
-                .addField(`${this.prefix}profile <user>`, `Shows the profile of the target user for the server. If no user is given, the bot will display your own.`)
+                .addField(`${config.prefix}profile <user>`, `Shows the profile of the target user for the server. If no user is given, the bot will display your own.`)
 
             message.channel.send(helpProfileEmbed);
 
@@ -77,7 +77,7 @@ class HelpCommand extends Command {
                 .setAuthor(message.author.tag, message.author.avatarURL)
                 .setColor(color.purple)
                 .setThumbnail(this.client.user.avatarURL)
-                .addField(`${this.client.prefix}avatar <user>`, 'Shows the avatar of the target user. If no user is given, the bot will display your own.')
+                .addField(`${config.client.prefix}avatar <user>`, 'Shows the avatar of the target user. If no user is given, the bot will display your own.')
 
             message.channel.send(helpAvatarEmbed);
 
@@ -91,7 +91,7 @@ class HelpCommand extends Command {
                 .setAuthor(message.author.tag, message.author.avatarURL)
                 .setColor(color.purple)
                 .setThumbnail(this.client.user.avatarURL)
-                .addField(`${this.prefix}flip <side>`, 'Flip a coin and guess the side it will land on. If no side is given. the coin will flip anyway.')
+                .addField(`${config.prefix}flip <side>`, 'Flip a coin and guess the side it will land on. If no side is given. the coin will flip anyway.')
 
             message.channel.send(helpFlipCommand);
 
@@ -105,7 +105,7 @@ class HelpCommand extends Command {
                 .setAuthor(message.author.tag, message.author.avatarURL)
                 .setColor(color.purple)
                 .setThumbnail(this.client.user.avatarURL)
-                .addField(`${this.prefix}clear <amount>`, 'Bulk delete messages in a channel.')
+                .addField(`${config.prefix}clear <amount>`, 'Bulk delete messages in a channel.')
 
             message.channel.send(helpClearCommand);
         }
