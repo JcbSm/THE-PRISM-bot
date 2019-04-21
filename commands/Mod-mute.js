@@ -12,13 +12,9 @@ class MuteCommand extends Command {
                 }
             ],
             clientPermission: ['MANAGE_ROLES'],
-            channelRestriction: 'guild'
+            channelRestriction: 'guild',
+            userPermissions: ['MANAGE_ROLES']
         });
-    }
-    
-    //Checks for moderator role
-    userPermissions(message) {
-        return message.member.roles.some(role => role.id === roles.mod);
     }
 
     exec(message, args) {

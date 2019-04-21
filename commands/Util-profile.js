@@ -18,6 +18,9 @@ class ProfileCommand extends Command {
     }
 
     exec(message, args) {
+
+        
+
         if(!args.member) {
             
             //Own profile, if no user is given.

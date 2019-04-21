@@ -25,6 +25,7 @@ class InfoCommand extends Command {
             .addField('Server count', this.client.guilds.size, true)
             .addField('Created on', createdDate.format('DD MMM YYYY hh:mm A'), true)
             .addField('Invite to your server', 'https://tinyurl.com/prism-bot', true)
+            .addField('Join us', 'https://discord.gg/Cb8QtdN')
     
         message.channel.send(infoEmbed);
     }

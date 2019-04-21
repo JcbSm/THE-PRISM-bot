@@ -31,7 +31,7 @@ class HelpCommand extends Command {
                 //Moderation
                 .addField('Moderation', `- Mute\n- Unmute\n- Clear\n`)
                 //Utilities
-                .addField('Utilities', `- Avatar\n- Flip\n- Info\n- Nickname\n- Ping\n- Profile\n- Roll`)
+                .addField('Utilities', `- Avatar\n- Changelog\n- Flip\n- Info\n- Nickname\n- Ping\n- Profile\n- Roll`)
                 //Fun
                 .addField('Fun', '- Fact\n- Anyone')
 

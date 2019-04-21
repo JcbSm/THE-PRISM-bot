@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const roles = require('../roles.json');
 const Discord = require('discord.js');
 
 class ClearCommand extends Command {
@@ -7,6 +6,7 @@ class ClearCommand extends Command {
         super('clear', {
             aliases: ['clear'],
             channelRestriction: 'guild',
+            userPermissions: ['MANAGE_MESSAGES'],
             args: [
                 {
                     id: 'amount',
@@ -16,19 +16,18 @@ class ClearCommand extends Command {
         });
     }
 
-    //Checks for moderator role
-    userPermissions(message) {
-        return message.member.roles.some(role => role.id === roles.mod);
-    }
-
     exec(message, args) {
 
         //Check if stated amount
         if(!args.amount) {
             return message.reply('Please specity how many messages you\'d like to clead')
+
+        //Check amount is positive
+        } else if(args.number < 0) {
+            return message.reply('I can only clear between 1 and 100 messages.')
         
-        //Check amount is between 1 and 100
-        } else if(args.amount >= 100 || args.number < 1) {
+        //Check amount is >= 100
+        } else if(args.amount >= 100) {
             return message.reply('I can only clear between 1 and 100 messages.')
 
         //Check for integer

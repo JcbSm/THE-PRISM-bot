@@ -18,6 +18,11 @@ class AvatarCommand extends Command {
     exec(message, args) {
         if(!args.member) {
 
+            //check for avatar
+            if(!message.author.avatarURL) {
+                return message.reply('No avatar found.')
+            }
+
             //No user targeted, own avatar shown
             let OwnAvatarEmbed = new Discord.RichEmbed()
                 .setImage(message.author.avatarURL)
@@ -26,6 +31,11 @@ class AvatarCommand extends Command {
             
             message.channel.send(OwnAvatarEmbed);
         } else {
+
+            //check for avatar
+            if(!args.member.user.avatarURL) {
+                return message.reply('No avatar found.')
+            }
 
             //Shows avatar of targeted user
             let OtherAvatarEmbed = new Discord.RichEmbed()
