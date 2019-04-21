@@ -1,6 +1,5 @@
 const { Command } = require('discord-akairo');
 const Discord = require('discord.js')
-const config = require('../config.json')
 
 class AnyoneCommand extends Command {
     constructor() {
