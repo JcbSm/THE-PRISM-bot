@@ -124,7 +124,8 @@ class FactCommand extends Command {
             description: {
                 content: 'Gives you a nice fun fact.',
                 usage: 'fact'
-            }
+            },
+            category: 'fun'
         })
     }
 

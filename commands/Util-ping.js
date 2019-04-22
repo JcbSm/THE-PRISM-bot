@@ -7,7 +7,8 @@ class PingCommand extends Command {
             description: {
                 content: 'Returns the ping of the bot',
                 usage: 'ping'
-            }
+            },
+            category: 'utilities'
         });
     }
 

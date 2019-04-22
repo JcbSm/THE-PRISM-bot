@@ -9,7 +9,8 @@ class NicknameCommand extends Command {
             description: {
                 content: 'Returns your nickname (very pointless, yes)',
                 usage: 'nickname'
-            }
+            },
+            category: 'utilities'
         });
     };
 

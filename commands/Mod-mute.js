@@ -22,7 +22,8 @@ class MuteCommand extends Command {
             description: {
                 content: 'Mutes a user, *requires \'manage roles\' permission*',
                 usage: 'mute <user> <reason>'
-            }
+            },
+            category: 'moderation'
         });
     }
 

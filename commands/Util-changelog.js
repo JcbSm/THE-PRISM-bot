@@ -10,7 +10,8 @@ class ChangeCommand extends Command {
             description: {
                 content: 'Send\'s a link to the changelog of the bot',
                 usage: 'changelog'
-            }
+            },
+            category: 'utilities'
         })
     }
 

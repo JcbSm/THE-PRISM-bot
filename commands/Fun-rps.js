@@ -13,7 +13,8 @@ class RpsCommand extends Command {
             description: {
                 content: 'Play rock, paper, scissors with the bot.',
                 usage: 'rps <rock | paper | scissors>'
-            }
+            },
+            category: 'fun'
         })
     }
 

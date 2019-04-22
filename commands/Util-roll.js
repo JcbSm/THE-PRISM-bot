@@ -16,7 +16,8 @@ class RollCommand extends Command {
             description: {
                 content: 'Rolls a dice',
                 usage: 'roll <max>'
-            }
+            },
+            category: 'utilities'
         })
     }
 

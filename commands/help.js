@@ -16,22 +16,40 @@ class HelpCommand extends Command {
             description: {
                 content: 'Shows help for commands, or shows a list of commands.',
                 usage: 'help <command>'
-            }
+            },
+            category: 'help'
         })
     }
     
     exec(message, args) {
 
-        if(!args.command) return message.reply('Couldn\'t find that command.')
-        
-        let helpEmbed = new Discord.RichEmbed()
+        if(!args.command) {
 
-            .setTitle(`${config.prefix} ${args.command}`.toUpperCase())
-            .setColor(color.purple)
-            .addField('Description', this.handler.modules.get(`${args.command}`).description.content)
-            .addField('Usage', config.prefix + this.handler.modules.get(`${args.command}`).description.usage)
+            let categories = this.handler.categories
+
+            let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
+    
+            let helpEmbed = new Discord.RichEmbed() 
+    
+                .setColor(color.purple)
+                .setAuthor(this.client.user.username, this.client.user.avatarURL)
+                .setThumbnail(this.client.user.avatarURL)
+                .setFooter(`Type ${config.prefix}help <command> for more information.`)
+                .addField('**Commands**', list)
+            
+            message.channel.send(helpEmbed)
+
+        } else {
         
-        message.channel.send(helpEmbed);
+            let helpEmbed = new Discord.RichEmbed()
+
+                .setTitle(`${config.prefix} ${args.command}`.toUpperCase())
+                .setColor(color.purple)
+                .addField('Description', this.handler.modules.get(`${args.command}`).description.content)
+                .addField('Usage', config.prefix + this.handler.modules.get(`${args.command}`).description.usage)
+            
+            message.channel.send(helpEmbed);
+        }
     }
 }
 module.exports = HelpCommand;

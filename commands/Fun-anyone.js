@@ -10,7 +10,8 @@ class AnyoneCommand extends Command {
             description: {
                 content: 'Tags a random server member',
                 usage: 'anyone (just kidding, it\'s a secret'
-            }
+            },
+            category: 'fun'
         })
     }
 

@@ -21,7 +21,8 @@ class ReportCommand extends Command {
             description: {
                 content: "Report another discord user. *logged in #reports*",
                 usage: `report <user> <reason>`
-            }
+            },
+            category: 'moderation'
         })
     }
     

@@ -11,7 +11,8 @@ class InfoCommand extends Command {
             description: {
                 content: 'Shows information about the bot',
                 usage: 'info'
-            }
+            },
+            category: 'utilities'
         })
     }
 

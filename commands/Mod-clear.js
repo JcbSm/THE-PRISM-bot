@@ -16,7 +16,8 @@ class ClearCommand extends Command {
             description: {
                 content: 'Bulk deletes messages. *requires \'manage messages\' permission*',
                 usage: 'clear <amount>'
-            }
+            },
+            category: 'moderation'
         });
     }
 

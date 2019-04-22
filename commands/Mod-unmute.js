@@ -17,7 +17,8 @@ class UnmuteCommand extends Command {
             description: {
                 content: 'Unmutes a muted user, *requires \'manage roles\' permission.*',
                 usage: 'unmute <user>'
-            }
+            },
+            category: 'moderation'
         });
     }
 
