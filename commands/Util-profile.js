@@ -33,6 +33,20 @@ class ProfileCommand extends Command {
             let createdDate = new moment(message.author.createdAt)
             let guildName = message.guild.name
 
+            //Calc remainder values in milleseconds
+            let remainderMonthsSpent = (Date.now() - (message.member.joinedAt)) % (3600*1000*24*30.4375*12)
+            let remainderDaysSpent = (Date.now() - (message.member.joinedAt)) % (3600*1000*24*30.4375)
+            let remainderHoursSpent = (Date.now() - (message.member.joinedAt)) % (3600*1000*24)
+            let remainderMinutesSpent = (Date.now() - (message.member.joinedAt)) % (3600*1000)
+
+            //convert milleseconds to other things
+            let monthsSpent = Math.floor(remainderMonthsSpent / (3600*1000*24*30.4375))
+            let daysSpent = Math.floor(remainderDaysSpent / (3600*1000*24))
+            let hoursSpent = Math.floor(remainderHoursSpent / (3600*1000))
+            let minutesSpent = Math.floor(remainderMinutesSpent / (1000*60))
+
+            console.log(`${remainderHoursSpent} months` /*${daysSpent} days, ${hoursSpent} hours*/)
+
             let profileEmbed0 = new Discord.RichEmbed()
 
                 .setTitle(`**${guildName} Profile**`)
@@ -44,6 +58,15 @@ class ProfileCommand extends Command {
                 .addField('Highest Role', message.member.highestRole, true)
                 .addField('Date Joined', joinDate.format('DD MMM YYYY, hh:mm A'), true)
                 .addField('Date Registered', createdDate.format('DD MMM YYYY, hh:mm A'), true)
+                if(hoursSpent === 0) {
+                    profileEmbed0.addField('Been in the server for:', `${minutesSpent} minutes`)
+                } else if(daysSpent === 0) {
+                    profileEmbed0.addField('Been in the server for:', `${hoursSpent} hours, ${minutesSpent} minutes`)
+                } else if(monthsSpent === 0) {
+                    profileEmbed0.addField('Been in the server for:', `${daysSpent} days, ${hoursSpent} hours`)
+                } else {
+                    profileEmbed0.addField('Been in the server for:', `${monthsSpent} months, ${daysSpent} days, ${hoursSpent} hours`)
+                }
             
             message.channel.send(profileEmbed0)
             
@@ -53,6 +76,18 @@ class ProfileCommand extends Command {
             let joinDate = new moment(args.member.joinedAt)
             let createdDate = new moment(args.member.user.createdAt)
             let guildName = message.guild.name
+
+            //Calc remainder values in milleseconds
+            let remainderMonthsSpent = (Date.now() - (args.member.joinedAt)) % (3600*1000*24*30.4375*12)
+            let remainderDaysSpent = (Date.now() - (args.member.joinedAt)) % (3600*1000*24*30.4375)
+            let remainderHoursSpent = (Date.now() - (args.member.joinedAt)) % (3600*1000*24)
+            let remainderMinutesSpent = (Date.now() - (args.member.joinedAt)) % (3600*1000)
+
+            //convert milleseconds to other things
+            let monthsSpent = Math.floor(remainderMonthsSpent / (3600*1000*24*30.4375))
+            let daysSpent = Math.floor(remainderDaysSpent / (3600*1000*24))
+            let hoursSpent = Math.floor(remainderHoursSpent / (3600*1000))
+            let minutesSpent = Math.floor(remainderMinutesSpent / (1000*60))           
 
             let profileEmbed1 = new Discord.RichEmbed()
                 .setTitle(`**${guildName} Profile**`)
@@ -64,6 +99,15 @@ class ProfileCommand extends Command {
                 .addField('Highest Role', args.member.highestRole, true)
                 .addField('Date Joined', joinDate.format('DD MMM YYYY, hh:mm A'), true)
                 .addField('Date Registered', createdDate.format('DD MMM YYYY, hh:mm A'), true)
+                if(hoursSpent === 0) {
+                    profileEmbed1.addField('Been in the server for:', `${minutesSpent} minutes`)
+                } else if(daysSpent === 0) {
+                    profileEmbed1.addField('Been in the server for:', `${hoursSpent} hours, ${minutesSpent} minutes`)
+                } else if(monthsSpent === 0) {
+                    profileEmbed1.addField('Been in the server for:', `${daysSpent} days, ${hoursSpent} hours`)
+                } else {
+                    profileEmbed1.addField('Been in the server for:', `${monthsSpent} months, ${daysSpent} days, ${hoursSpent} hours`)
+                }
             
             message.channel.send(profileEmbed1)
         }
