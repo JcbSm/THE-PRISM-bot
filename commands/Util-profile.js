@@ -67,6 +67,12 @@ class ProfileCommand extends Command {
                 minutesSpent = '1 minute'
             }
 
+            //Join rank calculations
+
+            let memberList = message.guild.members
+            let sortedMemberlist = memberList.sort((a, b) => b.joinedAt - a.joinedAt).keyArray().reverse()
+            let joinRank = (sortedMemberlist.indexOf(message.author.id))
+
             let profileEmbed0 = new Discord.RichEmbed()
 
                 .setTitle(`**${guildName} Profile**`)
@@ -79,16 +85,17 @@ class ProfileCommand extends Command {
                 .addField('Date Joined', joinDate.format('DD MMM YYYY, hh:mm A'), true)
                 .addField('Date Registered', createdDate.format('DD MMM YYYY, hh:mm A'), true)
                 if(hoursSpent === '0 hours' && daysSpent === '0 days' && monthsSpent === '0 months' && yearsSpent === '0 years') {
-                    profileEmbed0.addField('Been in the server for:', `${minutesSpent}.`)
+                    profileEmbed0.addField('Been in the server for:', `${minutesSpent}.`, true)
                 } else if(daysSpent === '0 days' && monthsSpent === '0 months' && yearsSpent === '0 years') {
-                    profileEmbed0.addField('Been in the server for:', `${hoursSpent}, ${minutesSpent}.`)
+                    profileEmbed0.addField('Been in the server for:', `${hoursSpent}, ${minutesSpent}.`, true)
                 } else if(monthsSpent === '0 months' && yearsSpent === '0 years') {
-                    profileEmbed0.addField('Been in the server for:', `${daysSpent}, ${hoursSpent}.`)
+                    profileEmbed0.addField('Been in the server for:', `${daysSpent}, ${hoursSpent}.`, true)
                 } else if(yearsSpent === '0 years') {
-                    profileEmbed0.addField('Been in the server for:', `${monthsSpent}, ${daysSpent}, ${hoursSpent}.`)
+                    profileEmbed0.addField('Been in the server for:', `${monthsSpent}, ${daysSpent}, ${hoursSpent}.`, true)
                 } else {
-                    profileEmbed0.addField('Been in the server for:', `${yearsSpent}, ${monthsSpent}, ${daysSpent}.`)
+                    profileEmbed0.addField('Been in the server for:', `${yearsSpent}, ${monthsSpent}, ${daysSpent}.`, true)
                 }
+                profileEmbed0.addField('Join rank', joinRank + 1, true)
             
             message.channel.send(profileEmbed0)
             
@@ -132,6 +139,12 @@ class ProfileCommand extends Command {
                 minutesSpent = '1 minute'
             }
 
+            //Join rank calculations
+
+            let memberList = message.guild.members
+            let sortedMemberlist = memberList.sort((a, b) => b.joinedAt - a.joinedAt).keyArray().reverse()
+            let joinRank = (sortedMemberlist.indexOf(args.member.id))
+
             let profileEmbed1 = new Discord.RichEmbed()
                 .setTitle(`**${guildName} Profile**`)
                 .setAuthor(args.member.user.tag, args.member.user.avatarURL)
@@ -153,7 +166,8 @@ class ProfileCommand extends Command {
                 } else {
                     profileEmbed1.addField('Been in the server for:', `${yearsSpent}, ${monthsSpent}, ${daysSpent}.`)
                 }
-            
+                profileEmbed1.addField('Join rank', joinRank + 1, true)
+
             message.channel.send(profileEmbed1)
         }
     }
