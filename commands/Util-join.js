@@ -16,7 +16,8 @@ class JoinCommand extends Command {
                     type: 'string',
                     default: '1'
                 }
-            ]
+            ],
+            category: 'utilities'
         })
     }
     exec(message, args) {
