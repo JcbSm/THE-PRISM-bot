@@ -47,6 +47,7 @@ class RoleCommand extends Command {
 
                     args.member.addRole(role.id)
                     message.channel.send(`***Successfully given ${args.member.user.tag} the \'${role.name}\' role***`)
+
                 }
             } catch {
 

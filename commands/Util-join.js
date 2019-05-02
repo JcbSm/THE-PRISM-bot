@@ -8,7 +8,7 @@ class JoinCommand extends Command {
             aliases: ['join-list', 'joinlist'],
             description: {
                 content: 'Shows a list of members in order of their join dates.',
-                usage: 'joinrank <page>'
+                usage: 'joinlist <page>'
             },
             args: [
                 {
