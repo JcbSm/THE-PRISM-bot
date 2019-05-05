@@ -23,14 +23,16 @@ class UnmuteCommand extends Command {
     }
 
     exec(message, args) {
+
+        let mutedRole = message.guild.roles.find(role => role.name.toLowerCase() === 'muted')
         
         //If targeted use not found or isn't muted
-        if(!args.member || !args.member.roles.some(role => role.id === roles.mute)) {
+        if(!args.member || !args.member.roles.some(role => role.name.toLowerCase() === 'muted')) {
             return message.reply('No muted user found.');
         }
 
         //Unmutes target memeber.
-        return args.member.removeRole('448436476229713921').then(() => {
+        return args.member.removeRole(mutedRole).then(() => {
             return message.channel.send(`***${args.member.user.tag} has been unmuted.***`);
         });
     }
