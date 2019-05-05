@@ -1,12 +1,12 @@
 const { Command } = require('discord-akairo')
 
-class MuteChannelCommand extends Command {
+class UnmuteChannelCommand extends Command {
     constructor() {
-        super('mutechannel', {
-            aliases: ['mutechannel', 'mute-channel'],
+        super('unmutechannel', {
+            aliases: ['unmutechannel', 'unmute-channel'],
             description: {
-                content: 'Changes channel permissions so that people with the \'Muted\' role can\'t speak there.',
-                usage: 'mutechannel <channel>'
+                content: 'Changes channel permissions so that people with the \'Muted\' role can speak there.',
+                usage: 'unmutechannel <channel>'
             },
             userPermissions: 'MANAGE_CHANNELS',
             clientPermissions: 'MANAGE_CHANNELS',
@@ -35,13 +35,13 @@ class MuteChannelCommand extends Command {
         let mutedRole = message.guild.roles.find(role => role.name.toLowerCase() === 'muted')
 
         if(!args.channel) {
-            message.channel.overwritePermissions(mutedRole, {SEND_MESSAGES: false})
+            message.channel.overwritePermissions(mutedRole, {SEND_MESSAGES: true})
             message.channel.send(`***Updated permissions for Muted in ${message.channel}***`)
         } else {
-            args.channel.overwritePermissions(mutedRole, {SEND_MESSAGES: false})
+            args.channel.overwritePermissions(mutedRole, {SEND_MESSAGES: true})
             message.channel.send(`***Updated permissions for Muted in ${args.channel}***`)
         }
     }
 }
 
-module.exports = MuteChannelCommand;
+module.exports = UnmuteChannelCommand;

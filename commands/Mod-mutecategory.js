@@ -5,15 +5,16 @@ class MuteCategoryCommand extends Command {
         super('mutecategory', {
             aliases: ['mutecategory', 'mute-category'],
             description: {
-                content: 'Changes category permissions so that people with the \'Muted\' role can\'t speak there',
-                usage: 'mutecategory <channel>'
+                content: 'Changes category permissions so that people with the \'Muted\' role can\'t speak there.',
+                usage: 'mutecategory <category>'
             },
             userPermissions: 'MANAGE_CHANNELS',
             clientPermissions: 'MANAGE_CHANNELS',
             args: [
                 {
                     id: 'category',
-                    type: 'string'
+                    type: 'string',
+                    match: 'rest'
                 }
             ],
             category: 'moderation'
@@ -34,13 +35,17 @@ class MuteCategoryCommand extends Command {
 
         let mutedRole = message.guild.roles.find(role => role.name.toLowerCase() === 'muted')
 
-        if(!args.category) {
-            message.channel.parent.overwritePermissions(mutedRole, {SEND_MESSAGES: false});
-            message.channel.send(`***Updated permissions for Muted in ${message.channel.parent}***`)
-        } else {
-            let category = message.guild.channels.find(channel => channel.name === args.category)
-            category.overwritePermissions(mutedRole, {SEND_MESSAGES: false})
-            message.channel.send(`***Updated permissions for Muted in ${args.category}***`)
+        try {
+            if(!args.category) {
+                message.channel.parent.overwritePermissions(mutedRole, {SEND_MESSAGES: false});
+                message.channel.send(`***Updated permissions for Muted in \'${message.channel.parent}\'***`)
+            } else {
+                let category = message.guild.channels.find(channel => channel.name.toLowerCase() === args.category.toLowerCase())
+                category.overwritePermissions(mutedRole, {SEND_MESSAGES: false})
+                message.channel.send(`***Updated permissions for Muted in \'${category}\'***`)
+            }
+        } catch {
+            message.reply('No category found.')
         }
     }
 }

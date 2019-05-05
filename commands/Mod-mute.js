@@ -36,7 +36,7 @@ class MuteCommand extends Command {
                 permissions: 'VIEW_CHANNEL'
             })
 
-            return message.reply('No muted role found, created a new one. Mute that user again.')
+            return message.reply('No muted role found, created a new one. Try again.')
         }
 
         let mutedRole = message.guild.roles.find(role => role.name.toLowerCase() === 'muted')
