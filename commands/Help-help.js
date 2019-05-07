@@ -25,7 +25,7 @@ class HelpCommand extends Command {
 
         if(!args.command) {
 
-            let categories = this.handler.categories
+            let categories = this.handler.categories.filter(c => c.id !== 'default')
 
             let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
     

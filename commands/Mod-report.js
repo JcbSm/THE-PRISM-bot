@@ -28,6 +28,11 @@ class ReportCommand extends Command {
     
     exec(message, args) {
 
+        //Check for reports channel
+        if(!message.guild.channels.find(ch => ch.name === 'reports')) {
+            return message.reply('No report channel found.')
+        }
+
         //Check for user
         if(!args.member) {
             return message.reply('Couldn\'t find user');
