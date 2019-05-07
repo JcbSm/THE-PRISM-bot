@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo')
 const Discord = require('discord.js')
-const emoji = require('../emojiCharacters')
+const emoji = require('../emoji-characters-array')
 const color = require('../colors.json')
 const config = require('../config.json')
 
