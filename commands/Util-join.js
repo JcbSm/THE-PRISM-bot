@@ -20,9 +20,12 @@ class JoinCommand extends Command {
             category: 'utilities'
         })
     }
-    exec(message, args) {
-        let memberList = message.guild.members
-        let sortedMemberlist = memberList.sort((a, b) => b.joinedAt - a.joinedAt)
+    async exec(message, args) {
+        
+        const memberListWithBots = (await message.guild.fetchMembers()).members;
+        const memberList = memberListWithBots.filter(b => !b.user.bot)
+        const sortedMemberlist = memberList.sort((a, b) => b.joinedTimestamp - a.joinedTimestamp)
+
 
         let page = (args.page-1)*10
         let pageEnd = args.page*10

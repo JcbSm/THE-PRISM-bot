@@ -53,6 +53,8 @@ class PollCommand extends Command {
                 .setTitle(`${nickname}\'s poll`)
                 .setColor(color.purple)
                 .addField(`\"${question}\"`, options.map(item => item.join(" - "))))
+            
+            .then(message.delete())
 
             //Add reactions
             for (let i = 0; i < options.length; i++) {

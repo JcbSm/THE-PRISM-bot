@@ -22,7 +22,7 @@ class ProfileCommand extends Command {
         });
     }
 
-    exec(message, args) {
+    async exec(message, args) {
 
         
 
@@ -69,8 +69,9 @@ class ProfileCommand extends Command {
 
             //Join rank calculations
 
-            let memberList = message.guild.members
-            let sortedMemberlist = memberList.sort((a, b) => b.joinedAt - a.joinedAt).keyArray().reverse()
+            const memberListWithBots = (await message.guild.fetchMembers()).members;
+            const memberList = memberListWithBots.filter(b => !b.user.bot)
+            let sortedMemberlist = memberList.sort((a, b) => b.joinedTimestamp - a.joinedTimestamp).keyArray().reverse()
             let joinRank = (sortedMemberlist.indexOf(message.author.id))
 
             let profileEmbed0 = new Discord.RichEmbed()
@@ -141,8 +142,9 @@ class ProfileCommand extends Command {
 
             //Join rank calculations
 
-            let memberList = message.guild.members
-            let sortedMemberlist = memberList.sort((a, b) => b.joinedAt - a.joinedAt).keyArray().reverse()
+            const memberListWithBots = (await message.guild.fetchMembers()).members;
+            const memberList = memberListWithBots.filter(b => !b.user.bot)
+            let sortedMemberlist = memberList.sort((a, b) => b.joinedTimestamp - a.joinedTimestamp).keyArray().reverse()
             let joinRank = (sortedMemberlist.indexOf(args.member.id))
 
             let profileEmbed1 = new Discord.RichEmbed()
