@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const roles = require('../roles.json')
 
 class UnmuteCommand extends Command {
     constructor() {

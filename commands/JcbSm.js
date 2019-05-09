@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const color = require('../colors.json');
+const color = require('../datafiles/colors.json');
 const { Command } = require('discord-akairo');
 
 class JcbSmCommand extends Command {

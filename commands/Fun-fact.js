@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const randomFact = require('../facts')
+const randomFact = require('../datafiles/facts')
 
 class FactCommand extends Command {
     constructor() {

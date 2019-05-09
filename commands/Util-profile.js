@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const Discord = require('discord.js')
 const moment = require('moment')
-const color = require('../colors.json')
+const color = require('../datafiles/colors.json')
 
 class ProfileCommand extends Command {
     constructor() {
@@ -67,12 +67,29 @@ class ProfileCommand extends Command {
                 minutesSpent = '1 minute'
             }
 
+            let timeSpent = ''
+
+            if(hoursSpent === '0 hours' && daysSpent === '0 days' && monthsSpent === '0 months' && yearsSpent === '0 years') {
+                timeSpent = minutesSpent + 'ago.'
+            } else if(daysSpent === '0 days' && monthsSpent === '0 months' && yearsSpent === '0 years') {
+                timeSpent = `${hoursSpent}, ${minutesSpent} ago.`
+            } else if(monthsSpent === '0 months' && yearsSpent === '0 years') {
+                timeSpent = `${daysSpent}, ${hoursSpent} ago.`
+            } else if(yearsSpent === '0 years') {
+                timeSpent = `${monthsSpent}, ${daysSpent}, ${hoursSpent} ago.`
+            } else {
+                timeSpent = `${yearsSpent}, ${monthsSpent}, ${daysSpent} ago.`
+            }
+
             //Join rank calculations
 
             const memberListWithBots = (await message.guild.fetchMembers()).members;
             const memberList = memberListWithBots.filter(b => !b.user.bot)
             let sortedMemberlist = memberList.sort((a, b) => b.joinedTimestamp - a.joinedTimestamp).keyArray().reverse()
             let joinRank = (sortedMemberlist.indexOf(message.author.id))
+
+            //Status
+            const presence = message.author.presence.status
 
             let profileEmbed0 = new Discord.RichEmbed()
 
@@ -82,21 +99,12 @@ class ProfileCommand extends Command {
                 .setThumbnail(message.author.avatarURL)
                 .setFooter(`ID: ${message.author.id}`)
                 .addField('Name', message.author.username, true)
+                .addField('Status', presence, true)
                 .addField('Highest Role', message.member.highestRole, true)
-                .addField('Date Joined', joinDate.format('DD MMM YYYY, hh:mm A'), true)
                 .addField('Date Registered', createdDate.format('DD MMM YYYY, hh:mm A'), true)
-                if(hoursSpent === '0 hours' && daysSpent === '0 days' && monthsSpent === '0 months' && yearsSpent === '0 years') {
-                    profileEmbed0.addField('Been in the server for:', `${minutesSpent}.`, true)
-                } else if(daysSpent === '0 days' && monthsSpent === '0 months' && yearsSpent === '0 years') {
-                    profileEmbed0.addField('Been in the server for:', `${hoursSpent}, ${minutesSpent}.`, true)
-                } else if(monthsSpent === '0 months' && yearsSpent === '0 years') {
-                    profileEmbed0.addField('Been in the server for:', `${daysSpent}, ${hoursSpent}.`, true)
-                } else if(yearsSpent === '0 years') {
-                    profileEmbed0.addField('Been in the server for:', `${monthsSpent}, ${daysSpent}, ${hoursSpent}.`, true)
-                } else {
-                    profileEmbed0.addField('Been in the server for:', `${yearsSpent}, ${monthsSpent}, ${daysSpent}.`, true)
-                }
-                profileEmbed0.addField('Join rank', joinRank + 1, true)
+                .addField('Date Joined', joinDate.format('DD MMM YYYY, hh:mm A'), true)
+                .addField('Join rank', joinRank + 1, true)
+                .addField('Joined', timeSpent, true)
             
             message.channel.send(profileEmbed0)
             
@@ -140,12 +148,31 @@ class ProfileCommand extends Command {
                 minutesSpent = '1 minute'
             }
 
+            let timeSpent = ''
+
+            if(hoursSpent === '0 hours' && daysSpent === '0 days' && monthsSpent === '0 months' && yearsSpent === '0 years') {
+                timeSpent = minutesSpent + 'ago.'
+            } else if(daysSpent === '0 days' && monthsSpent === '0 months' && yearsSpent === '0 years') {
+                timeSpent = `${hoursSpent}, ${minutesSpent} ago.`
+            } else if(monthsSpent === '0 months' && yearsSpent === '0 years') {
+                timeSpent = `${daysSpent}, ${hoursSpent} ago.`
+            } else if(yearsSpent === '0 years') {
+                timeSpent = `${monthsSpent}, ${daysSpent}, ${hoursSpent} ago.`
+            } else {
+                timeSpent = `${yearsSpent}, ${monthsSpent}, ${daysSpent} ago.`
+            }
+
             //Join rank calculations
 
             const memberListWithBots = (await message.guild.fetchMembers()).members;
             const memberList = memberListWithBots.filter(b => !b.user.bot)
             let sortedMemberlist = memberList.sort((a, b) => b.joinedTimestamp - a.joinedTimestamp).keyArray().reverse()
             let joinRank = (sortedMemberlist.indexOf(args.member.id))
+
+            //Presence
+            const presence = args.member.presence.status
+            
+            console.log(presence)
 
             let profileEmbed1 = new Discord.RichEmbed()
                 .setTitle(`**${guildName} Profile**`)
@@ -154,21 +181,13 @@ class ProfileCommand extends Command {
                 .setThumbnail(args.member.user.avatarURL)
                 .setFooter(`ID: ${args.member.id}`)
                 .addField('Name', args.member.user.username, true)
+                .addField('Status', presence, true)
                 .addField('Highest Role', args.member.highestRole, true)
-                .addField('Date Joined', joinDate.format('DD MMM YYYY, hh:mm A'), true)
-                .addField('Date Registered', createdDate.format('DD MMM YYYY, hh:mm A'), true)
-                if(hoursSpent === '0 hours' && daysSpent === '0 days' && monthsSpent === '0 months' && yearsSpent === '0 years') {
-                    profileEmbed1.addField('Been in the server for:', `${minutesSpent}.`)
-                } else if(daysSpent === '0 days' && monthsSpent === '0 months' && yearsSpent === '0 years') {
-                    profileEmbed1.addField('Been in the server for:', `${hoursSpent}, ${minutesSpent}.`)
-                } else if(monthsSpent === '0 months' && yearsSpent === '0 years') {
-                    profileEmbed1.addField('Been in the server for:', `${daysSpent}, ${hoursSpent}.`)
-                } else if(yearsSpent === '0 years') {
-                    profileEmbed1.addField('Been in the server for:', `${monthsSpent}, ${daysSpent}, ${hoursSpent}.`)
-                } else {
-                    profileEmbed1.addField('Been in the server for:', `${yearsSpent}, ${monthsSpent}, ${daysSpent}.`)
-                }
-                profileEmbed1.addField('Join rank', joinRank + 1, true)
+                .addField('Date Registered', createdDate.format('DD MMM YYYY, hh:mm'), true)
+                .addField('Date Joined', joinDate.format('DD MMM YYYY, hh:mm'), true)
+                .addField('Join rank', joinRank + 1, true)
+                .addField('Joined', timeSpent)
+
 
             message.channel.send(profileEmbed1)
         }

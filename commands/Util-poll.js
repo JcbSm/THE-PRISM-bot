@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo')
 const Discord = require('discord.js')
-const emoji = require('../emoji-characters-array')
-const color = require('../colors.json')
+const emoji = require('../datafiles/emoji-characters-array')
+const color = require('../datafiles/colors.json')
 const config = require('../config.json')
 
 class PollCommand extends Command {
