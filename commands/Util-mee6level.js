@@ -28,6 +28,11 @@ class LevelCommand extends Command {
     
     exec(message, args) {
 
+
+        if(args.level > 150) return message.reply('MEE6 levels only go up to 150.')
+
+        let leaderboardLink = 'https://mee6.xyz/leaderboard/'+message.guild.id
+
         let currentXP = args.current
         let x = args.level
 
@@ -40,12 +45,12 @@ class LevelCommand extends Command {
 
         const avMessages = Math.round(requiredXP / 20)
         const minMessages = Math.round(requiredXP / 25)
-        const maxMessages = Math.round(requiredXP /15)
+        const maxMessages = Math.round(requiredXP / 15)
 
         message.channel.send(new Discord.RichEmbed()
             
             .setTitle('MEE6 level calculator')
-            .setDescription(`Credit to the original creator, check that out [here](${mee6calc})`)
+            .setDescription(`Credit to the original creator, check that out [here](${mee6calc})\n-\nThe leaderboard for this server is [here](${leaderboardLink})`)
             .setColor(color.purple)
             .setThumbnail(mee6avatar)
             .addField('Required XP:', requiredXP, true)

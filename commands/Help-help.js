@@ -37,7 +37,7 @@ class HelpCommand extends Command {
                 .setFooter(`Type ${config.prefix}help <command> for more information.`)
                 .addField('**Commands**', list)
             
-            message.channel.send(helpEmbed)
+            message.author.send(helpEmbed)
 
         } else {
         
