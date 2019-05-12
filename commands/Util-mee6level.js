@@ -6,11 +6,11 @@ const mee6avatar = 'https://cdn.discordapp.com/avatars/159985870458322944/b50adf
 
 class LevelCommand extends Command {
     constructor() {
-        super('mee6level', {
-            aliases: ['mee6level'],
+        super('mee6calc', {
+            aliases: ['mee6calc'],
             description: {
                 content: 'Calculates the amount of messages required to get to get to a certain mee6 level. Current XP is displayed on the server leaderboard (!levels).',
-                usage: 'mee6level <required level> <current XP>'
+                usage: 'mee6calc <required level> <current XP>'
             },
             category: 'utilities',
             args: [
@@ -31,11 +31,8 @@ class LevelCommand extends Command {
         let currentXP = args.current
         let x = args.level
 
-        console.log(x)
-
         let levelRequiredXP = Math.round((5/6)*x*(2*(Math.pow(x,2))+27*x+91))
 
-        console.log(levelRequiredXP)
 
         let requiredXP = levelRequiredXP - currentXP
 
@@ -44,8 +41,6 @@ class LevelCommand extends Command {
         const avMessages = Math.round(requiredXP / 20)
         const minMessages = Math.round(requiredXP / 25)
         const maxMessages = Math.round(requiredXP /15)
-
-        console.log(avMessages, maxMessages, minMessages)
 
         message.channel.send(new Discord.RichEmbed()
             
