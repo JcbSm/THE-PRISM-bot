@@ -10,7 +10,7 @@ class HelpCommand extends Command {
             args: [
                 {
                     id: 'command',
-                    type: 'command'
+                    type: 'string'
                 }
             ],
             description: {
@@ -39,6 +39,54 @@ class HelpCommand extends Command {
             
             message.author.send(helpEmbed)
 
+        } else if(args.command === 'fun'){
+
+            let categories = this.handler.categories.filter(c => c.id === 'fun')
+
+            let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
+    
+            let helpEmbed = new Discord.RichEmbed() 
+    
+                .setColor(color.purple)
+                .setAuthor(this.client.user.username, this.client.user.avatarURL)
+                .setThumbnail(this.client.user.avatarURL)
+                .setFooter(`Type ${config.prefix}help <command> for more information.`)
+                .addField('**Commands**', list)
+            
+            message.channel.send(helpEmbed)
+
+        } else if(args.command === 'moderation'){
+
+            let categories = this.handler.categories.filter(c => c.id === 'moderation')
+
+            let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
+    
+            let helpEmbed = new Discord.RichEmbed() 
+    
+                .setColor(color.purple)
+                .setAuthor(this.client.user.username, this.client.user.avatarURL)
+                .setThumbnail(this.client.user.avatarURL)
+                .setFooter(`Type ${config.prefix}help <command> for more information.`)
+                .addField('**Commands**', list)
+            
+            message.channel.send(helpEmbed)
+
+        } else if(args.command === 'utilities'){
+
+            let categories = this.handler.categories.filter(c => c.id === 'utilities')
+
+            let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
+    
+            let helpEmbed = new Discord.RichEmbed() 
+    
+                .setColor(color.purple)
+                .setAuthor(this.client.user.username, this.client.user.avatarURL)
+                .setThumbnail(this.client.user.avatarURL)
+                .setFooter(`Type ${config.prefix}help <command> for more information.`)
+                .addField('**Commands**', list)
+            
+            message.channel.send(helpEmbed)
+            
         } else {
         
             let helpEmbed = new Discord.RichEmbed()
