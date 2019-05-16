@@ -35,7 +35,7 @@ class RoleCommand extends Command {
             }
 
             try{
-                let role = message.guild.roles.find(role => role.name.toLowerCase() === args.role.toLowerCase())
+                let role = message.guild.roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
 
 
                 if(args.member.roles.some(role => role.name.toLowerCase() === args.role.toLowerCase())) {
