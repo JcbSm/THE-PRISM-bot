@@ -29,10 +29,15 @@ class PingRoleCommand extends Command {
 
         const rolePermBit = role.permissions
 
-        await role.setMentionable(true)
-        await message.channel.send(`<@&${role.id}> ${args.message}.`)
-        await role.setMentionable(false)
-        message.delete()
+        try{
+            await role.setMentionable(true)
+            await message.channel.send(`<@&${role.id}> ${args.message}.`)
+            await role.setMentionable(false)
+            message.delete()
+        }catch(error){
+            message.delete()
+            message.reply(`Something went wrong, make sure '${role.name}' is below my role.`)
+        }
         
     }
 }
