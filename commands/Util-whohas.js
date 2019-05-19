@@ -27,9 +27,11 @@ class WhoHasCommand extends Command {
 
     async exec(message, args) {
 
+        const role = (await message.guild.fetchMembers()).roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
+        if(!role) return message.reply('No role found.')
+
         let sendMessage = await message.channel.send(`***Calculating...***`)
 
-        const role = (await message.guild.fetchMembers()).roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
         const roleMembers = role.members.sort(function(a, b) {
             var nameA = a.user.username.toUpperCase();
             var nameB = b.user.username.toUpperCase();

@@ -38,7 +38,7 @@ class RoleCommand extends Command {
                 let role = message.guild.roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
 
 
-                if(args.member.roles.some(role => role.name.toLowerCase() === args.role.toLowerCase())) {
+                if(args.member.roles.has(role.id)) {
 
                     args.member.removeRole(role.id)
                     message.channel.send(`***Successfully removed \'${role.name}\' from ${args.member.user.tag}***`)
