@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 class HelloCommand extends Command {
     constructor() {
         super('hello', {
-            trigger: /hell*oo/i
+            trigger: /^hell*oo*$/i
         });
     }
 
