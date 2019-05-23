@@ -25,7 +25,7 @@ class PingRoleCommand extends Command {
 
     async exec(message, args) {
 
-        let role = message.guild.roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
+        const role = (await message.guild.fetchMembers()).roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
 
         const rolePermBit = role.permissions
 
