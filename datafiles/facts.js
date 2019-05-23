@@ -77,5 +77,5 @@ module.exports = [
     'The music truck in Mad Max fury road is actually functional due to the directors request to have all of his props be functioning',
     'If you use a hydraulic press to crush the seeds of apples you can get concentrated cyanide',
     'The reason wedding dresses are white is becausee Queen Victoria of England, who started the trend.',
-    ''
+    'Ariana Grande got her name because her first name is \"Ariana\" and her surname is \"Grande\".',
 ]
