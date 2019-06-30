@@ -18,7 +18,8 @@ class NickCommand extends Command {
                 },
                 {
                     id: 'nickname',
-                    type: 'string'
+                    type: 'string',
+                    match: 'rest'
                 }
             ],
             category: 'moderation'    
