@@ -95,6 +95,9 @@ class HelpCommand extends Command {
                 .setColor(color.purple)
                 .addField('Description', this.handler.modules.get(`${args.command}`).description.content)
                 .addField('Usage', config.prefix + this.handler.modules.get(`${args.command}`).description.usage)
+                if(this.handler.modules.get(`${args.command}`).aliases.length > 1){
+                    helpEmbed.addField('Aliases', this.handler.modules.get(`${args.command}`).aliases)
+                }
             
             message.channel.send(helpEmbed);
         }

@@ -5,7 +5,7 @@ const color = require('../datafiles/colors.json');
 class JoinCommand extends Command {
     constructor() {
         super('joinlist', {
-            aliases: ['join-list', 'joinlist'],
+            aliases: ['joinlist', 'join-list'],
             description: {
                 content: 'Shows a list of members in order of their join dates.',
                 usage: 'joinlist <page>'

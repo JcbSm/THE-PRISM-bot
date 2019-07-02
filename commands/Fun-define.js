@@ -6,17 +6,17 @@ const color = require('../datafiles/colors.json')
 class DefineCommand extends Command {
     constructor() {
         super('define', {
-            aliases: ['define'],
+            aliases: ['define','def'],
             description: {
                 content: 'Defines a word using The Urban Dictionary',
-                usage: 'define <word>'
+                usage: 'define <word> <page>'
             },
             category: 'fun',
             args: [
                 {
                     id: 'word',
                     type: 'string',
-                    match: 'rest'
+                    //match: 'rest'
                 },
                 {
                     id: 'page',
@@ -32,37 +32,49 @@ class DefineCommand extends Command {
 
         let definition = args.word
 
-        ud.term(definition, async (error, entries, tags) => {
+        ud.term(definition, (error, entries, tags) => {
             if (error) {
-                return message.reply(`Unable to find definition for ${args.word}`)
+                console.log(error)
+                message.reply(`Unable to find definition for ${args.word}`)
             } else {
 
-                let i = ''
-                if(!args.page) {
-                    i = 0
-                } else {
-                    i = args.page
+                try {
+                    let sortedEntries = entries.filter(e => e.definition.length < 1024 && e.word.length < 1024 && e.example.length < 1024)
+
+                    if(!args.page) {
+                        args.page = 0
+                    }
+
+                    let i = args.page
+
+                    let udWord = sortedEntries[i].word.replace(/\[|\]/g, '**')
+                    let udDefinition = sortedEntries[i].definition.replace(/\[|\]/g, '**')
+                    let udExample = sortedEntries[i].example.replace(/\[|\]/g, '**')
+
+                    if(udWord.split("").length >= 1024 || udDefinition.split("").length >= 1024 || udExample.split("").length >= 1024) {
+                        console.log("Too big!")
+                    
+                    
+                    }
+
+                    let sent = new Discord.RichEmbed()
+                        .setColor(color.purple)
+                        .setTitle(`The Urban Dictionary: "${udWord}"`)
+                        .setDescription(udDefinition)
+                        .addField('Example:', udExample)
+                    
+                    message.channel.send(sent)
+
+                    /*await sent.react('⬅')
+                    await sent.react('➡')
+                    const filter = user => user.id === message.author.id;
+                    const collector = sent.createReactionCollector(filter, { time: 20000 })
+                    collector.on('collect' some code)
+                    collector.on('end', collected => message.channel.send('TimedOut'))*/
+                } catch(error){
+                    console.error
+                    message.reply("Something went wrong")
                 }
-
-                let udWord = entries[i].word.replace(/\[|\]/g, '**')
-                let udDefinition = entries[i].definition.replace(/\[|\]/g, '**')
-                let udExample = entries[i].example.replace(/\[|\]/g, '**')
-
-                let sent = await message.channel.send(new Discord.RichEmbed()
-                    .setColor(color.purple)
-                    .setTitle(`The Urban Dictionary: "${udWord}"`)
-                    .setDescription(udDefinition)
-                    .addField('Example:', udExample)
-                )
-
-                /*await sent.react('⬅')
-                await sent.react('➡')
-
-                const filter = user => user.id === message.author.id;
-                const collector = sent.createReactionCollector(filter, { time: 20000 })
-
-                collector.on('collect' some code)
-                collector.on('end', collected => message.channel.send('TimedOut'))*/
             }
         })
     }
