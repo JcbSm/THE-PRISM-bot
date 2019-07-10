@@ -18,7 +18,6 @@ class SayCommand extends Command {
                 }
             ],
             split: 'quoted',
-            userPermissions: 'ADMINISTRATOR',
             category: 'utilities'
         })
     }
@@ -28,6 +27,11 @@ class SayCommand extends Command {
         if(!args.channel) {
             return message.channel.send(args.message)
         }
+
+        if(!args.channel.permissionsFor(message.author).has('SEND_MESSAGES')) {
+            return message.reply('You don\'t have permission to send messages here.')
+        }
+
         args.channel.send(args.message).then(
             message.react('👌')
         )

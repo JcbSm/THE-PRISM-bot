@@ -107,6 +107,8 @@ class ProfileCommand extends Command {
                 .addField('Joined', timeSpent, true)
             
             message.channel.send(profileEmbed0)
+
+            console.log(message.author.avatarURL)
             
         } else {
 

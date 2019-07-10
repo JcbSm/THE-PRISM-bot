@@ -87,6 +87,22 @@ class HelpCommand extends Command {
             
             message.channel.send(helpEmbed)
             
+        } else if(args.command === 'embeds'){
+
+            let categories = this.handler.categories.filter(c => c.id === 'embeds')
+
+            let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
+    
+            let helpEmbed = new Discord.RichEmbed() 
+    
+                .setColor(color.purple)
+                .setAuthor(this.client.user.username, this.client.user.avatarURL)
+                .setThumbnail(this.client.user.avatarURL)
+                .setFooter(`Type ${config.prefix}help <command> for more information.`)
+                .addField('**Commands**', list)
+            
+            message.channel.send(helpEmbed)
+            
         } else {
         
             let helpEmbed = new Discord.RichEmbed()
