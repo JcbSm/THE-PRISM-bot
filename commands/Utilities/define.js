@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const Discord = require('discord.js')
 const ud = require('urban-dictionary')
-const color = require('../datafiles/colors.json')
+const color = require('../../datafiles/colors.json')
 
 class DefineCommand extends Command {
     constructor() {
@@ -11,7 +11,7 @@ class DefineCommand extends Command {
                 content: 'Defines a word using The Urban Dictionary',
                 usage: 'define <word> <page>'
             },
-            category: 'fun',
+            category: 'utilities',
             args: [
                 {
                     id: 'word',

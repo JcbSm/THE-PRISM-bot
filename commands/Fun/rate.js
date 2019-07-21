@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const replies = require('../datafiles/ratings')
+const replies = require('../../datafiles/ratings')
 
 class RateCommand extends Command {
     constructor() {

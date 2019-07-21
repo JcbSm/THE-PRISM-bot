@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const emoji = require('../datafiles/emoji-characters')
+const emoji = require('../../datafiles/emoji-characters')
 
 class BigTextCommand extends Command {
     constructor() {

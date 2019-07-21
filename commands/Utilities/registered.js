@@ -1,14 +1,14 @@
 const { Command } = require('discord-akairo');
 const Discord = require('discord.js');
-const color = require('../datafiles/colors.json');
+const color = require('../../datafiles/colors.json');
 
-class JoinCommand extends Command {
+class OldestCommand extends Command {
     constructor() {
-        super('joinlist', {
-            aliases: ['joinlist', 'join-list'],
+        super('oldest', {
+            aliases: ['oldest'],
             description: {
-                content: 'Shows a list of members in order of their join dates.',
-                usage: 'joinlist <page>'
+                content: 'Shows a list of the oldest members in the server.',
+                usage: 'oldest <page>'
             },
             args: [
                 {
@@ -24,7 +24,7 @@ class JoinCommand extends Command {
         
         const memberListWithBots = (await message.guild.fetchMembers()).members;
         const memberList = memberListWithBots.filter(b => !b.user.bot)
-        const sortedMemberlist = memberList.sort((a, b) => b.joinedTimestamp - a.joinedTimestamp)
+        const sortedMemberlist = memberList.sort((a, b) => b.user.createdAt - a.user.createdAt)
 
 
         let page = (args.page-1)*10
@@ -37,23 +37,24 @@ class JoinCommand extends Command {
         //message.channel.send(listPaged.map(m => `**${list.indexOf(m)+1}.** ${m}`))
 
         try{
-        let joinRankEmbed = new Discord.RichEmbed()
+        let registerRankEmbed = new Discord.RichEmbed()
 
             .setColor(color.purple)
             .setThumbnail(message.guild.iconURL)
             .addField(`${message.guild.name}'s join list`, listPaged.map(m => `**${list.indexOf(m)+1}.** ${m}`))
             if(list.length < pageEnd){
-                joinRankEmbed.setFooter((`Page ${args.page} | ${page+1} - ${list.length} of ${list.length}`))
+                registerRankEmbed.setFooter((`Page ${args.page} | ${page+1} - ${list.length} of ${list.length}`))
             } else {
-                joinRankEmbed.setFooter(`Page ${args.page} | ${page+1} - ${pageEnd} of ${list.length}`)
+                registerRankEmbed.setFooter(`Page ${args.page} | ${page+1} - ${pageEnd} of ${list.length}`)
             }
 
-        message.channel.send(joinRankEmbed)}
+        message.channel.send(registerRankEmbed)}
         catch(err) {
+            console.log(err)
             message.reply('No more members to view.')
         }
         
     }
 }
 
-module.exports = JoinCommand
+module.exports = OldestCommand

@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const Discord = require('discord.js');
 const mee6calc  = 'http://mee6.github.io/Mee6-documentation/mee6calc/';
-const color = require('../datafiles/colors.json')
+const color = require('../../datafiles/colors.json')
 const mee6avatar = 'https://cdn.discordapp.com/avatars/159985870458322944/b50adff099924dd5e6b72d13f77eb9d7.png?size=2048'
 
 class LevelCommand extends Command {

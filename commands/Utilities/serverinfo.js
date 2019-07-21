@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const Discord = require('discord.js');
 const moment = require('moment')
-const color = require('../datafiles/colors.json')
+const color = require('../../datafiles/colors.json')
 
 class ServerInfoCommand extends Command {
     constructor() {

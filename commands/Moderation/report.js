@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
 const Discord = require('discord.js');
-const color = require('../datafiles/colors.json')
+const color = require('../../datafiles/colors.json')
 
 class ReportCommand extends Command {
     constructor() {

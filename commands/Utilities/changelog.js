@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
 const Discord = require('discord.js')
-const color = require('../datafiles/colors.json')
+const color = require('../../datafiles/colors.json')
 let changelogLink = 'https://github.com/JcbSm/THE-PRISM-bot/commits/master';
 
 class ChangeCommand extends Command {
