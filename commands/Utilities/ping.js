@@ -13,9 +13,9 @@ class PingCommand extends Command {
     }
 
     exec(message) {
-        return message.reply('Pong!').then(sent => {
+        return message.reply('Pinging...').then(sent => {
             const timeDiff = (sent.editedAt || sent.createdAt) - (message.editedAt || message.createdAt);
-            return sent.edit(`${sent} \`${timeDiff} ms\``);
+            return sent.edit(`${message.author} Pong! \`${timeDiff} ms\``);
         });
     }
 }

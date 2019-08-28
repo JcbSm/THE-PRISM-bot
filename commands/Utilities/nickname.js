@@ -15,9 +15,9 @@ class NicknameCommand extends Command {
     };
 
     exec(message) {
-        if(message.author.nickname) {
+        if(message.member.nickname) {
             
-            return message.reply(`Your nickname is ${message.author.nickname}.`);
+            return message.reply(`Your nickname is ${message.member.nickname}.`);
         } else {
             
             //If user has no nickname

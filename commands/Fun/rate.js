@@ -40,6 +40,8 @@ class RateCommand extends Command {
             rateMessage = replies.good[resultGood]
         }
 
+        if(args.member.id == 567738379639324674) return message.channel.send(`12/10, whoever that guy is, they are the best. Whoever made them is too, probably...`)
+
         if(!args.member) {
             message.reply(`**${rating}/10**, ${rateMessage}`)
         } else {

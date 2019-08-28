@@ -6,6 +6,8 @@ module.exports = {
         'uWu',
         'You put the P in PRISM ( ͡° ͜ʖ ͡°)',
         'h0t',
+        'Kiss me already',
+        ':D'
     ],
     medium: [
         'Not bad...',
@@ -13,6 +15,9 @@ module.exports = {
         'Only because of your personality though...',
         'You look good from a distance',
         '¯\\_(ツ)_/¯',
+        'Wouldn\'t mind',
+        'hmm...',
+        'Nice personality but.... You don\'t look too great.'
     ],
     bad: [
         'Eww.',
@@ -21,5 +26,7 @@ module.exports = {
         'Sorry but you\'re just not quite good enough',
         'Come back when you look like me',
         'I\'ll keep my distance',
+        '😷',
+        'Disgusting',
     ]
 }

@@ -10,5 +10,10 @@ module.exports = [
     {
         name: 'Revision',
         id: '552219451484012558'
+    },
+    {
+        name: 'Minecraft',
+        id: '603598424448958468'
     }
+
 ]
