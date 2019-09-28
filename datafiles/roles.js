@@ -70,6 +70,11 @@ module.exports = [
         id: '627532097401389057',
         category: 'Games'
     },
+    {
+        name: 'Jackbox Games',
+        id: '627602465210105896',
+        category: 'Games'
+    },
 
     //Economy
     {
