@@ -48,7 +48,7 @@ class CreateEmbedCommand extends Command {
                 color: null,
                 fields: [],
                 timestamp: null,
-                tumbnail: 'https://sophosnews.files.wordpress.com/2015/01/minecraft-small.jpg?w=775',
+                tumbnail: null,
                 image: null,
                 video: null,
                 author: null,
