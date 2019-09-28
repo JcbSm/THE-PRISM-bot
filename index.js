@@ -69,6 +69,13 @@ client.on('guildMemberUpdate', (guildMember, newMember) => {
 		guildMember.removeRole('578622178979872778')
 	}
 
+		//Special
+		if(roles.filter(r => r.category == 'Special').map(r => r.id).some(id => newMember.roles.has(id))) {
+			guildMember.addRole('578622430386454528')
+		} else {
+			guildMember.removeRole('578622430386454528')
+		}
+
 	//Other
 	if(roles.filter(r => r.category == null).map(r => r.id).some(id => newMember.roles.has(id))) {
 		guildMember.addRole('578286642670993428')
