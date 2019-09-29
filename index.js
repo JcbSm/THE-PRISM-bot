@@ -86,4 +86,6 @@ client.on('guildMemberUpdate', (guildMember, newMember) => {
 })
 
 
+
+
 client.login(config['token']);

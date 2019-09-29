@@ -45,6 +45,8 @@ class MuteCommand extends Command {
             return message.reply('No user found.');
         }
 
+        this.client.channels.get('621090616436326415').send(`${args.member}, you're muted, you're going to have to spend some time here...`)
+
         //Mutes user
         return args.member.addRole(mutedRole).then(() => {
             if(!args.reason){

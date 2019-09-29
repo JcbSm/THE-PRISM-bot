@@ -23,6 +23,8 @@ class ClearRoleCommand extends Command {
 
         let role = message.guild.roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
 
+        message.channel.send("Working...")
+
         for(let i = 0; i < role.members.keyArray().length; i++) {
 
             try {
@@ -33,7 +35,7 @@ class ClearRoleCommand extends Command {
 
         }
 
-        message.channel.send("Done!")
+        
     }
 }
 
