@@ -13,7 +13,10 @@ class SpeakerListener extends Listener {
 
         if(!oldMember.roles.has('627829247339266048') && newMember.roles.has('627829247339266048')) {
 
+            if(!newMember.voiceChannel) return;
+
             let voiceMembers = newMember.voiceChannel.members
+
             let voiceMembersFiltered = voiceMembers.filter(u => !u.roles.has('627829247339266048'))
 
             for(let i = 0; i < voiceMembersFiltered.keyArray().length; i++) {
@@ -26,6 +29,9 @@ class SpeakerListener extends Listener {
             }
             
         } else if(oldMember.roles.has('627829247339266048') && !newMember.roles.has('627829247339266048')) {
+
+            if(!newMember.voiceChannel) return;
+
             let mutedMembers = this.client.guilds.get('447504770719154192').members.filter(m => m.serverMute)
 
             for(let i = 0; i < mutedMembers.keyArray().length; i++) {
