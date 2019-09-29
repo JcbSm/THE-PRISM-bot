@@ -22,12 +22,11 @@ class JoinCommand extends Command {
     
                 console.log(message.member.voiceChannelID)
 
-                const channel = message.member.voiceChannel;
-                channel.join().then(connection => {
+                message.member.voiceChannel.join().then(connection => {
                     console.log('Joined')
                 })
 
-            } catch(error) {console.error(e)}
+            } catch(error) {console.log(error)}
         }
     }
 }

@@ -29,7 +29,6 @@ class JoinRoleCommand extends Command {
 
             let gameRoles = roles.filter(r => r.category == 'Games')
             let otherRoles = roles.filter(r => r.category === null)
-            console.log(gameRoles)
 
             try{let selfRoleEmbed = new Discord.RichEmbed()
 
