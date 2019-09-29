@@ -17,16 +17,16 @@ class JoinCommand extends Command {
 
         if(!message.member.voiceChannelID) return message.reply('You\'re not in a voice channel.')
 
-        if(!message.guild.voiceConnection) {
-            try {
+        if(message.guild.voiceConnection) {
+
+            message.reply('I\'m already connected somewhere else.')
+        } else {
     
-                console.log(message.member.voiceChannelID)
+            console.log(message.member.voiceChannelID)
 
-                message.member.voiceChannel.join().then(connection => {
-                    console.log('Joined')
-                })
-
-            } catch(error) {console.log(error)}
+            message.member.voiceChannel.join().then(connection => {
+                messeage.react('👌')
+            })
         }
     }
 }

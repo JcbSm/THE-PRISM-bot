@@ -132,6 +132,11 @@ module.exports = [
         name: 'Allow Mention',
         id: '611697365316927570',
         category: null
+    },
+    {
+        name: 'Speaker',
+        id: '627829247339266048',
+        category: null
     }
 
 ]
