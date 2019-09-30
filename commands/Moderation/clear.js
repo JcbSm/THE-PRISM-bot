@@ -32,7 +32,7 @@ class ClearCommand extends Command {
             return message.reply('I can only clear between 1 and 100 messages.')
         
         //Check amount is >= 100
-        } else if(args.amount >= 100) {
+        } else if(args.amount > 100) {
             return message.reply('I can only clear between 1 and 100 messages.')
 
         //Check for integer
