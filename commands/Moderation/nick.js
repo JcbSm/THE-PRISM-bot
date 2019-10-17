@@ -31,11 +31,14 @@ class NickCommand extends Command {
         if(!args.member) {
             return message.reply('Couldn\'t find that user.')
         } else {
+
+            let oldName = args.member.nickname
+
             args.member.setNickname(args.nickname)
             .then()
 
                 if(!args.nickname) {
-                    message.channel.send(`***Reset nickname for ${args.member.user.tag}***`)
+                    message.channel.send(`***Reset nickname for ${args.member.user.tag}, they are "${oldName}" no more.***`)
                 } else {
                     message.channel.send(`***Set ${args.member.user.tag}\'s nickname to "${args.nickname}".***`)
                 }
