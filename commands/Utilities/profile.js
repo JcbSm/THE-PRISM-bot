@@ -101,8 +101,8 @@ class ProfileCommand extends Command {
                 .addField('Name', message.author.username, true)
                 .addField('Status', presence, true)
                 .addField('Highest Role', message.member.highestRole, true)
-                .addField('Date Registered', createdDate.format('DD MMM YYYY, hh:mm A'), true)
-                .addField('Date Joined', joinDate.format('DD MMM YYYY, hh:mm A'), true)
+                .addField('Date Registered', createdDate.format('DD MMM YYYY, HH:mm'), true)
+                .addField('Date Joined', joinDate.format('DD MMM YYYY, HH:mm'), true)
                 .addField('Join rank', joinRank + 1, true)
                 .addField('Joined', timeSpent, true)
             

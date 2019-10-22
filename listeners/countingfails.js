@@ -12,6 +12,7 @@ class CountingFailsListener extends Listener {
 
     exec(message) {
 
+
         if(message.channel.id == '583742663627505669') {
 
             this.client.channels.get('628307976981053476').send(

@@ -34,6 +34,8 @@ class NickCommand extends Command {
 
             let oldName = args.member.nickname
 
+            if(oldName == null) return message.reply('They don\'t have a nickname.')
+
             args.member.setNickname(args.nickname)
             .then()
 
