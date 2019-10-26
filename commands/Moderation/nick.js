@@ -34,15 +34,15 @@ class NickCommand extends Command {
 
             let oldName = args.member.nickname
 
-            if(oldName == null) return message.reply('They don\'t have a nickname.')
-
             args.member.setNickname(args.nickname)
             .then()
 
                 if(!args.nickname) {
+                    if(oldName == null) return message.reply('They don\'t have a nickname.')
                     message.channel.send(`***Reset nickname for ${args.member.user.tag}, they are "${oldName}" no more.***`)
+                    
                 } else {
-                    message.channel.send(`***Set ${args.member.user.tag}\'s nickname to "${args.nickname}".***`)
+                    message.channel.send(`***Set ${args.member.user.tag}\'s nickname to "${args.nickname}", they are "${oldName}" no more.***`)
                 }
             
         }

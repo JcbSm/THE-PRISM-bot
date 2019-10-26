@@ -51,7 +51,10 @@ class CreateEmbedCommand extends Command {
                 tumbnail: null,
                 image: null,
                 video: null,
-                author: null,
+                author: {
+                    name: 'message.author.tag',
+                    icon_url: 'message.author.avatarURL'
+                    },
                 provider: null,
                 footer: null
 

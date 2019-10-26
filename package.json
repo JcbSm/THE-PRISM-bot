@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "Jacob#5491",
+  "author": "JcbSm#5491",
   "license": "ISC",
   "dependencies": {
     "canvas": "^2.4.1",
@@ -18,7 +18,7 @@
     "ffmpeg-binaries": "^4.0.0",
     "moment": "^2.24.0",
     "mongoose": "^5.5.10",
-    "nodemon": "^1.18.11",
+    "nodemon": "^1.19.4",
     "opusscript": "0.0.7",
     "urban-dictionary": "^2.2.1"
   }
