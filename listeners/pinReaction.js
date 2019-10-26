@@ -47,7 +47,7 @@ class PinReactionListener extends Listener {
                             url: null,
                             color: 6889949,
                             fields: [],
-                            timestamp: null,
+                            timestamp: message.createdAt,
                             tumbnail: null,
                             image: {
                                 url: (await message.attachments).filter(a => 
