@@ -42,8 +42,8 @@ class PinReactionListener extends Listener {
                         embed: {
 
                             type: 'rich',
-                            title: message.content,
-                            description: message.channel + '\n' + attachmentURL,
+                            title: null,
+                            description: `${message.content}\n\n${message.channel} [\`Jump\`](${message.url})` + '\n' + attachmentURL,
                             url: null,
                             color: 6889949,
                             fields: [],

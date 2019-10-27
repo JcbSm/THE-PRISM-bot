@@ -30,7 +30,7 @@ class PinCommand extends Command {
         const pinMessage = await this.client.channels.get(channelID).fetchMessage(messageID)
 
         //try{console.log(pinMessage.content)} catch(error) {console.log(error)}
-        console.log(pinMessage.content)
+        //console.log(pinMessage.content)
 
         const pinChannel = this.client.channels.get('637349185997373470')
 
@@ -64,12 +64,16 @@ class PinCommand extends Command {
                         ).map(a => a.url)[0]
                     }
 
+                    if(!pinMessage.pinned) {
+                        pinMessage.pin()
+                    }
+
                     await pinChannel.send({
                         embed: {
 
                             type: 'rich',
-                            title: pinMessage.content,
-                            description: pinMessage.channel + '\n' + attachmentURL,
+                            title: null,
+                            description: `${pinMessage.content}\n\n${pinMessage.channel} [\`Jump\`](${pinMessage.url})` + '\n' + attachmentURL,
                             url: null,
                             color: 6889949,
                             fields: [],
