@@ -20,7 +20,7 @@ class PinReactionListener extends Listener {
 
         if(message.channel.id === pinChannel.id) return;
 
-        if(messageReaction.emoji.name === '📌' && messageReaction.count == 3) {
+        if(messageReaction.emoji.name === '📌' && messageReaction.count == 5) {
 
             if((await messageReaction.fetchUsers()).map(u => u.id).includes(this.client.user.id)) {
                 return console.log('I have already pinned')

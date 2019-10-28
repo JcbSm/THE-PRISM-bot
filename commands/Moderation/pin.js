@@ -77,7 +77,7 @@ class PinCommand extends Command {
                             url: null,
                             color: 6889949,
                             fields: [],
-                            timestamp: message.createdAt,
+                            timestamp: pinMessage.createdAt,
                             tumbnail: null,
                             image: {
                                 url: (await pinMessage.attachments).filter(a => 
