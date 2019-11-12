@@ -27,7 +27,6 @@ class MuteCommand extends Command {
     }
 
     exec(message, args) {
-
         if(!message.guild.roles.find(role => role.name.toLowerCase() === 'muted')) {
             message.guild.createRole({
                 name: 'Muted',
@@ -44,8 +43,6 @@ class MuteCommand extends Command {
         if(!args.member) {
             return message.reply('No user found.');
         }
-
-        this.client.channels.get('621090616436326415').send(`${args.member}, you're muted, you're going to have to spend some time here...`)
 
         //Mutes user
         return args.member.addRole(mutedRole).then(() => {
