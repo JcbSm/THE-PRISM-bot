@@ -12,8 +12,11 @@ class CountingFailsListener extends Listener {
 
     exec(message) {
 
+        const re = /[0-9]+$/
 
-        if(message.channel.id == '583742663627505669') {
+        if(message.channel.id == '583742663627505669' && message.content.match(re)) {
+
+            console.log(message.content)
 
             this.client.channels.get('628307976981053476').send(
                 new Discord.RichEmbed()
