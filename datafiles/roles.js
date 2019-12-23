@@ -2,18 +2,8 @@ module.exports = [
 
     //Special
     {
-        name: "YouTube",
-        id: "477483614259511317",
-        category: 'Sepcial'
-    },
-    {
-        name: 'Twtich',
-        id: '477483812469735434',
-        category: 'Special'
-    },
-    {
-        name: 'Winner',
-        id: '577078556509601802',
+        name: 'The Council',
+        id: '447507975624458260',
         category: 'Special'
     },
     {
@@ -21,13 +11,13 @@ module.exports = [
        id: '627537528395923469',
        category: 'Special' 
     },
-    {
-        name: 'Salesman',
-        id: '548268779919114250',
-        category: 'Specials'
-    },
 
     //Levels
+    {
+        name: '[50] Hyper Cube',
+        id: '640169564721905664',
+        category: 'Levels'
+    },
     {
         name: '[40] Octahedral',
         id: '577148530309857281',
@@ -73,6 +63,11 @@ module.exports = [
     {
         name: 'Jackbox Games',
         id: '627602465210105896',
+        category: 'Games'
+    },
+    {
+        name: 'Terreria',
+        id: '654480769108148225',
         category: 'Games'
     },
 
@@ -136,6 +131,11 @@ module.exports = [
     {
         name: 'Speaker',
         id: '627829247339266048',
+        category: null
+    },
+    {
+        name: 'Nitro Booster',
+        id: '639415362152169484',
         category: null
     }
 
