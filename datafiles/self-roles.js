@@ -35,7 +35,7 @@ module.exports = [
         category: 'Games'
     },
     {
-        name: 'Terreria',
+        name: 'Terraria',
         id: '654480769108148225',
         category: 'Games'
     },
