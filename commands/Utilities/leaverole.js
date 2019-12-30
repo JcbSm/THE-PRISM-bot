@@ -9,7 +9,7 @@ class LeaveRoleCommand extends Command {
                 content: 'Remove a joinable role',
                 usage: 'leaverole <role>'
             },
-            category: 'Utilities',
+            category: 'utilities',
             args: [
                 {
                     id: 'role',

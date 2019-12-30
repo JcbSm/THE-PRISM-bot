@@ -11,7 +11,7 @@ class JoinRoleCommand extends Command {
                 content: 'Join a role',
                 usage: 'joinrole <role>'
             },
-            category: 'Utilities',
+            category: 'utilities',
             args: [
                 {
                     id: 'role',
