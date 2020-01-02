@@ -49,6 +49,8 @@ class SetDonationCommand extends Command {
         if(args.value/500 >= 27*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■■■■■■■■■■■-]';
         if(args.value/500 >= 28*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■■■■■■■■■■■■]';
 
+
+        const moneyValue = args.value
         const value = Math.round(args.value)
 
         let donationValue = '000'
@@ -62,7 +64,7 @@ class SetDonationCommand extends Command {
         const donationChannel = this.client.channels.get('661310749947461691');
         const donationMessage = await donationChannel.fetchMessage('661315838069964823')
 
-        donationMessage.edit(`\`\`\`${donationText}\`\`\``)
+        donationMessage.edit(`\`\`\`${donationText}\n\n       £${moneyValue} Donated so far\`\`\``)
 
 
         await message.react('👌')
