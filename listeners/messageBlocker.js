@@ -21,7 +21,7 @@ class BlockerListener extends Listener {
 
             let logChannel = this.client.channels.get('656189395132481547')
 
-            logChannel.send(new Discord.RichEmbed()
+            await logChannel.send(new Discord.RichEmbed()
             
                 .setTitle(`**MESSAGE BLOCKED**`)
                 .setDescription(message.content + '\n\n' + message.channel)

@@ -11,21 +11,18 @@ class VcBlockListener extends Listener {
         });
     }
 
-    exec(oldMember, newMember) {
+    async exec(oldMember, newMember) {
+
+        if(oldMember.guild.id !== '447504770719154192') return
         
         if(newMember.voiceChannel) {
 
-            if(newMember.voiceChannel.guild.id !== '447504770719154192') return
-
             if(bans.map(u => u.id).includes(newMember.id)) {
 
-                newMember.setMute(true)
-
+                await newMember.setMute(true)
+                
             }
-
         }
-
-
     }
 }
 
