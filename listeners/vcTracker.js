@@ -26,20 +26,30 @@ class VcTrackerListener extends Listener {
 
       return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
 }
+
+        const vChannelID = '667837515759222786'
         
         if(newMember.voiceChannel && !oldMember.voiceChannel) {
 
-            if(newMember.voiceChannel.id === '667837515759222786') {
+            if(newMember.voiceChannel.id === vChannelID) {
 
-                channel.send(`> ${newMember} joined the channel`)
-    
+                channel.fetchMessages( {limit:1 }).then(messages => {
+
+                    const lastmessage = messages.first().content
+
+                    if(!lastmessage.startsWith('.')) return;
+
+                    else { 
+                        channel.send(`> ${newMember} joined the channel\n=\n**May the challenge begin!**`)
+                    }
+
+                })    
             }
-
         }
 
         if(!newMember.voiceChannel) {
 
-            if(oldMember.voiceChannel.id === '667837515759222786') {
+            if(oldMember.voiceChannel.id === vChannelID) {
 
                 channel.fetchMessages().then(messages => {
 
@@ -57,7 +67,7 @@ class VcTrackerListener extends Listener {
 
         if(newMember.voiceChannel.id !== oldMember.voiceChannel.id && newMember.voiceChannel) {
 
-            if(oldMember.voiceChannel.id === '667837515759222786') {
+            if(oldMember.voiceChannel.id === vChannelID) {
 
                 channel.fetchMessages().then(messages => {
 
@@ -73,10 +83,19 @@ class VcTrackerListener extends Listener {
 
             }
 
-            if(newMember.voiceChannel.id === '667837515759222786') {
+            if(newMember.voiceChannel.id === vChannelID) {
 
-                channel.send(`> ${newMember} joined the channel`)
+                channel.fetchMessages( {limit:1 }).then(messages => {
 
+                    const lastmessage = messages.first().content
+
+                    if(!lastmessage.startsWith('.')) return;
+
+                    else { 
+                        channel.send(`> ${newMember} joined the channel\n=\n**May the challenge begin!**`)
+                    }
+
+                })    
             }
 
         }
