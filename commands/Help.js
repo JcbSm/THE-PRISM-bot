@@ -71,7 +71,7 @@ class HelpCommand extends Command {
             
             message.channel.send(helpEmbed)
 
-        } else if(args.command === 'utilities'){
+        } else if(args.command === 'utilities' || args.command === 'util'){
 
             let categories = this.handler.categories.filter(c => c.id === 'utilities')
 

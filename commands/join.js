@@ -8,7 +8,6 @@ class JoinCommand extends Command {
                 content: 'Join the voice channel',
                 usage: 'join'
             },
-            category: 'utilities',
             channelRestriction: 'guild'
         })
     }

@@ -8,7 +8,6 @@ class LeaveCommand extends Command {
                 content: 'leave the voice channel',
                 usage: 'leave'
             },
-            category: 'utilities',
             channelRestriction: 'guild'
         })
     }
