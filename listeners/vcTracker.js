@@ -17,15 +17,23 @@ class VcTrackerListener extends Listener {
 
         const channel = this.client.channels.get('668047084666093578');
 
-        function milliToTime(milli)
-{
-      var milliseconds = milli % 1000;
-      var seconds = Math.floor((milli / 1000) % 60);
-      var minutes = Math.floor((milli / (60 * 1000)) % 60);
-      var hours = Math.floor((milli / (3600 * 1000)) % 60);
+        function milliToTime(milli) {
 
-      return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
-}
+            var milliseconds = milli % 1000;
+            var seconds = Math.floor((milli / 1000) % 60);
+            var minutes = Math.floor((milli / (60 * 1000)) % 60);
+            var hours = Math.floor((milli / (3600 * 1000)) % 60);
+
+            if(seconds < 10) {
+                seconds = '0' + seconds
+            }
+
+            if(minutes < 10) {
+                minutes = '0' + minutes
+            }
+
+            return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+        }
 
         const vChannelID = '667837515759222786'
         
