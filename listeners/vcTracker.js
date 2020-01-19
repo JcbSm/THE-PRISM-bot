@@ -53,8 +53,11 @@ class VcTrackerListener extends Listener {
 
                 channel.fetchMessages().then(messages => {
 
-                    const lastmessage = messages.filter(m => m.content.startsWith(`> ${newMember} joined`));
-                    const timeSpent = milliToTime(Date.now() - lastmessage.first().createdTimestamp)
+                    const lastmessages = messages.filter(m => m.content.startsWith(`> ${newMember} joined`));
+                    const timeSpent = milliToTime(Date.now() - lastmessages.first().createdTimestamp)
+
+                    const lastmessage = messages.first().content;
+                    if(!lastmessage.startsWith(`> ${newMember} joined`)) return;
 
                     channel.send(`=========================\n${newMember} left the channel after \`\`\`${timeSpent}\`\`\`=========================`)
                     .then(channel.send("."))
@@ -71,8 +74,11 @@ class VcTrackerListener extends Listener {
 
                 channel.fetchMessages().then(messages => {
 
-                    const lastmessage = messages.filter(m => m.content.startsWith(`> ${newMember} joined`));
-                    const timeSpent = milliToTime(Date.now() - lastmessage.first().createdTimestamp)
+                    const lastmessages = messages.filter(m => m.content.startsWith(`> ${newMember} joined`));
+                    const timeSpent = milliToTime(Date.now() - lastmessages.first().createdTimestamp)
+
+                    const lastmessage = messages.first().content;
+                    if(!lastmessage.startsWith(`> ${newMember} joined`)) return;
 
                     channel.send(`=========================\n${newMember} left the channel after \`\`\`${timeSpent}\`\`\`=========================`)
                     .then(channel.send("."))
