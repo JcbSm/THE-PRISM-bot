@@ -11,12 +11,23 @@ class NicknameListener extends Listener {
     
     exec(oldMember, newMember) {
 
-        if(!message.guild) return;
+        if(!newMember.guild) return;
 
-        if(message.guild.id !== '447504770719154192' && message.guild.id !== '569556194612740115') return;
+        if(!newMember.nickname) return;
+
+        if(newMember.guild.id !== '447504770719154192' && newMember.guild.id !== '569556194612740115') return;
 
         if(/\b(\w*nigg\w*)\b/.test(newMember.nickname.toLowerCase())) {
-            newMember.setNickname(oldMember.nickname).then(this.client.users.get(newMember.user.id).send('No'))
+
+            let oldNickname;
+
+            if(!oldMember.nickname) {
+                oldNickname = ""
+            } else {
+                oldNickname = oldMember.nickname
+            }
+
+            newMember.setNickname(oldNickname).then(this.client.users.get(newMember.user.id).send('No'))
         }
     }
 }
