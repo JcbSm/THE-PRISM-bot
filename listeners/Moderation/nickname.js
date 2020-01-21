@@ -17,7 +17,7 @@ class NicknameListener extends Listener {
 
         if(newMember.guild.id !== '447504770719154192' && newMember.guild.id !== '569556194612740115') return;
 
-        if(/\b(\w*nigg\w*)\b/.test(newMember.nickname.toLowerCase())) {
+        if(/\b(\w*nn*ii*ggg*\w*)\b/.test(newMember.nickname.toLowerCase().split(" ").join(""))) {
 
             let oldNickname;
 
