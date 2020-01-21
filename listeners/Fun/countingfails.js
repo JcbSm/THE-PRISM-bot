@@ -1,6 +1,6 @@
 const { Listener } = require('discord-akairo');
 const Discord = require('discord.js');
-const color = require('../datafiles/colors.json')
+const color = require('../../datafiles/colors.json')
 
 class CountingFailsListener extends Listener {
     constructor() {

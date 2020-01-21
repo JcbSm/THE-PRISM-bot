@@ -1,7 +1,7 @@
 const { Listener } = require('discord-akairo');
 const Discord = require('discord.js')
-const color = require('../datafiles/colors.json')
-const bans = require('../datafiles/softBans')
+const color = require('../../datafiles/colors.json')
+const bans = require('../../datafiles/softBans')
 
 class BlockerListener extends Listener {
     constructor() {
@@ -12,6 +12,8 @@ class BlockerListener extends Listener {
     }
 
     async exec(message) {
+
+        if(!message.guild) return;
 
         if(message.guild.id !== '447504770719154192') return
 

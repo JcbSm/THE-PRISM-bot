@@ -1,5 +1,5 @@
 const { Listener } = require('discord-akairo');
-const prismRoles = require('../datafiles/roles')
+const prismRoles = require('../../datafiles/roles')
 
 class SpeakerListener extends Listener {
     constructor() {

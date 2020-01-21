@@ -1,5 +1,5 @@
 const { Listener } = require('discord-akairo');
-const roles = require('../datafiles/roles')
+const roles = require('../../datafiles/roles')
 
 class RoleCheckListener extends Listener {
     constructor() {

@@ -1,5 +1,5 @@
 const { Listener } = require('discord-akairo');
-const color = require('../datafiles/colors.json')
+const color = require('../../datafiles/colors.json')
 const Discord = require('discord.js')
 
 class CommandBlockedListener extends Listener {

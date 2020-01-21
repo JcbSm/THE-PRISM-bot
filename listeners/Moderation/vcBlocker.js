@@ -1,7 +1,7 @@
 const { Listener } = require('discord-akairo');
 const Discord = require('discord.js')
-const color = require('../datafiles/colors.json')
-const bans = require('../datafiles/softBans')
+const color = require('../../datafiles/colors.json')
+const bans = require('../../datafiles/softBans')
 
 class VcBlockListener extends Listener {
     constructor() {
