@@ -3,7 +3,7 @@ const { Listener } = require('discord-akairo');
 
 class NicknameListener extends Listener {
     constructor() {
-        super('nickCheck', {
+        super('nick', {
             emitter: 'client',
             eventName: 'guildMemberUpdate'
         });
