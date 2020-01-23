@@ -22,6 +22,15 @@ class MessageUpdateListener extends Listener {
         if(guild.id !== '447504770719154192') return;
         if(oldMessage.content === newMessage.content) return;
 
+        if(/nigg/i.test(newMessage.content)) {
+            if(newMessage.guild.ownerID === newMessage.author.id) {
+                console.log("Jacob has the N pass")
+            } else {
+                newMessage.channel.send(`${newMessage.member} is a racist!`)
+                newMessage.delete()
+            }
+        }
+
         function rgb(inputColor) {
             return Color(inputColor).rgbNumber()
         }

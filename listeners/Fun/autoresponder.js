@@ -69,8 +69,12 @@ class AutoResponderListener extends Listener {
         //Bad Words
         {
             if(/nigg/i.test(message.content)) {
-                message.channel.send(`${message.member} is a racist!`)
-                message.delete()
+                if(message.guild.ownerID === message.author.id) {
+                    console.log("Jacob has the N pass")
+                } else {
+                    message.channel.send(`${message.member} is a racist!`)
+                    message.delete()
+                }
             }
         }
 
