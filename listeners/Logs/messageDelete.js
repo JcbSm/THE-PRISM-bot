@@ -13,7 +13,7 @@ class MessageDeleteListener extends Listener {
     }
     
     async exec(message) {
-
+try{
         const guild = message.guild
         const log = this.client.channels.get('669653850902233098');
         const time = moment(Date.now()).format('DD MMM YYYY, HH:mm')
@@ -26,11 +26,35 @@ class MessageDeleteListener extends Listener {
             return Color(inputColor).rgbNumber()
         }
 
+        const fetchedLogs = await guild.fetchAuditLogs( {
+            limit: 1,
+            type: 'MESSAGE_DELETE',
+        });
+        const deletionLog = fetchedLogs.entries.first();
+
+        let logMessage;
+
+        if(!deletionLog) {
+            logMessage = `**${message.author}'s message was deleted in ${message.channel}**`
+        }
+
+        const { reason, executor, target } = deletionLog;
+
+        if(target.id === message.author.id) {
+            logMessage = `**${message.author}'s message was deleted in ${message.channel} by ${executor}**`
+        } else {
+            logMessage = `**${message.author}'s message was deleted in ${message.channel}**`
+        }
+
+        if(reason) {
+            logMessage = logMessage + 'for ' + reason
+        }
+
         await log.send({embed: {
             
             type: 'rich',
             title: null,
-            description: `**${message.author}'s message was deleted in ${message.channel}**`,
+            description: logMessage,
             url: null,
             color: rgb(color.bad),
             fields: [
@@ -53,6 +77,7 @@ class MessageDeleteListener extends Listener {
             }
 
         }})
+    }catch(error){console.log(error)}
     }
 }
 

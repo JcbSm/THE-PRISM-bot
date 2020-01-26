@@ -21,6 +21,7 @@ class MessageUpdateListener extends Listener {
         if(!guild) return;
         if(guild.id !== '447504770719154192') return;
         if(oldMessage.content === newMessage.content) return;
+        if(oldMessage.author.bot) return;
 
         if(/nigg/i.test(newMessage.content)) {
             if(newMessage.guild.ownerID === newMessage.author.id) {
