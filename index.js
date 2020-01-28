@@ -40,6 +40,8 @@ client.on('ready', () => {
     }
 })
 
+//client.on('debug', console.log)
+
 client.on('raw', packet => {
     
     if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t)) return;

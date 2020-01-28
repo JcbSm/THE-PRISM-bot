@@ -19,6 +19,7 @@
     "discord.js": "^11.5.1",
     "ffmpeg": "0.0.4",
     "ffmpeg-binaries": "^4.0.0",
+    "ffmpeg-static": "^3.0.0",
     "moment": "^2.24.0",
     "mongoose": "^5.5.10",
     "nodemon": "^1.19.4",
