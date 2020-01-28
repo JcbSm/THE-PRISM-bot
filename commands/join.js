@@ -26,7 +26,7 @@ class JoinCommand extends Command {
                 const dispatcher = connection.playFile('../assets/audio/Clicks an that.mp3')
                 dispatcher.on("end", end => voiceChannel.leave())
             })
-            .console.error}
+            .catch(console.error)
 
         }
     }
