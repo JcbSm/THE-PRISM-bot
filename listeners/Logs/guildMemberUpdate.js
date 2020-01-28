@@ -14,11 +14,12 @@ class MemberUpdateListener extends Listener {
     
     async exec(oldMember, newMember) {
 
-        if(!oldMember.guild) return;
-
         const log = this.client.channels.get('669653850902233098');
         const time = moment(Date.now()).format('DD MMM YYYY, HH:mm')
         const guild = oldMember.guild
+
+        if(!guild) return;
+        if(guild.id !== '447504770719154192') return;
 
         function rgb(inputColor) {
             return Color(inputColor).rgbNumber()
@@ -107,7 +108,6 @@ class MemberUpdateListener extends Listener {
             }
 
             if(oldMember.roles.keyArray().length > newMember.roles.keyArray().length) {
-                console.log("Role removed")
 
                 const removedRoleID = oldMember.roles.keyArray().find(r => !newMember.roles.keyArray().includes(r));
                 const removedRole = guild.roles.get(removedRoleID)
