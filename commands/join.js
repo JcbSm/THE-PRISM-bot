@@ -23,8 +23,8 @@ class JoinCommand extends Command {
 
             message.member.voiceChannel.join().then(connection => {
                 message.react('👌')
-                const dispatcher = connection.playFile('assets/audio/Clicks an that.mp3')
-                dispatcher.on("end", end => message.member.voiceChannel.leave())
+                const dispatcher = connection.playFile('../assets/audio/test.mp3')
+                //dispatcher.on("end", end => message.member.voiceChannel.leave())
             })
             .catch(console.error)
 
