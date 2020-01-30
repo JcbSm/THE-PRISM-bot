@@ -27,13 +27,6 @@ class RoleCheckListener extends Listener {
             guildMember.removeRole('578622055487111189')
         }
 
-        //Economy
-        if(roles.filter(r => r.category == 'Economy').map(r => r.id).some(id => newMember.roles.has(id))) {
-            guildMember.addRole('578622178979872778')
-        } else {
-            guildMember.removeRole('578622178979872778')
-        }
-
         //Special
         if(roles.filter(r => r.category == 'Special').map(r => r.id).some(id => newMember.roles.has(id))) {
             guildMember.addRole('578622430386454528')

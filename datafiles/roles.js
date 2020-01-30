@@ -76,37 +76,7 @@ module.exports = [
         category: 'Games'
     },
 
-    //Economy
-    {
-        name: 'SpaceX CEO',
-        id: '448514425184452609',
-        category: 'Economy'
-    },
-    {
-        name: 'Cam Girl',
-        id: '448512063279595520',
-        category: 'Economy'
-    },
-    {
-        name: 'Bitcoin Miner',
-        id: '448510331048689677',
-        category: 'Economy'
-    },
-    {
-        name: 'Uber Driver',
-        id: '448512062310711306',
-        category: 'Economy'
-    },
-    {
-        name: 'Cleaner',
-        id: '448512060595109889',
-        category: 'Economy'
-    },
-    {
-        name: 'Day Job',
-        id: '448169060572594176',
-        category: 'Economy'
-    },
+
     //Other Roles
     {
         name: "Events",
