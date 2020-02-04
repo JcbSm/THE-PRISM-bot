@@ -35,11 +35,11 @@ class Listener extends Listener {
             fields: [
                 {
                     name: '',
-                    value: 
+                    value: ''
                 },
                 {
                     name: '',
-                    value: 
+                    value: ''
                 }
             ],
             timestamp: new Date(),

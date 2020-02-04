@@ -18,19 +18,18 @@ class MessageDeleteBulkListener extends Listener {
         const guild = message.guild
         const log = this.client.channels.get('669653850902233098');
         const time = moment(Date.now()).format('DD MMM YYYY, HH:mm')
-        
-        console.log("1")
+    
 
         if(!guild) return;
         if(guild.id !== '447504770719154192') return;
 
-        console.log("2")
+
 
         function rgb(inputColor) {
             return Color(inputColor).rgbNumber()
         }
 
-        console.log("3")
+
 
         await log.send({embed: {
             

@@ -15,7 +15,13 @@ class CountingListener extends Listener {
 
         const lastCount = (await message.channel.fetchMessages( {limit:2} )).last()
 
-        if(Number(message.content) !== Number(lastCount)+1 || message.author.id === lastCount.author.id) return message.delete();
+        let valid;
+
+        if(/^\d\d*$/.test(message.content)) {
+            valid = true
+        }
+
+        if(Number(message.content) !== Number(lastCount)+1 || message.author.id === lastCount.author.id || !valid) return message.delete();
     }
 }
 
