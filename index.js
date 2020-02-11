@@ -33,11 +33,13 @@ const client = new AkairoClient({
 });
 
 client.on('ready', () => {
-    if(client.guilds.size === 1) {
+
+    client.user.setActivity(`▲`, {type: 'WATCHING'})
+    /*if(client.guilds.size === 1) {
         client.user.setActivity(`over ${client.guilds.size} server. | ${config.prefix}help`, {type: 'WATCHING'})
     } else {
         client.user.setActivity(`over ${client.guilds.size} servers. | ${config.prefix}help`, {type: 'WATCHING'})
-    }
+    }*/
 })
 
 //client.on('debug', console.log)

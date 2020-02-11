@@ -12,7 +12,7 @@ class MessageListener extends Listener {
     async exec(message) {
 
         if(message.author.bot) return;
-
+        /*
         if(/(..*)\1{8,}/gmi.test(message.content)) return message.delete()
         if(/(\w){25,}/gmi.test(message.content) && !message.content.toLowerCase().startsWith("http://") && !message.content.toLowerCase().startsWith("https://")) return message.delete()
 
@@ -29,7 +29,7 @@ class MessageListener extends Listener {
             }
         }
 
-        if(repetitions >= 3) message.delete()
+        if(repetitions >= 3) message.delete() */
     }
 }
 
