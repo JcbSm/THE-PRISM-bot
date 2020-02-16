@@ -15,6 +15,8 @@ class AutoResponderListener extends Listener {
         if(message.guild.id !== '447504770719154192') return;
         if(message.author.bot) return;
 
+        console.log(message.content.split(/\W/).join("").split("_").join("").split(/1/).join("i").split(/4/).join("a").split(/3/).join("e").split(/\d/).join(""))
+
         //AutoMod
         if(/(discord.gg\/)/.test(message.content) || /(discordapp.com\/invite\/)/.test(message.content)) {
             if(!message.author.permissions.has('MANAGE_SERVER')) message.delete()
@@ -43,6 +45,7 @@ class AutoResponderListener extends Listener {
         //Prism meme ones
         {
             if(/booo*ty/gi.test(message.content.split(" ").join(""))) message.react('535581424435200010')
+            if(/prism/gi.test(message.content)) message.react('597841926451888130')
             if(/^helll*oo*o$/i.test(message.content)) message.react('453964150385672203')
             if(/brian/i.test(message.content)) message.react('453928256371032064')
         }
@@ -68,9 +71,9 @@ class AutoResponderListener extends Listener {
 
         //Bad Words
         {
-            if(/nigg/i.test(message.content)) {
+            if(/nigg/i.test(message.content.split(" ").join("").split(/\W/).join("").split("_").join("").split(/1/).join("i").split(/4/).join("a").split(/3/).join("e").split(/\d/).join(""))) {
                 if(message.guild.ownerID === message.author.id) {
-                    console.log("Jacob has the N pass")
+                    message.channel.send("Jacob has the N pass")
                 } else {
                     message.channel.send(`${message.member} is a racist!`)
                     message.delete()

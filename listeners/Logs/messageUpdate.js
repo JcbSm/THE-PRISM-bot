@@ -31,6 +31,9 @@ class MessageUpdateListener extends Listener {
                 newMessage.delete()
             }
         }
+        if(newMessage.channel.id === '583742663627505669') {
+            newMessage.delete()
+        }
 
         function rgb(inputColor) {
             return Color(inputColor).rgbNumber()

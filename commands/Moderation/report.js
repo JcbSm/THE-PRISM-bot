@@ -19,7 +19,7 @@ class ReportCommand extends Command {
                 }
             ],
             description: {
-                content: "Report another discord user. *logged in #reports*",
+                content: "Report another discord user to the Council.",
                 usage: `report <user> <reason>`
             },
             category: 'moderation'
@@ -56,7 +56,9 @@ class ReportCommand extends Command {
             .addField('Channel', message.channel, true)
             .addField('Reason', args.reason)
         
-        message.guild.channels.find(ch => ch.name === 'reports').send(reportEmbed)
+        message.guild.channels.find(ch => ch.name === 'reports').send(reportEmbed).then(
+            message.reply("Done.")
+        )
     }
 }
 

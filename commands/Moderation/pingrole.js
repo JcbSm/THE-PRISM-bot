@@ -31,7 +31,7 @@ class PingRoleCommand extends Command {
 
         try{
             await role.setMentionable(true)
-            await message.channel.send(`<@&${role.id}> ${args.message}.`)
+            await message.channel.send(`<@&${role.id}> ${args.message}`)
             await role.setMentionable(false)
             message.delete()
         }catch(error){
