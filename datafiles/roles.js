@@ -75,6 +75,11 @@ module.exports = [
         id: '654480769108148225',
         category: 'Games'
     },
+    {
+        name: 'UNO',
+        id: '681177069593296920',
+        category: 'Games'
+    },
 
 
     //Other Roles

@@ -52,8 +52,8 @@ class CreateEmbedCommand extends Command {
                 image: null,
                 video: null,
                 author: {
-                    name: 'message.author.tag',
-                    icon_url: 'message.author.avatarURL'
+                    name: null,
+                    icon_url: null
                     },
                 provider: null,
                 footer: null
@@ -64,6 +64,8 @@ class CreateEmbedCommand extends Command {
             await message.reply(`Embed created, the ID is: ${sent.id}`)
         } catch(error){console.log(error)}
         }
+
+
     }
 }
 

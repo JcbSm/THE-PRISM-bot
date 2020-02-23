@@ -15,8 +15,6 @@ class AutoResponderListener extends Listener {
         if(message.guild.id !== '447504770719154192') return;
         if(message.author.bot) return;
 
-        console.log(message.content.split(/\W/).join("").split("_").join("").split(/1/).join("i").split(/4/).join("a").split(/3/).join("e").split(/\d/).join(""))
-
         //AutoMod
         if(/(discord.gg\/)/.test(message.content) || /(discordapp.com\/invite\/)/.test(message.content)) {
             if(!message.author.permissions.has('MANAGE_SERVER')) message.delete()
