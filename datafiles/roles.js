@@ -81,6 +81,11 @@ module.exports = [
         category: 'Games'
     },
     {
+        name: 'Dead by Daylight',
+        id: '685849318829457434',
+        category: 'Games',
+    },
+    {
         name: 'UNO',
         id: '681177069593296920',
         category: 'Games'
