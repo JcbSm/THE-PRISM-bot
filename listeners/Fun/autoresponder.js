@@ -22,7 +22,7 @@ class AutoResponderListener extends Listener {
 
 
 
-        if(/^gn$/gi.test(message.content) || /^goodnight$/gi.test(message.content) || /^night$/gi.test(message.content)) {
+        if(/^gn$/gi.test(message.content) || /^goodnight$/gi.test(message.content.split(" ").join("")) || /^night$/gi.test(message.content)) {
             
             let responses = ['Sleep well', 'Goodnight', 'Sweet dreams', 'Don\'t let the bed bugs bite', 'Night']
             let i = Math.floor(Math.random()*responses.length)
@@ -31,9 +31,9 @@ class AutoResponderListener extends Listener {
 
         }
 
-        if(/^gm$/gi.test(message.content) || /^goodmorning$/gi.test(message.content) || /^morning$/gi.test(message.content)) {
+        if(/^gm$/gi.test(message.content) || /^goodmorning$/gi.test(message.content.split(" ").join("")) || /^morning$/gi.test(message.content)) {
             
-            let responses = ['Morning', 'Goodmorning', 'Rise and shine']
+            let responses = ['Morning', 'Good morning', 'Rise and shine', 'Hey', 'Welcome back']
             let i = Math.floor(Math.random()*responses.length)
 
             message.channel.send(`${responses[i]}, ${message.author}`)
