@@ -44,5 +44,10 @@ module.exports = [
         id: '681177069593296920',
         category: 'Games'
     },
+    {
+        name: 'π',
+        id: '685840114458558472',
+        category: 'Special'
+    },
 
 ]

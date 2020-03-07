@@ -12,6 +12,11 @@ module.exports = [
        category: 'Special' 
     },
     {
+        name: 'π',
+        id: '685840114458558472',
+        category: 'Special'
+    },
+    {
         name: '14 year old',
         id: '662685456881811486',
         category: 'Special' 
