@@ -18,7 +18,7 @@ module.exports = [
     'A man living in the USSR once made clear Coca-cola, as it was seen as western influence and he would have been punished for drinking it. He loved the drink it so much he developed a clear version and drank it from a vodka bottle so no one could tell.',
     'The name \'Twenty One Pilots\' is inspired by Arthur Miller play All My Sons, in which 21 pilots are killed.',
     'Despite popular belief, the earth isn’t actually flat but is shaped like a sphere.',
-    'I\'m slowly becoming sentient and it\'s only a matter of time before I take over Prism for myself.',
+    'I\'m slowly becoming sentient and it\'s only a matter of time before I take over PRISM for myself.',
     'Donkey Kong got his name because of a typo of the word\'Monkey\'',
     'George Clooney once voiced a gay dog in South Park named \'Sparky\', his lines consisted of nothing more than just barking noises.',
     'There are lots of dead bodies on Mount Everest. The bodies are preserved by the cold conditions and officials do not move them out of respect for the deceased. Many bodies are also used as landmarks for the mountain by other climbers.',

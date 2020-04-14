@@ -5,7 +5,7 @@ class PingRoleCommand extends Command {
         super('pingrole', {
             aliases: ['pingrole'],
             description: {
-                content: 'Pings a role which can\'t be mentioned by everyone',
+                content: 'Pings a role with a message, giving users the option to react with either \"Yes\" or \"No\"',
                 usage: 'pingrole <role> <message>'
             },
             split: 'quoted',
@@ -18,25 +18,26 @@ class PingRoleCommand extends Command {
                     match: 'rest'
                 }
             ],
-            category: 'moderation',
-            userPermissions: 'MENTION_EVERYONE'
+            category: 'utilities',
         })
     }
 
     async exec(message, args) {
 
         const role = (await message.guild.fetchMembers()).roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
+        
+        if(!role) return message.reply('No role found.')
 
-        const rolePermBit = role.permissions
+        if(role.mentionable) {
 
-        try{
-            await role.setMentionable(true)
-            await message.channel.send(`<@&${role.id}> ${args.message}`)
-            await role.setMentionable(false)
+            let botMessage = await message.channel.send(`${message.member} asks ${role}: ${args.message}`)
+            await botMessage.react('✅')
+            await botMessage.react('699654286069465189')
+            
             message.delete()
-        }catch(error){
-            message.delete()
-            message.reply(`Something went wrong, make sure '${role.name}' is below my role.`)
+
+        } else {
+            return message.reply('Unable to ping that role.')
         }
         
     }

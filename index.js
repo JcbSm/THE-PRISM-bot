@@ -66,4 +66,10 @@ client.on('raw', packet => {
     });
 });
 
+client.on('message', message => {
+	if (message.content === '!join') {
+		client.emit('guildMemberAdd', message.member);
+	}
+});
+
 client.login(config['token']);
