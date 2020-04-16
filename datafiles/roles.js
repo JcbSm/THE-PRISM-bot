@@ -21,7 +21,11 @@ module.exports = [
         id: '662685456881811486',
         category: 'Special' 
      },
-
+     {
+         name: 'Winner',
+         id: '700491746991144960',
+         category: 'Special'
+     },
     //Levels
     {
         name: '[50] Hyper Cube',
