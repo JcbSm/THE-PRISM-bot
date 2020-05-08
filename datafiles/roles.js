@@ -94,8 +94,18 @@ module.exports = [
         id: '681177069593296920',
         category: 'Games'
     },
+    {
+        name: 'PAYDAY',
+        id: '702858435481436211',
+        category: 'Games'
+    },
+    {
+        name: 'CS:GO',
+        id: '707290818402189452',
+        category: 'Games'
+    },
 
-
+    
     //Other Roles
     {
         name: "Events",

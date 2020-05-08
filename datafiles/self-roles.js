@@ -50,6 +50,16 @@ module.exports = [
         category: 'Games'
     },
     {
+        name: 'PAYDAY',
+        id: '702858435481436211',
+        category: 'Games'
+    },
+    {
+        name: 'CS:GO',
+        id: '707290818402189452',
+        category: 'Games'
+    },
+    {
         name: 'π',
         id: '685840114458558472',
         category: 'Special'
