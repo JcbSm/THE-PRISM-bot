@@ -2,15 +2,21 @@ const { Command } = require('discord-akairo');
 const Discord = require('discord.js');
 const color = require('../../../datafiles/colors.json');
 
-class PrivateCallDeleteCommand extends Command {
+class UserLimitCommand extends Command {
     constructor() {
-        super('endCall', {
-            aliases: ['endCall'],
+        super('userLimit', {
+            aliases: ['userLimit'],
             description: {
-                content: 'Delete a private voice channel',
-                usage: 'endCall'
+                content: 'Sets the user limit for the channel',
+                usage: 'userlimit <number>'
             },
             category: 'utilities',
+            args: [
+                {
+                    id: 'num',
+                    type: 'number'
+                }
+            ]
         })
     }
 
@@ -22,11 +28,14 @@ class PrivateCallDeleteCommand extends Command {
             const guild = message.guild
             const everyoneRole = message.guild.roles.find(r => r.name === '@everyone')
 
+            if(args.num > 99) return message.reply('Max user count is 99')
+
             if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
             if(message.channel.topic.split(';').shift() === 'PRIVATE CALL') {
                 const voiceChannel = message.guild.channels.get(message.channel.topic.split(';').pop())
-                await voiceChannel.delete()
-                await message.channel.delete()
+
+                await voiceChannel.setUserLimit(args.num)
+                message.channel.send(`***${voiceChannel.name}\'s user limit is now ${args.num}***`)
             }
 
         }
@@ -36,4 +45,4 @@ class PrivateCallDeleteCommand extends Command {
     }
 }
 
-module.exports = PrivateCallDeleteCommand
+module.exports = UserLimitCommand

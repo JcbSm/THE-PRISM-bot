@@ -17,16 +17,30 @@ class ToggleViewCommand extends Command {
     async exec(message, args) {
         try{        
         
-        if(message.guild.id === '447504770719154192') {
+        if(message.guild.id === '447504770719154192' || message.guild.id === '569556194612740115') {
 
             const guild = message.guild
+            const everyoneRole = message.guild.roles.find(r => r.name === '@everyone')
 
-            if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') return;
+            if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
             if(message.channel.topic.split(';').shift() === 'PRIVATE CALL') {
                 const voiceChannel = message.guild.channels.get(message.channel.topic.split(';').pop())
-            
-                console.log(voiceChannel.permissionOverwrites)
-                await voiceChannel.overwritePermissions(message.guild.roles.find(r => r.name === '@everyone'), { VIEW_CHANNEL: false })
+                const perms = voiceChannel.permissionOverwrites.get(everyoneRole.id)
+                
+                console.log(perms)
+                console.log(perms.allowed.serialize().VIEW_CHANNEL)
+
+                if(perms.allowed.serialize().VIEW_CHANNEL) {
+                    await voiceChannel.overwritePermissions(everyoneRole, { VIEW_CHANNEL: false })
+                    message.channel.send(`***${voiceChannel.name} is now invisible to \`@everyone\`***`)
+                } else {
+                    await voiceChannel.overwritePermissions(everyoneRole, { VIEW_CHANNEL: true })
+                    message.channel.send(`***${voiceChannel.name} is now visible to \`@everyone\`***`)
+                }
+
+
+
+                
 
             }
 
