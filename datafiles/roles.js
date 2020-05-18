@@ -104,8 +104,12 @@ module.exports = [
         id: '707290818402189452',
         category: 'Games'
     },
+    {
+        name: 'GTA V',
+        id: '711960608228114543',
+        category: 'Games'
+    },
 
-    
     //Other Roles
     {
         name: "Events",

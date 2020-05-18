@@ -60,6 +60,11 @@ module.exports = [
         category: 'Games'
     },
     {
+        name: 'GTA V',
+        id: '711960608228114543',
+        category: 'Games'
+    },
+    {
         name: 'π',
         id: '685840114458558472',
         category: 'Special'

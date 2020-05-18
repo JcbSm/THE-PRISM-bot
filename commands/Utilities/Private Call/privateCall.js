@@ -62,11 +62,14 @@ class PrivateCallCommand extends Command {
             await textChannel.setTopic(`PRIVATE CALL;${message.member};${voiceChannel.id}`)
 
             await textChannel.send(
-                `${message.member} This is your private Voice Chat text channel for ${name}: Here are some commands you can use to change things around:\n
-\`\`\`js\n
--endCall: Ends and removes the voice channel\n
-(not yet working) -toggleView: Toggles whether or not other users can see the channel\n
+`${message.member} This is your private Voice Chat text channel for ${name}: Here are some commands you can use to change things around:\n
 \`\`\`
+-endCall: Ends and removes the voice channel
+-toggleView: Toggles whether or not other users can see the channel
+-toggleUser <member>: Toggles whether or not a user can see the channel
+-userLimit <number>: Set the voice channel's user limit
+\`\`\`
+**THE CHANNELS WILL BE AUTOMATICALLY REMOVED ONCE EVERYONE LEAVES**
 `)
 
         }
