@@ -37,9 +37,9 @@ class RoleCommand extends Command {
                 let role = await message.guild.roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
                 let botMember = await message.guild.fetchMember(this.client.user.id)
 
-                if(role.calculatedPosition >= botMember.highestRole.calculatedPosition) {
+                if(role.calculatedPosition >= botMember.highestRole.calculatedPosition && message.member.id) {
                     return message.reply('I don\'t have the required permissions to perform such an action.')
-                } else if(role.calculatedPosition >= message.member.highestRole.calculatedPosition) {
+                } else if(role.calculatedPosition >= message.member.highestRole.calculatedPosition && message.member.id !== this.client.ownerID) {
                     return message.reply('You can\'t give or remove roles higher or equal to your own.')
                 } else {
 
