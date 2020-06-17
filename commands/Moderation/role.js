@@ -26,16 +26,22 @@ class RoleCommand extends Command {
         })
     }
     
-    exec(message, args) {
+    async exec(message, args) {
 
-        try{
             
             if(!args.member) {
                 return message.reply('No user found.')
             }
 
             try{
-                let role = message.guild.roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
+                let role = await message.guild.roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
+                let botMember = await message.guild.fetchMember(this.client.user.id)
+
+                if(role.calculatedPosition >= botMember.highestRole.calculatedPosition) {
+                    return message.reply('I don\'t have the required permissions to perform such an action.')
+                } else if(role.calculatedPosition >= message.member.highestRole.calculatedPosition) {
+                    return message.reply('You can\'t give or remove roles higher or equal to your own.')
+                } else {
 
 
                 if(args.member.roles.has(role.id)) {
@@ -48,15 +54,12 @@ class RoleCommand extends Command {
                     args.member.addRole(role.id)
                     message.channel.send(`***Successfully given ${args.member.user.tag} the \'${role.name}\' role***`)
 
-                }
-            } catch {
-
+                } 
+            }
+            } catch(error) {
+                console.log(error)
                 message.reply('No role found.')                
             }
-        } catch {
-
-            return message.reply('I don\'t have permission to do that.')
-        }
     }
 }
 
