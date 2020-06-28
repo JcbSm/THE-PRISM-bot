@@ -20,7 +20,7 @@ try{
 
         if(message.channel.id === pinChannel.id) return;
 
-        if(messageReaction.emoji.name === '📌' && messageReaction.count == 1) {
+        if(messageReaction.emoji.name === '📌' && messageReaction.count == 5) {
 
             if((await messageReaction.users.fetch()).map(u => u.id).includes(this.client.user.id)) {
                 return console.log('I have already pinned')
