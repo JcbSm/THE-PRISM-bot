@@ -59,7 +59,7 @@ try{
             }})
 
 
-            await message.reply(`Embed created, the ID is: ${sent.id}`)
+            await message.reply(`Embed created, the link is: ${sent.url}`)
         } catch(error){console.log(error)}
         }
 

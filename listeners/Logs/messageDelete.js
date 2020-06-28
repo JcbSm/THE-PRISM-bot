@@ -14,8 +14,7 @@ class MessageDeleteListener extends Listener {
 
         const guild = message.guild;
         const log = await this.client.channels.fetch(config.prism.guild.channelIDs.log);
-
-        
+     
         if(!guild) return;
         if(guild.id !== '447504770719154192') return;
         if(message.author.bot) return;

@@ -1,5 +1,5 @@
 const { Listener } = require('discord-akairo');
-const config = require('../../config');
+const { colors, prism } = require('../../config');
 const { rgb } = require('../../functions');
 
 class GuildMemberAddListener extends Listener {
@@ -14,9 +14,9 @@ class GuildMemberAddListener extends Listener {
     async exec(member) {
 
         const guild = member.guild;
-        const log = await this.client.channels.fetch(config.prism.guild.channelIDs.log);
+        const log = await this.client.channels.fetch(prism.guild.channelIDs.log);
         
-        if(guild.id !== config.prism.guild.id) return;
+        if(guild.id !== prism.guild.id) return;
 
         await log.send({embed: {
             
@@ -24,7 +24,7 @@ class GuildMemberAddListener extends Listener {
             title: null,
             description: `**${member} joined the server**`,
             url: null,
-            color: rgb(color.good),
+            color: rgb(colors.good),
             fields: [],
             timestamp: new Date(),
             tumbnail: null,

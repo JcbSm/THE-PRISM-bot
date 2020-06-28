@@ -43,7 +43,7 @@ class ClearCommand extends Command {
             return message.channel.bulkDelete(args.amount + 1)
                 .then(message.channel.send(`***Successfully removed ${args.amount} messages.***`)
                 .then(msg => {
-                    msg.delete(5000)
+                    msg.delete({ timeout: 5000 })
                 })
             )
         }

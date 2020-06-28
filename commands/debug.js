@@ -1,14 +1,14 @@
 const { Command } = require('discord-akairo');
-const { rgb } = require('../functions')
+const { linkToMessage } = require('../functions')
 
 class TestCommand extends Command {
     constructor() {
         super('debug', {
-            aliases: ['debug'],
+            aliases: ['debug', 'kick'],
             args: [
                 {
-                    id: 'member',
-                    type: 'member'
+                    id: 'link',
+                    type: 'string'
                 }
             ]
         })
@@ -16,9 +16,7 @@ class TestCommand extends Command {
 
     async exec(message, args) {
 
-        console.log("test")
-
-        console.log(rgb('red'))
+        message.reply((await linkToMessage(args.link, this.client)).author.tag)
     }
 }
 

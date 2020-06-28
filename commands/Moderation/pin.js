@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
-const { rgb } = require('../../functions')
-const { colors } = require('../../config')
+const { rgb, linkToMessage } = require('../../functions')
+const { colors, prism } = require('../../config')
 
 class PinCommand extends Command {
     constructor() {
@@ -23,17 +23,8 @@ class PinCommand extends Command {
 
     async exec(message, args) {
         try{        
-        const channelMessageID = args.link.split('/').splice(5, 2)
-
-        const channelID = channelMessageID.shift()
-        const messageID = channelMessageID.pop()
-
-        const pinMessage = await (await this.client.channels.fetch(channelID)).messages.fetch(messageID)
-
-        //try{console.log(pinMessage.content)} catch(error) {console.log(error)}
-        //console.log(pinMessage.content)
-
-        const pinChannel = await this.client.channels.fetch(config.prism.guild.channels.pins.id)
+        const pinMessage = await linkToMessage(args.link, this.client)
+        const pinChannel = await this.client.channels.fetch(prism.guild.channelIDs.pins)
 
         if(pinMessage.guild.id !== '447504770719154192') return;
 

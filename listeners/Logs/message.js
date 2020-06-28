@@ -16,7 +16,7 @@ class MessageListener extends Listener {
         if(message.channel.id == '447506187693326338') {
 
             if(message.content.startsWith('https://tenor.com/' || message.content.startsWith('https://giphy.com/'))) {
-                message.delete()
+                message.delete({ reason: "gifs in chat" })
             }
 
         }

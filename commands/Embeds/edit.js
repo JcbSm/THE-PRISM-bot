@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const { rgb } = require('../../functions')
+const { rgb, linkToMessage } = require('../../functions')
 
 class EditEmbedCommand extends Command {
     constructor() {
@@ -7,18 +7,13 @@ class EditEmbedCommand extends Command {
             aliases: ['embed-edit','embededit'],
             description: {
                 content: 'Edits an existing embed',
-                usage: `edit <channel> <message ID> <option> \n**Options:**\n- Title\n- Description\n- Color\n- Thumbnail \n- Image`
+                usage: `edit <message URL> <option> \n**Options:**\n- Title\n- Description\n- Color\n- Thumbnail \n- Image`
             },
             category: 'embeds',
             userPermissions: 'MANAGE_MESSAGES',
             args: [
                 {
-                    id: 'channel',
-                    type: 'channelMention'
-                },
-                {
-                    id: 'messageID',
-                    type: 'string'
+                    id: 'link',
                 },
                 {
                     id: 'option'
@@ -36,8 +31,8 @@ class EditEmbedCommand extends Command {
 
     async exec(message, args) {
 
-        const channel = args.channel
-        const targetMessage = await channel.messages.fetch(args.messageID)
+        const targetMessage = await linkToMessage(args.link, this.client);
+        const channel = targetMessage.channel;
 
         let embed = targetMessage.embeds[0]
 

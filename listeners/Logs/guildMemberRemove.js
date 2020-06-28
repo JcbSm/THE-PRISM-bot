@@ -1,5 +1,5 @@
 const { Listener } = require('discord-akairo');
-const config = require('../../config');
+const { colors, prism} = require('../../config');
 const { rgb } = require('../../functions');
 
 class GuildMemberRemoveListener extends Listener {
@@ -13,13 +13,12 @@ class GuildMemberRemoveListener extends Listener {
     async exec(member) {
 
         const guild = member.guild;
-        const log = await this.client.channels.fetch(config.prism.guild.channelIDs.log);
-        const time = moment(Date.now()).format('DD MMM YYYY, HH:mm')
+        const log = await this.client.channels.fetch(prism.guild.channelIDs.log);
         
         if(!guild) return;
-        if(guild.id !== config.prism.guild.id) return;
+        if(guild.id !== prism.guild.id) return;
 
-        (await this.client.channels.fetch('447702094430863360')).send(`***${member.user.tag} left the server.***`)
+        (await this.client.channels.fetch(prism.guild.channelIDs.modChat)).send(`***${member.user.tag} left the server.***`)
 
         await log.send({embed: {
             
@@ -27,7 +26,7 @@ class GuildMemberRemoveListener extends Listener {
             title: null,
             description: `**${member} left the server**`,
             url: null,
-            color: rgb(config.colors.bad),
+            color: rgb(colors.bad),
             fields: [],
             timestamp: new Date(),
             tumbnail: null,

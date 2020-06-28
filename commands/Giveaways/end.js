@@ -1,18 +1,18 @@
 const { Command } = require('discord-akairo')
 const { colors } = require('../../config')
-const { rgb } = require('../../functions')
+const { linkToMessage } = require('../../functions')
 
 class GiveawayEndCommand extends Command {
     constructor() {
-        super('end', {
-            aliases: ['gend', 'giveaway-end','g-end', 'end'],
+        super('endgiveaway', {
+            aliases: ['end', 'giveaway-end', 'endgiveaway'],
             description: {
                 usage: 'end <message ID> <Number of winners>',
                 content: 'Ends a giveaway.'
             },
             args: [
                 {
-                    id: 'id',
+                    id: 'link',
                     type: 'string'
                 }
             ]
@@ -22,9 +22,9 @@ class GiveawayEndCommand extends Command {
     async exec(message, args) {
         try{
 
-            if(!args.id) return message.reply('Please enter a the message ID and amount of winners.')
+            if(!args.link) return message.reply('Please enter a the message link.')
 
-            let giveawayMessage = await message.channel.messages.fetch(args.id)
+            let giveawayMessage = await linkToMessage(args.link, this.client)
 
             if(giveawayMessage.reactions.cache.keyArray().includes('🎁')) { 
 

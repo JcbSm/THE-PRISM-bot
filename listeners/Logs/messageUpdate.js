@@ -48,6 +48,10 @@ class MessageUpdateListener extends Listener {
                 {
                     name: '**After:**',
                     value: newMessage.content
+                },
+                {
+                    name: 'Message',
+                    value: `[\`jump\`](${oldMessage.url})`
                 }
             ],
             timestamp: new Date(),
