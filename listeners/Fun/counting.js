@@ -11,8 +11,7 @@ class CountingListener extends Listener {
     }
 
     async exec(message) {
-        try{
-        console.log(config.prism.guild.channelIDs.counting)
+
         if(message.channel.id !== config.prism.guild.channelIDs.counting) return;
 
 
@@ -26,7 +25,7 @@ class CountingListener extends Listener {
         }
 
         if(Number(message.content) !== Number(lastCount.content)+1 || message.author.id === lastCount.author.id || !valid) return message.delete();
-    }catch(e) {console.log(e)}
+
     }
 }
 
