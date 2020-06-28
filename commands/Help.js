@@ -95,6 +95,10 @@ class HelpCommand extends Command {
                         {
                             name: 'Usage',
                             value: `${prefix}${command.description.usage}`
+                        },
+                        {
+                            name: 'Aliases',
+                            value: command.aliases
                         }
                     ]
                 }})

@@ -7,7 +7,7 @@ class GiveawayEndCommand extends Command {
         super('endgiveaway', {
             aliases: ['end', 'giveaway-end', 'endgiveaway'],
             description: {
-                usage: 'end <message ID> <Number of winners>',
+                usage: 'endgiveaway <message link>',
                 content: 'Ends a giveaway.'
             },
             args: [
@@ -25,6 +25,10 @@ class GiveawayEndCommand extends Command {
             if(!args.link) return message.reply('Please enter a the message link.')
 
             let giveawayMessage = await linkToMessage(args.link, this.client)
+
+            let author = await giveawayMessage.mentions.members.first()
+
+            if(message.author.id !== author.user.id) return message.reply('You can\'t end someone else\'s giveaway.')
 
             if(giveawayMessage.reactions.cache.keyArray().includes('🎁')) { 
 

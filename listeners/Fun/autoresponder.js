@@ -48,6 +48,12 @@ class AutoResponderListener extends Listener {
             if(/brian/i.test(message.content)) message.react('453928256371032064')
         }
 
+        //Memes 
+
+        {
+            if(/ligma/gi.test(message.content.split('').join(''))) message.channel.send('What\'s Ligma?')
+        }
+
         //Normal stuff
         {
             if(/^no u$/i.test(message.content)) message.reply('no u')

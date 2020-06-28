@@ -1,27 +1,45 @@
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = require('discord-akairo');
-const Discord = require('discord.js');
-const config = require('./config')
+const { Client } = require('pg');
+const config = require('./config');
 
 try {
-	function getConfig() {
-		try {
-			const tokenFile = require('./token.json')
-			const token = tokenFile.token;
-			const prefix = config.testPrefix;
-			console.log('Starting using locally stored value for token.');
-			return {'token': token, 'prefix': prefix}
-		}
-		catch(error) {
-			const token = process.env.TOKEN;
-			const prefix = config.prefix;
-			console.log('Starting using token stored on Heroku');
-			return {'token': token, 'prefix': prefix}
-		}
+
+function getConfig() {
+	try {
+		const keys = require('./keys.json')
+		const token = keys.token;
+		const dbURL = keys.database
+		const prefix = config.testPrefix;
+		console.log('Starting using locally stored value for token.');
+		return {'token': token, 'prefix': prefix, 'dbURL': dbURL}
 	}
+	catch(error) {
+		const token = process.env.TOKEN;
+		const dbURL = process.env.DATABASE_URL
+		const prefix = config.prefix;
+		console.log('Starting using token stored on Heroku');
+		return {'token': token, 'prefix': prefix, 'dbURL': dbURL}
+	}
+}
+const cfg = getConfig();
 
-	const cfg = getConfig();
+const dbClient = new Client({
+	connectionString: cfg['dbURL'],
+	ssl: {
+		rejectUnauthorized: false
+	}
+});
 
-	class Client extends AkairoClient {
+dbClient.connect();
+dbClient.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+	if (err) throw err;
+	for (let row of res.rows) {
+	  //console.log(JSON.stringify(row));
+	}
+	dbClient.end();
+});
+
+	class BotClient extends AkairoClient {
 		constructor() {
 			super({
 				ownerID: config.owner.id
@@ -59,52 +77,22 @@ try {
 			this.listenerHandler.loadAll();	
 		}
 	}
-
-	/*const client = new AkairoClient({
-		ownerID: '227848397447626752',
-		prefix: config['prefix'],
-		allowMention: true,
-		commandDirectory: './commands/',
-		inhibitorDirectory: './inhibitors/',
-		listenerDirectory: './listeners/',
-	}, {
-		disableEveryone: true
-	});*/
-
-	const client = new Client();
-
-
-	client.on('raw', async packet => {
-
-		try {   
-
-			// We don't want this to run on unrelated packets
-			if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t)) return;
-			// Grab the channel to check the message from
-			const channel = await client.channels.fetch(packet.d.channel_id);
-			// There's no need to emit if the message is cached, because the event will fire anyway for that
-			if (channel.messages.cache.has(packet.d.message_id)) return;
-			// Since we have confirmed the message is not cached, let's fetch it
-			channel.messages.fetch(packet.d.message_id).then(message => {
-				// Emojis can have identifiers of name:id format, so we have to account for that case as well
-				const emoji = packet.d.emoji.id ? `${packet.d.emoji.name}:${packet.d.emoji.id}` : packet.d.emoji.name;
-				// This gives us the reaction we need to emit the event properly, in top of the message object
-				const reaction = message.reactions.cache.get(emoji);
-				// Adds the currently reacting user to the reaction's users collection.
-				if (reaction) reaction.users.cache.set(packet.d.user_id, client.users.fetch(packet.d.user_id));
-				// Check which type of event it is before emitting
-				if (packet.t === 'MESSAGE_REACTION_ADD') {
-					client.emit('messageReactionAdd', reaction, client.users.fetch(packet.d.user_id));
-				}
-				if (packet.t === 'MESSAGE_REACTION_REMOVE') {
-					client.emit('messageReactionRemove', reaction, client.users.fetch(packet.d.user_id));
-				}
-
-			});
-			
-		} catch(e) {console.log(e)}    
+	const client = new BotClient();
+	client.on('raw', async packet => { 
+ 		if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t)) return;
+		const channel = await client.channels.fetch(packet.d.channel_id);
+		if (channel.messages.cache.has(packet.d.message_id)) return;
+		channel.messages.fetch(packet.d.message_id).then(message => {
+			const emoji = packet.d.emoji.id ? `${packet.d.emoji.name}:${packet.d.emoji.id}` : packet.d.emoji.name;
+			const reaction = message.reactions.cache.get(emoji);
+			if (reaction) reaction.users.cache.set(packet.d.user_id, client.users.fetch(packet.d.user_id));
+			if (packet.t === 'MESSAGE_REACTION_ADD') {
+				client.emit('messageReactionAdd', reaction, client.users.fetch(packet.d.user_id));
+			}
+			if (packet.t === 'MESSAGE_REACTION_REMOVE') {
+				client.emit('messageReactionRemove', reaction, client.users.fetch(packet.d.user_id));
+			}
+		});
 	});
-
 	client.login(cfg['token']);
-
 } catch(e) {console.log(e)}

@@ -24,10 +24,10 @@ class GiveawayCreateCommand extends Command {
 
         if(!args.prize) return message.reply('Please enter a prize')
         
-        let giveawayMessage = await message.channel.send({ embed: {
+        let giveawayMessage = await message.channel.send(`${message.member}'s giveaway:`, { embed: {
 
             type: 'rich',
-            title: `[**GIVEAWAY** ]`,
+            title: `**GIVEAWAY**`,
             description: `__**PRIZE**__ \n\n\`\`\`${args.prize}\`\`\`\n`,
             fields: [
                 {
