@@ -8,30 +8,30 @@ class PrivateCallLeaveListener extends Listener {
         });
     }
 
-    async exec(oldMember, newMember) {
+    async exec(oldState, newState) {
 
         try{
 
-            if(oldMember.guild.id === '447504770719154192' || oldMember.guild.id === '569556194612740115') {
+            if(oldState.guild.id === '447504770719154192' || oldState.guild.id === '569556194612740115') {
 
-                const guild = oldMember.guild
+                const guild = oldState.guild
                 const pChannels = await guild.channels.cache.filter(c => c.type === 'voice' && c.name.startsWith('🔒'))
 
-                //console.log(pChannels.map(m => m.id))
+                console.log(pChannels.map(m => m.id))
 
-                //console.log((await newMember.voiceChannel.members.map(m => m.id)).length)
+                console.log((await newState.channel.members.map(m => m.id)).length)
 
-                if(!oldMember.voiceChannel) return;
+                if(!oldState) return;
 
-                if(oldMember.voiceChannel !== newMember.voiceChannel && pChannels.map(m => m.id).includes(oldMember.voiceChannel.id)) {
+                if(oldState.channel !== newState.channel && pChannels.map(m => m.id).includes(oldState.channel.id)) {
 
 
 
-                    if((await oldMember.voiceChannel.members.map(m => m.id)).length == 0) {
+                    if((await oldState.channel.members.map(m => m.id)).length == 0) {
 
-                        const tChannel = await guild.channels.find(c => c.type === 'text' && c.topic && c.topic.startsWith('PRIVATE CALL') && c.topic.split(';').pop() === oldMember.voiceChannel.id)
+                        const tChannel = await guild.channels.cache.find(c => c.type === 'text' && c.topic && c.topic.startsWith('PRIVATE CALL') && c.topic.split(';').pop() === oldState.channel.id)
 
-                        await oldMember.voiceChannel.delete()
+                        await oldState.channel.delete()
                         await tChannel.delete()
 
                     }
