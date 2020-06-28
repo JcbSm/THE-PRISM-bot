@@ -1,17 +1,16 @@
 const { Listener } = require('discord-akairo');
-const Discord = require('discord.js')
-const color = require('../../datafiles/colors.json')
-const bans = require('../../datafiles/softBans')
+const config = require('../../config');
+const { rgb } = require('../../functions');
 
 class BlockerListener extends Listener {
     constructor() {
         super('blockMessage', {
             emitter: 'client',
-            eventName: 'message'
+            event: 'message'
         });
     }
 
-    async exec(message) {
+    async exec(message) {/*
 
         if(!message.guild) return;
 
@@ -21,7 +20,7 @@ class BlockerListener extends Listener {
 
             await message.delete()
 
-            let logChannel = this.client.channels.get('656189395132481547')
+            let logChannel = await this.client.channels.get('656189395132481547')
 
             await logChannel.send(new Discord.RichEmbed()
             
@@ -34,7 +33,7 @@ class BlockerListener extends Listener {
 
             message.member.setMute(true)
 
-        }
+        }*/
         
     }
 }

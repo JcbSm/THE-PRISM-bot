@@ -17,10 +17,10 @@ class AnyoneCommand extends Command {
 
     exec(message) {
 
-        if(message.author.id !== 227848397447626752) return message.reply("Only our true leader can use this command...")
+        if(message.author.id !== this.client.ownerID) return message.reply("Only our true leader can use this command...")
 
         //Filter COllection to remove bot
-        let membersFiltered = message.guild.members.filter(tag => tag.id !== this.client.user.id) 
+        let membersFiltered = message.guild.members.cache.filter(tag => tag.id !== this.client.user.id) 
 
         //Select random member
         let randomMember = membersFiltered.random()

@@ -1,11 +1,10 @@
 const { Listener } = require('discord-akairo');
-const Discord = require('discord.js')
 
 class PrivateCallLeaveListener extends Listener {
     constructor() {
         super('privateCallLeave', {
             emitter: 'client',
-            eventName: 'voiceStateUpdate'
+            event: 'voiceStateUpdate'
         });
     }
 
@@ -16,7 +15,7 @@ class PrivateCallLeaveListener extends Listener {
             if(oldMember.guild.id === '447504770719154192' || oldMember.guild.id === '569556194612740115') {
 
                 const guild = oldMember.guild
-                const pChannels = await guild.channels.filter(c => c.type === 'voice' && c.name.startsWith('🔒'))
+                const pChannels = await guild.channels.cache.filter(c => c.type === 'voice' && c.name.startsWith('🔒'))
 
                 //console.log(pChannels.map(m => m.id))
 

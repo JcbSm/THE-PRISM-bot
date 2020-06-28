@@ -1,29 +1,22 @@
 const { Listener } = require('discord-akairo');
-const Discord = require('discord.js')
-const moment = require('moment')
-const color = require('../../datafiles/colors.json')
-const Color = require('color')
+const config = require('../../config');
+const { rgb } = require('../../functions');
 
 class GuildUpdateListener extends Listener {
     constructor() {
         super('guildUpdate', {
             emitter: 'client',
-            eventName: 'guildUpdate'
+            event: 'guildUpdate'
         })
     }
     
     async exec(oldGuild, newGuild) {
-
+try{
         const guild = oldGuild;
-        const log = this.client.channels.get('669653850902233098');
-        const time = moment(Date.now()).format('DD MMM YYYY, HH:mm')
+        const log = await this.client.channels.fetch(config.prism.guild.channelIDs.log);
         
         if(!guild) return;
-        if(guild.id !== '447504770719154192') return;
-
-        function rgb(inputColor) {
-            return Color(inputColor).rgbNumber()
-        }
+        if(guild.id !== config.prism.guild.id) return;
 
         const fetchedLogs = await guild.fetchAuditLogs( {
             limit: 1,
@@ -42,7 +35,7 @@ class GuildUpdateListener extends Listener {
                 title: null,
                 description: `**Guild updated**`,
                 url: null,
-                color: rgb(color.purple),
+                color: rgb(config.colors.purple),
                 timestamp: new Date(),
                 tumbnail: null,
                 image: null,
@@ -101,6 +94,7 @@ class GuildUpdateListener extends Listener {
             }})
         }catch(error){console.log(error)}
         }
+    }catch(e){console.log(e)}
     }
 }
 

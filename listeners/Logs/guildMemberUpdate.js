@@ -1,29 +1,23 @@
 const { Listener } = require('discord-akairo');
-const Discord = require('discord.js')
-const moment = require('moment')
-const color = require('../../datafiles/colors.json')
-const Color = require('color')
+const config = require('../../config');
+const { rgb } = require('../../functions');
 
 class MemberUpdateListener extends Listener {
     constructor() {
         super('guildMemberUpdate', {
             emitter: 'client',
-            eventName: 'guildMemberUpdate'
+            event: 'guildMemberUpdate'
         })
     }
     
     async exec(oldMember, newMember) {
-
-        const log = this.client.channels.get('669653850902233098');
-        const time = moment(Date.now()).format('DD MMM YYYY, HH:mm')
-        const guild = oldMember.guild
+try{
+        const log = await this.client.channels.fetch(config.prism.guild.channelIDs.log);
+        const guild = oldMember.guild;
 
         if(!guild) return;
-        if(guild.id !== '447504770719154192') return;
+        if(guild.id !== config.prism.guild.id) return;
 
-        function rgb(inputColor) {
-            return Color(inputColor).rgbNumber()
-        }
 
         //Change Nickname
         if(oldMember.nickname !== newMember.nickname) {
@@ -48,7 +42,7 @@ class MemberUpdateListener extends Listener {
                 title: null,
                 description: `**${oldMember} changed their nickname**`,
                 url: null,
-                color: rgb(color.purple),
+                color: rgb(config.colors.purple),
                 fields: [
                     {
                         name: '**Before:**',
@@ -78,10 +72,10 @@ class MemberUpdateListener extends Listener {
         //Roles updated
         if(oldMember.roles !== newMember.roles) {
 
-            if(oldMember.roles.keyArray().length < newMember.roles.keyArray().length) {
+            if(oldMember.roles.cache.keyArray().length < newMember.roles.cache.keyArray().length) {
 
-                const addedRoleID = newMember.roles.keyArray().find(r => !oldMember.roles.keyArray().includes(r));
-                const addedRole = guild.roles.get(addedRoleID)
+                const addedRoleID = newMember.roles.cache.keyArray().find(r => !oldMember.roles.cache.keyArray().includes(r));
+                const addedRole = await guild.roles.fetch(addedRoleID);
 
                 await log.send({embed: {
                 
@@ -89,7 +83,7 @@ class MemberUpdateListener extends Listener {
                     title: null,
                     description: `**Given ${addedRole} to ${oldMember}**`,
                     url: null,
-                    color: rgb(color.purple),
+                    color: rgb(config.colors.purple),
                     fields: [],
                     timestamp: new Date(),
                     tumbnail: null,
@@ -107,10 +101,10 @@ class MemberUpdateListener extends Listener {
                 }})
             }
 
-            if(oldMember.roles.keyArray().length > newMember.roles.keyArray().length) {
+            if(oldMember.roles.cache.keyArray().length > newMember.roles.cache.keyArray().length) {
 
-                const removedRoleID = oldMember.roles.keyArray().find(r => !newMember.roles.keyArray().includes(r));
-                const removedRole = guild.roles.get(removedRoleID)
+                const removedRoleID = oldMember.roles.cache.keyArray().find(r => !newMember.roles.cache.keyArray().includes(r));
+                const removedRole = await guild.roles.fetch(removedRoleID);
 
                 await log.send({embed: {
                 
@@ -118,7 +112,7 @@ class MemberUpdateListener extends Listener {
                     title: null,
                     description: `**Removed ${removedRole} from ${oldMember}**`,
                     url: null,
-                    color: rgb(color.purple),
+                    color: rgb(config.colors.purple),
                     fields: [],
                     timestamp: new Date(),
                     tumbnail: null,
@@ -136,6 +130,7 @@ class MemberUpdateListener extends Listener {
                 }})
             }
         }
+}catch(e){console.log(e)}
     }
 }
 

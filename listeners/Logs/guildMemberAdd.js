@@ -1,29 +1,22 @@
 const { Listener } = require('discord-akairo');
-const Discord = require('discord.js')
-const moment = require('moment')
-const color = require('../../datafiles/colors.json')
-const Color = require('color')
+const config = require('../../config');
+const { rgb } = require('../../functions');
 
 class GuildMemberAddListener extends Listener {
     constructor() {
         super('guildMemberAdd', {
             emitter: 'client',
-            eventName: 'guildMemberAdd'
+            event: 'guildMemberAdd',
+            channel: 'guild'
         })
     }
     
     async exec(member) {
 
         const guild = member.guild;
-        const log = this.client.channels.get('669653850902233098');
-        const time = moment(Date.now()).format('DD MMM YYYY, HH:mm')
+        const log = await this.client.channels.fetch(config.prism.guild.channelIDs.log);
         
-        if(!guild) return;
-        if(guild.id !== '447504770719154192') return;
-
-        function rgb(inputColor) {
-            return Color(inputColor).rgbNumber()
-        }
+        if(guild.id !== config.prism.guild.id) return;
 
         await log.send({embed: {
             

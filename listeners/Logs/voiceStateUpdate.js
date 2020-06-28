@@ -1,56 +1,54 @@
 const { Listener } = require('discord-akairo');
-const Discord = require('discord.js')
-const color = require('../../datafiles/colors.json')
-const bans = require('../../datafiles/softBans')
-const moment = require('moment')
-const Color = require('color')
+const {colors, prism} = require('../../config');
+const { rgb } = require('../../functions');
 
 class voiceStateUpdateListener extends Listener {
     constructor() {
         super('voiceStateUpdate', {
             emitter: 'client',
-            eventName: 'voiceStateUpdate'
+            event: 'voiceStateUpdate'
         });
     }
 
-    async exec(oldMember, newMember) {
+    async exec(oldState, newState) {
         try{
-        const guild = oldMember.guild
-        const log = this.client.channels.get('669653850902233098');
-        const time = moment(Date.now()).format('DD MMM YYYY, HH:mm')
+        const guild = oldState.guild
+        const log = await this.client.channels.fetch(prism.guild.channelIDs.log);
+
         
         if(!guild) return;
-        if(guild.id !== '447504770719154192') return;
+        if(guild.id !== prism.guild.id) return;
         
-        function rgb(inputColor) {
-            return Color(inputColor).rgbNumber()
-        }
+        //console.log(oldState.channel.name)
 
         //Softban
-        if(newMember.voiceChannel) {
+        
+        const bans = prism.guild.softBans
 
-            if(bans.map(u => u.id).includes(newMember.id)) {
+        if(newState.channel) {
 
-                await newMember.setMute(true)
+            if(bans.map(u => u.id).includes(newState.id)) {
+
+                await newState.member.setMute(true)
                 
             }
         }
 
-        if(oldMember.voiceChannel == newMember.voiceChannel) return;
+        if(oldState.channel == newState.channel) return;
 
-        if(!oldMember.voiceChannel) {
+        if(!oldState.channel) {
 
             await log.send({embed: {
             
                 type: 'rich',
                 title: null,
-                description: `${newMember} joined a voice channel.`,
+                description: `${newState.member} joined a voice channel.`,
                 url: null,
-                color: rgb(color.good),
+                color: rgb(colors.good),
                 fields: [
                     {
                         name: 'Channel',
-                        value: `**${newMember.voiceChannel}**`
+                        value: `**${newState.channel}**`
                     }
                 ],
                 timestamp: new Date(),
@@ -58,29 +56,29 @@ class voiceStateUpdateListener extends Listener {
                 image: null,
                 video: null,
                 author: {
-                    name: newMember.user.tag,
-                    icon_url: newMember.user.avatarURL
+                    name: newState.member.user.tag,
+                    icon_url: newState.member.user.avatarURL
                     },
                 provider: null,
                 footer: {
-                text: `ID: ${newMember.user.id}`
+                text: `ID: ${newState.member.user.id}`
                 }
     
             }})    
 
-        } else if(!newMember.voiceChannel) {
+        } else if(!newState.channel) {
 
             await log.send({embed: {
             
                 type: 'rich',
                 title: null,
-                description: `${newMember} left a voice channel.`,
+                description: `${newState.member} left a voice channel.`,
                 url: null,
-                color: rgb(color.bad),
+                color: rgb(colors.bad),
                 fields: [
                     {
                         name: 'Channel',
-                        value: `**${oldMember.voiceChannel}**`
+                        value: `**${oldState.channel}**`
                     }
                 ],
                 timestamp: new Date(),
@@ -88,12 +86,12 @@ class voiceStateUpdateListener extends Listener {
                 image: null,
                 video: null,
                 author: {
-                    name: newMember.user.tag,
-                    icon_url: newMember.user.avatarURL
+                    name: newState.member.user.tag,
+                    icon_url: newState.member.user.avatarURL
                     },
                 provider: null,
                 footer: {
-                text: `ID: ${newMember.user.id}`
+                text: `ID: ${newState.member.user.id}`
                 }
     
             }})  
@@ -104,17 +102,17 @@ class voiceStateUpdateListener extends Listener {
             
                 type: 'rich',
                 title: null,
-                description: `${newMember} moved channels.`,
+                description: `${newState.member} moved channels.`,
                 url: null,
-                color: rgb(color.purple),
+                color: rgb(colors.purple),
                 fields: [
                     {
                         name: 'Old Channel',
-                        value: `**${oldMember.voiceChannel}**`
+                        value: `**${oldState.channel}**`
                     },
                     {
                         name: 'New Channel',
-                        value: `**${newMember.voiceChannel}**`
+                        value: `**${newState.channel}**`
                     }
                 ],
                 timestamp: new Date(),
@@ -122,12 +120,12 @@ class voiceStateUpdateListener extends Listener {
                 image: null,
                 video: null,
                 author: {
-                    name: newMember.user.tag,
-                    icon_url: newMember.user.avatarURL
+                    name: newState.member.user.tag,
+                    icon_url: newState.member.user.avatarURL
                     },
                 provider: null,
                 footer: {
-                text: `ID: ${newMember.user.id}`
+                text: `ID: ${newState.member.user.id}`
                 }
     
             }})

@@ -4,7 +4,7 @@ class AutoResponderListener extends Listener {
     constructor() {
         super('autoResponder', {
             emitter: 'client',
-            eventName: 'message'
+            event: 'message'
 
         })
     }

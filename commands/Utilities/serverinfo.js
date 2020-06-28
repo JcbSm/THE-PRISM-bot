@@ -1,7 +1,8 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js');
+const Discord = require('discord.js')
 const moment = require('moment')
-const color = require('../../datafiles/colors.json')
+const { colors } = require('../../config');
+const { rgb } = require('../../functions');
 
 class ServerInfoCommand extends Command {
     constructor() {
@@ -18,10 +19,12 @@ class ServerInfoCommand extends Command {
 
     async exec(message) {
 
-        const guildInfo = await message.guild.fetchMembers()
+        try{
+
+        const guildInfo = await message.guild
 
         //Calculating Member numbers.
-        const guildMembers = guildInfo.members
+        const guildMembers = await guildInfo.members.fetch()
 
         const membersSize = guildMembers.size;
         const botsSize = guildMembers.filter(b => b.user.bot).size
@@ -88,7 +91,7 @@ class ServerInfoCommand extends Command {
         const guildRegion = message.guild.region
 
         //Channels
-        const guildChannels = guildInfo.channels 
+        const guildChannels = guildInfo.channels.cache 
 
         const textChannelSize = guildChannels.filter(c => c.type === 'text').size
         const voiceChannelSize = guildChannels.filter(c => c.type === 'voice').size
@@ -109,9 +112,9 @@ class ServerInfoCommand extends Command {
             }
        
         //Embed
-        message.channel.send(new Discord.RichEmbed()
+        message.channel.send(new Discord.MessageEmbed()
             .setAuthor(message.guild.name, message.guild.iconURL)
-            .setColor(color.purple)
+            .setColor(colors.purple)
             .setFooter(`ID: ${message.guild.id} | Created: ${guildCreatedDate}`)
             .addField('Owner', guildOwner, true)
             .addField('Region', guildRegion, true)
@@ -127,6 +130,7 @@ class ServerInfoCommand extends Command {
             .addField('Verified', isVerified, true)
             .addField('Created', timeSpent)
         )
+    }catch(e){console.log(e)}
     }
 }
 

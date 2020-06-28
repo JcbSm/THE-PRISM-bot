@@ -61,8 +61,8 @@ class SetDonationCommand extends Command {
 
         const donationText = `╔════╣ 2020 Donations Board ╠════╗\n║ ${donationBar} ║\n╚══════════╣ ${donationValue}//500 ╠══════════╝`
 
-        const donationChannel = this.client.channels.get('661310749947461691');
-        const donationMessage = await donationChannel.fetchMessage('661315838069964823')
+        const donationChannel = (await this.client.channels.fetch('661310749947461691'));
+        const donationMessage = (await donationChannel.messages.fetch('661315838069964823'))
 
         donationMessage.edit(`\`\`\`${donationText}\n\n       £${moneyValue} Donated so far\`\`\``)
 

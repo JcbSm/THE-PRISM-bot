@@ -26,31 +26,34 @@ class MuteCommand extends Command {
         });
     }
 
-    exec(message, args) {
-        if(!message.guild.roles.find(role => role.name.toLowerCase() === 'muted')) {
-            message.guild.createRole({
-                name: 'Muted',
-                color: '#000001',
-                permissions: 'VIEW_CHANNEL'
-            })
+    async exec(message, args) {
+        
+        try{
+            if(!message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted')) {
+                await message.guild.roles.create({ data: {
+                    name: 'Muted',
+                    color: '#000001',
+                    permissions: 'VIEW_CHANNEL'
+                }})
 
-            return message.reply('No muted role found, created a new one. Try again.')
-        }
-
-        let mutedRole = message.guild.roles.find(role => role.name.toLowerCase() === 'muted')
-
-        //Checks for target
-        if(!args.member) {
-            return message.reply('No user found.');
-        }
-
-        //Mutes user
-        return args.member.addRole(mutedRole).then(() => {
-            if(!args.reason){
-                return message.channel.send(`***${args.member.user.tag} has been muted.***`)
+                return message.reply('No muted role found, created a new one. Try again.')
             }
-            return message.channel.send(`***${args.member.user.tag} has been muted for ${args.reason}.***`)
-        })
+
+            let mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted')
+
+            //Checks for target
+            if(!args.member) {
+                return message.reply('No user found.');
+            }
+
+            //Mutes user
+            return args.member.roles.add(mutedRole).then(() => {
+                if(!args.reason){
+                    return message.channel.send(`***${args.member.user.tag} has been muted.***`)
+                }
+                return message.channel.send(`***${args.member.user.tag} has been muted for ${args.reason}.***`)
+            })
+        } catch(e) {console.log(e)}
     }
 }
 module.exports = MuteCommand;

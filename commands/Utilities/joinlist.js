@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js');
-const color = require('../../datafiles/colors.json');
+const { colors } = require('../../config');
+const { rgb } = require('../../functions');
 
 class JoinListCommand extends Command {
     constructor() {
@@ -21,8 +21,8 @@ class JoinListCommand extends Command {
         })
     }
     async exec(message, args) {
-        
-        const memberListWithBots = (await message.guild.fetchMembers()).members;
+        try{
+        const memberListWithBots = (await message.guild.members.fetch());
         const memberList = memberListWithBots.filter(b => !b.user.bot)
         const sortedMemberlist = memberList.sort((a, b) => b.joinedTimestamp - a.joinedTimestamp)
 
@@ -34,22 +34,34 @@ class JoinListCommand extends Command {
 
         let listPaged = list.slice(page, pageEnd)
 
-        //message.channel.send(listPaged.map(m => `**${list.indexOf(m)+1}.** ${m}`))
 
-        try{
-        let joinRankEmbed = new Discord.RichEmbed()
+            let footerText;
 
-            .setColor(color.purple)
-            .setThumbnail(message.guild.iconURL)
-            .addField(`${message.guild.name}'s join list`, listPaged.map(m => `**${list.indexOf(m)+1}.** ${m}`))
             if(list.length < pageEnd){
-                joinRankEmbed.setFooter((`Page ${args.page} | ${page+1} - ${list.length} of ${list.length}`))
+                footerText = `Page ${args.page} | ${page+1} - ${list.length} of ${list.length}`
             } else {
-                joinRankEmbed.setFooter(`Page ${args.page} | ${page+1} - ${pageEnd} of ${list.length}`)
+                footerText = `Page ${args.page} | ${page+1} - ${pageEnd} of ${list.length}`
             }
 
-        message.channel.send(joinRankEmbed)}
-        catch(err) {
+            message.channel.send({ embed: {
+
+                type: 'rich',
+                color: rgb(colors.purple),
+                thumbnail: {
+                    url: message.guild.iconURL()
+                },
+                fields: [
+                    {
+                        name: `${message.guild.name}'s join list`,
+                        value: listPaged.map(m => `**${list.indexOf(m)+1}.** ${m}`)
+                    }
+                ],
+                footer: {
+                    text: footerText
+                }
+
+            }})
+    }   catch(err) {
             message.reply('No more members to view.')
         }
         

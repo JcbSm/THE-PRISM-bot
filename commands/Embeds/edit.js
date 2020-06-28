@@ -1,6 +1,5 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js')
-const Color = require('color')
+const { rgb } = require('../../functions')
 
 class EditEmbedCommand extends Command {
     constructor() {
@@ -38,7 +37,7 @@ class EditEmbedCommand extends Command {
     async exec(message, args) {
 
         const channel = args.channel
-        const targetMessage = await channel.fetchMessage(args.messageID)
+        const targetMessage = await channel.messages.fetch(args.messageID)
 
         let embed = targetMessage.embeds[0]
 
@@ -68,8 +67,7 @@ class EditEmbedCommand extends Command {
 
                 try{
 
-                    let color = Color(args.arg1)
-
+                    let color = rgb(args.arg1)
 
                     targetMessage.edit({embed: {
 
@@ -77,7 +75,7 @@ class EditEmbedCommand extends Command {
                         title: embed.title,
                         description: embed.description,
                         url: embed.url,
-                        color: color.rgbNumber(),
+                        color: color,
                         fields: null,
                         timestamp: embed.timestamp,
                         thumbnail: embedThumbnail,
@@ -156,9 +154,6 @@ class EditEmbedCommand extends Command {
 
                 try{
 
-                    let thumbnailURL = args.arg1
-                    console.log(thumbnailURL)
-
                     targetMessage.edit({embed: {
     
                         type: 'rich',
@@ -217,37 +212,6 @@ class EditEmbedCommand extends Command {
                     console.log(error)
                 }
             break;
-
-            case 'video':
-
-                try{
-                    
-                    targetMessage.edit({embed: {
-
-                        type: 'rich',
-                        title: embed.title,
-                        description: embed.description,
-                        url: embed.url,
-                        color: embed.color,
-                        fields: null,
-                        timestamp: embed.timestamp,
-                        thumbnail: embedThumbnail,
-                        image: embedImage,
-                        video: {
-                            url: args.arg1
-                        },
-                        author: embedAuthor,
-                        provider: embed.provider,
-                        footer: embed.footer
-
-                    }})
-                    .then(message.react('👌'))
-                    
-                } catch(error) {
-                    message.reply('Something went wrong, the command should look like this \`embed-edit <channel> <message ID> video <video URL>\`')
-                    console.log(error)
-                }
-            break;
             
             case 'footer':
 
@@ -267,7 +231,10 @@ class EditEmbedCommand extends Command {
                         video: embedVideo,
                         author: embedAuthor,
                         provider: embed.provider,
-                        footer: args.arg1
+                        footer: {
+                            
+                            text: args.arg1
+                        }
 
                     }})
                     .then(message.react('👌'))

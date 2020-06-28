@@ -1,28 +1,28 @@
 const { Listener } = require('discord-akairo');
-const Discord = require('discord.js')
-const color = require('../../datafiles/colors.json')
+const config = require('../../config');
+const { rgb } = require('../../functions')
 
 class PinReactionListener extends Listener {
     constructor() {
         super('pinReact', {
             emitter: 'client',
-            eventName: 'messageReactionAdd'
+            event: 'messageReactionAdd'
         });
     }
 
     async exec(messageReaction, user) {
-        
-        const pinChannel = this.client.channels.get('637349185997373470')
+try{        
+        const pinChannel = await this.client.channels.fetch(config.prism.guild.channelIDs.pins);
 
         const message = messageReaction.message
 
-        if(message.guild.id !== '447504770719154192') return;
+        if(message.guild.id !== config.prism.guild.id) return;
 
         if(message.channel.id === pinChannel.id) return;
 
-        if(messageReaction.emoji.name === '📌' && messageReaction.count == 5) {
+        if(messageReaction.emoji.name === '📌' && messageReaction.count == 1) {
 
-            if((await messageReaction.fetchUsers()).map(u => u.id).includes(this.client.user.id)) {
+            if((await messageReaction.users.fetch()).map(u => u.id).includes(this.client.user.id)) {
                 return console.log('I have already pinned')
             } else {
                 message.react('📌')
@@ -43,9 +43,9 @@ class PinReactionListener extends Listener {
 
                             type: 'rich',
                             title: null,
-                            description: `${message.content}\n\n${message.channel} [\`Jump\`](${message.url})` + '\n' + attachmentURL,
+                            description: `${message.content}\n\n${message.channel} ${message.member} [\`Jump\`](${message.url})` + '\n' + attachmentURL,
                             url: null,
-                            color: 6889949,
+                            color: rgb(config.colors.purple),
                             fields: [],
                             timestamp: message.createdAt,
                             tumbnail: null,
@@ -72,6 +72,7 @@ class PinReactionListener extends Listener {
                     
             }
         }
+    }catch(e){console.log(e)}
     }
 }
 

@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js');
 
 class ClearCommand extends Command {
     constructor() {

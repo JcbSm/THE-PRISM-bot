@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js');
-const color = require('../../datafiles/colors.json')
+const { colors } = require('../../config')
+const { rgb } = require('../../functions')
 
 class ReportCommand extends Command {
     constructor() {
@@ -26,12 +26,9 @@ class ReportCommand extends Command {
         })
     }
     
-    exec(message, args) {
+    async exec(message, args) {
 
-        //Check for reports channel
-        if(!message.guild.channels.find(ch => ch.name === 'reports')) {
-            return message.reply('No report channel found.')
-        }
+        const channel = await this.client.channels.fetch(config.prism.guild.channels.reports.id)
 
         //Check for user
         if(!args.member) {
@@ -43,22 +40,40 @@ class ReportCommand extends Command {
             return message.reply('Please give a reason for your report.')
         }
 
-        //Report
+        channel.send({ embed: {
 
-        let reportEmbed = new Discord.RichEmbed()
+            type: 'rich',
+            title: 'Report',
+            author: {
+                name: message.author.tag,
+                icon_url: message.author.avatarURL()
+            },
+            timestamp: new Date(),
+            color: rgb(colors.purple),
+            fields: [
+                {
+                    name: 'Reported User',
+                    value: args.member,
+                    inline: true
+                },
+                {
+                    name: 'Reported By',
+                    value: message.member,
+                    inline: true
+                },
+                {
+                    name: 'Channel',
+                    value: message.channel,
+                    inline: true
+                },
+                {
+                    name: 'Reason',
+                    value: args.reason
+                }
+            ]
+        }})
 
-            .setTitle('Report')
-            .setAuthor(message.author.tag, message.author.avatarURL)
-            .setTimestamp()
-            .setColor(color.purple)
-            .addField('Reported User', args.member, true)
-            .addField('Reported by', message.author, true)
-            .addField('Channel', message.channel, true)
-            .addField('Reason', args.reason)
-        
-        message.guild.channels.find(ch => ch.name === 'reports').send(reportEmbed).then(
-            message.reply("Done.")
-        )
+        message.reply("Done, thankyou for the report.")
     }
 }
 

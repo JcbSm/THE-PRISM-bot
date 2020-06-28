@@ -1,23 +1,22 @@
 const { Listener } = require('discord-akairo');
-const prismRoles = require('../../datafiles/roles')
 
 class SpeakerListener extends Listener {
     constructor() {
         super('speaker', {
             emitter: 'client',
-            eventName: 'guildMemberUpdate'
+            event: 'guildMemberUpdate'
         });
     }
 
     exec(oldMember, newMember) {
 
-        if(!oldMember.roles.has('627829247339266048') && newMember.roles.has('627829247339266048')) {
+        if(!oldMember.roles.cache.has('627829247339266048') && newMember.roles.cache.has('627829247339266048')) {
 
             if(!newMember.voiceChannel) return;
 
             let voiceMembers = newMember.voiceChannel.members
 
-            let voiceMembersFiltered = voiceMembers.filter(u => !u.roles.has('627829247339266048'))
+            let voiceMembersFiltered = voiceMembers.filter(u => !u.roles.cache.has('627829247339266048'))
 
             for(let i = 0; i < voiceMembersFiltered.keyArray().length; i++) {
                 try {
@@ -28,7 +27,7 @@ class SpeakerListener extends Listener {
     
             }
             
-        } else if(oldMember.roles.has('627829247339266048') && !newMember.roles.has('627829247339266048')) {
+        } else if(oldMember.roles.cache.has('627829247339266048') && !newMember.roles.cache.has('627829247339266048')) {
 
             if(!newMember.voiceChannel) return;
 

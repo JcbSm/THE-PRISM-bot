@@ -1,19 +1,20 @@
 const { Listener } = require('discord-akairo');
+const config = require('../../config');
 
 class CountingListener extends Listener {
     constructor() {
         super('counting', {
             emitter: 'client',
-            eventName: 'message'
+            event: 'message'
 
         })
     }
 
     async exec(message) {
 
-        if(message.channel.id !== '583742663627505669') return;
+        if(message.channel.id !== config.prism.guild.channelsIDs.counting) return;
 
-        const lastCount = (await message.channel.fetchMessages( {limit:2} )).last()
+        const lastCount = (await message.channel.messages.fetch( {limit:2} )).last()
 
         let valid;
 
@@ -21,7 +22,7 @@ class CountingListener extends Listener {
             valid = true
         }
 
-        if(Number(message.content) !== Number(lastCount)+1 || message.author.id === lastCount.author.id || !valid) return message.delete();
+        if(Number(message.content) !== Number(lastCount.content)+1 || message.author.id === lastCount.author.id || !valid) return message.delete();
     }
 }
 

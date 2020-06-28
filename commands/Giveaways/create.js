@@ -1,7 +1,6 @@
 const { Command } = require('discord-akairo')
-const color = require('../../datafiles/colors.json')
-const Discord = require('discord.js')
-const moment = require('moment')
+const { colors } = require('../../config')
+const { rgb } = require('../../functions')
 
 class GiveawayCreateCommand extends Command {
     constructor() {
@@ -24,14 +23,21 @@ class GiveawayCreateCommand extends Command {
     async exec(message, args) {
 
         if(!args.prize) return message.reply('Please enter a prize')
-
-        let giveawayEmbed = new Discord.RichEmbed()
-            .setColor(color.purple)
-            .setTitle(`[** ${message.guild.name} GIVEAWAY **]`)
-            .setDescription(`__**PRIZE**__\n\`\`\`${args.prize}\`\`\``)
-            .setFooter(new moment(Date.now()).format('DD MMM YYYY, HH:mm') + ' UCT')
         
-        let giveawayMessage = await message.channel.send(giveawayEmbed)
+        let giveawayMessage = await message.channel.send({ embed: {
+
+            type: 'rich',
+            title: `[**GIVEAWAY** ]`,
+            description: `__**PRIZE**__ \n\n\`\`\`${args.prize}\`\`\`\n`,
+            fields: [
+                {
+                    name: 'To Enter:',
+                    value: 'React to this message with 🎁 to enter!'
+                }
+            ],
+            color: rgb(colors.purple),
+            timestamp: new Date()
+        }})
 
         await message.delete()
         await giveawayMessage.react('🎁')

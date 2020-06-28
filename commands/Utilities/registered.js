@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js');
-const color = require('../../datafiles/colors.json');
+const { colors } = require('../../config');
+const { rgb } = require('../../functions');
 
 class OldestCommand extends Command {
     constructor() {
@@ -22,10 +22,9 @@ class OldestCommand extends Command {
     }
     async exec(message, args) {
         
-        const memberListWithBots = (await message.guild.fetchMembers()).members;
+        const memberListWithBots = (await message.guild.members.fetch());
         const memberList = memberListWithBots.filter(b => !b.user.bot)
-        const sortedMemberlist = memberList.sort((a, b) => b.user.createdAt - a.user.createdAt)
-
+        const sortedMemberlist = memberList.sort((a, b) => b.user.createdTimestamp - a.user.createdTimestamp)
 
         let page = (args.page-1)*10
         let pageEnd = args.page*10
@@ -34,23 +33,36 @@ class OldestCommand extends Command {
 
         let listPaged = list.slice(page, pageEnd)
 
-        //message.channel.send(listPaged.map(m => `**${list.indexOf(m)+1}.** ${m}`))
-
         try{
-        let registerRankEmbed = new Discord.RichEmbed()
 
-            .setColor(color.purple)
-            .setThumbnail(message.guild.iconURL)
-            .addField(`${message.guild.name}'s join list`, listPaged.map(m => `**${list.indexOf(m)+1}.** ${m}`))
+            let footerText;
+
             if(list.length < pageEnd){
-                registerRankEmbed.setFooter((`Page ${args.page} | ${page+1} - ${list.length} of ${list.length}`))
+                footerText = `Page ${args.page} | ${page+1} - ${list.length} of ${list.length}`
             } else {
-                registerRankEmbed.setFooter(`Page ${args.page} | ${page+1} - ${pageEnd} of ${list.length}`)
+                footerText = `Page ${args.page} | ${page+1} - ${pageEnd} of ${list.length}`
             }
 
-        message.channel.send(registerRankEmbed)}
-        catch(err) {
-            console.log(err)
+            message.channel.send({ embed: {
+
+                type: 'rich',
+                color: rgb(colors.purple),
+                thumbnail: {
+                    url: message.guild.iconURL()
+                },
+                fields: [
+                    {
+                        name: `${message.guild.name}'s age list`,
+                        value: listPaged.map(m => `**${list.indexOf(m)+1}.** ${m}`)
+                    }
+                ],
+                footer: {
+                    text: footerText
+                }
+
+            }});
+
+    }   catch(err) {
             message.reply('No more members to view.')
         }
         

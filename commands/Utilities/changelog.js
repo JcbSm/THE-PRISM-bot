@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js')
-const color = require('../../datafiles/colors.json')
-let changelogLink = 'https://github.com/JcbSm/THE-PRISM-bot/commits/master';
+const changelogLink = 'https://github.com/JcbSm/THE-PRISM-bot/commits/master';
+const { colors } = require('../../config');
+const { rgb } = require('../../functions')
 
 class ChangeCommand extends Command {
     constructor() {
@@ -16,19 +16,22 @@ class ChangeCommand extends Command {
     }
 
     exec(message) {
-
-        let string = 'here';
-        let link = string.link(changelogLink);
         
+        message.channel.send({ embed: {
 
-        let changelogEmbed = new Discord.RichEmbed()
-
-            .setColor(color.purple)
-            .setAuthor(this.client.user.username, this.client.user.avatarURL)
-            .addField(`Changelog`, `You can see the latest changes to\n${this.client.user.username} bot ***[here](${changelogLink} 'changelog')***`)
-
-        
-        message.channel.send(changelogEmbed)
+            type: 'rich',
+            color: rgb(colors.purple),
+            author: {
+                name: this.client.user.username,
+                icon_url: this.client.user.avatarURL()
+            },
+            fields: [
+                {
+                    name: 'Changelog',
+                    value: `[GitHub Rep](${changelogLink})`
+                }
+            ]
+        }})
         
     }
 }

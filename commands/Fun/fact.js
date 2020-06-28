@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const randomFact = require('../../datafiles/facts.js')
+const { facts } = require('../../config');
 
 class FactCommand extends Command {
     constructor() {
@@ -15,9 +15,9 @@ class FactCommand extends Command {
 
     exec(message) {
 
-        let result = Math.floor(Math.random()* randomFact.length);
+        let result = Math.floor(Math.random()* facts.length);
         
-        message.reply(randomFact[result])
+        message.reply(facts[result])
     }
 }
 

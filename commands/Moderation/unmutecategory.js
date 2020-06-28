@@ -23,24 +23,24 @@ class UnmuteCategoryCommand extends Command {
 
     exec(message, args) {
 
-        if(!message.guild.roles.find(role => role.name.toLowerCase() === 'muted')) {
-            message.guild.createRole({
+        if(!message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted')) {
+            message.guild.createRole({ data: {
                 name: 'Muted',
                 color: '#000001',
                 permissions: 'VIEW_CHANNEL'
-            })
+            }})
 
             return message.reply('No muted role found, created a new one. Try again.')
         }
 
-        let mutedRole = message.guild.roles.find(role => role.name.toLowerCase() === 'muted')
+        let mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted')
 
         if(!args.category) {
-            message.channel.parent.overwritePermissions(mutedRole, {SEND_MESSAGES: true});
+            message.channel.parent.createOverwrite(mutedRole, {SEND_MESSAGES: true});
             message.channel.send(`***Updated permissions for Muted in \'${message.channel.parent}\'***`)
         } else {
             let category = message.guild.channels.find(channel => channel.name.toLowerCase() === args.category.toLowerCase())
-            category.overwritePermissions(mutedRole, {SEND_MESSAGES: true})
+            category.createOverwrite(mutedRole, {SEND_MESSAGES: true})
             message.channel.send(`***Updated permissions for Muted in ${category}***`)
         }
     }

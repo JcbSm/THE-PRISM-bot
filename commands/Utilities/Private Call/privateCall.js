@@ -1,6 +1,4 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js');
-const color = require('../../../datafiles/colors.json');
 
 class PrivateCallCommand extends Command {
     constructor() {
@@ -10,7 +8,7 @@ class PrivateCallCommand extends Command {
                 content: 'Create a temporary private voice channel',
                 usage: 'privatecall <user limit> <name>'
             },
-            category: 'utilities',
+            category: 'private calls',
             args: [
                 {
                     id: 'num',
@@ -32,7 +30,7 @@ class PrivateCallCommand extends Command {
         if(message.guild.id === '447504770719154192' || message.guild.id === '569556194612740115') {
 
             const guild = message.guild
-            const everyoneRole = message.guild.roles.find(r => r.name === '@everyone')
+            const everyoneRole = message.guild.roles.cache.find(r => r.name === '@everyone')
 
             if(args.num > 99) return message.reply('Max user count is 99')
 
@@ -48,16 +46,16 @@ class PrivateCallCommand extends Command {
                 }
             }
 
-            const voiceChannel = await guild.createChannel(name, {type: 'voice', userLimit: args.num})
-            await voiceChannel.overwritePermissions(message.author.id, { VIEW_CHANNEL: true })
-            await voiceChannel.overwritePermissions(this.client.user.id, { VIEW_CHANNEL: true })
-            await voiceChannel.overwritePermissions(everyoneRole, { VIEW_CHANNEL: true })
+            const voiceChannel = await guild.channels.create(name, {type: 'voice', userLimit: args.num})
+            await voiceChannel.createOverwrite(message.author.id, { VIEW_CHANNEL: true })
+            await voiceChannel.createOverwrite(this.client.user.id, { VIEW_CHANNEL: true })
+            await voiceChannel.createOverwrite(everyoneRole, { VIEW_CHANNEL: true })
             await voiceChannel.setParent('638153434096205846')
 
-            const textChannel = await guild.createChannel(name, { type: 'text'})
-            await textChannel.overwritePermissions(message.author.id, { VIEW_CHANNEL: true })
-            await textChannel.overwritePermissions(this.client.user.id, { VIEW_CHANNEL: true })
-            await textChannel.overwritePermissions(everyoneRole, { VIEW_CHANNEL: false })
+            const textChannel = await guild.channels.create(name, { type: 'text'})
+            await textChannel.createOverwrite(message.author.id, { VIEW_CHANNEL: true })
+            await textChannel.createOverwrite(this.client.user.id, { VIEW_CHANNEL: true })
+            await textChannel.createOverwrite(everyoneRole, { VIEW_CHANNEL: false })
             await textChannel.setParent('638153434096205846')
             await textChannel.setTopic(`PRIVATE CALL;${message.member};${voiceChannel.id}`)
 

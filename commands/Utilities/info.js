@@ -1,8 +1,8 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js');
+const { colors } = require('../../config');
+const packageFile = require('../../package.json');
+const { rgb } = require('../../functions');
 const moment = require('moment')
-const color = require('../../datafiles/colors.json')
-const packageFile = require('../../package.json')
 
 class InfoCommand extends Command {
     constructor() {
@@ -19,19 +19,35 @@ class InfoCommand extends Command {
     exec(message) {
 
         let createdDate = new moment(this.client.user.createdAt)
-
-        let infoEmbed = new Discord.RichEmbed()
-
-            .setTitle(`\'${this.client.user.username}\' information.`)
-            .setColor(color.purple)
-            .setFooter(`by ${packageFile.author}`)
-            .setThumbnail(this.client.user.avatarURL)
-            .addField('Version', packageFile.version, true)
-            .addField('Server count', this.client.guilds.size, true)
-            .addField('Created on', createdDate.format('DD MMM YYYY hh:mm A'), true)
-            .addField('Join us', 'https://discord.gg/Cb8QtdN')
     
-        message.channel.send(infoEmbed);
+        message.channel.send({ embed: {
+
+            type: 'rich',
+            title: `\'${this.client.user.username}\' information`,
+            color: rgb(colors.purple),
+            footer: {
+                text: `by ${packageFile.author}`
+            },
+            thumbnail: {
+                url: this.client.user.avatarURL()
+            },
+            fields: [
+                {
+                    name: 'Version',
+                    value: packageFile.version,
+                    inline: true
+                },
+                {
+                    name: 'Server Count',
+                    value: this.client.guilds.cache.size,
+                    inline: true
+                },
+                {
+                    name: 'Created on',
+                    value: createdDate.format('DD MMM YYYY hh:mm A'),
+                }
+            ]
+        }});
     }
 }
 

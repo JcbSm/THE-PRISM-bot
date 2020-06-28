@@ -15,9 +15,9 @@ class AddDonationCommand extends Command {
     }
 
     async exec(message, args) {
-
-        const donationChannel = this.client.channels.get('661310749947461691');
-        const donationMessage = await donationChannel.fetchMessage('661315838069964823')
+try{
+        const donationChannel = (await this.client.channels.fetch('661310749947461691'));
+        const donationMessage = (await donationChannel.messages.fetch('661315838069964823'));
 
         const currentValue = Number(donationMessage.content.split("\n").pop().trim().split(" ").shift().split('£').pop())
 
@@ -75,6 +75,8 @@ class AddDonationCommand extends Command {
 
 
         await message.react('👌')
+    
+}catch(e){console.log(e)}
     }
 
 }

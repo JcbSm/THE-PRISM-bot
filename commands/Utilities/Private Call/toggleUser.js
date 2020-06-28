@@ -1,6 +1,4 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js');
-const color = require('../../../datafiles/colors.json');
 
 class ToggleUserCommand extends Command {
     constructor() {
@@ -10,7 +8,7 @@ class ToggleUserCommand extends Command {
                 content: 'Allows or denies a specific user to view the channel',
                 usage: 'toggleUser <user>'
             },
-            category: 'utilities',
+            category: 'private calls',
             args: [
                 {
                     id: 'member',
@@ -29,19 +27,19 @@ class ToggleUserCommand extends Command {
 
             if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
             if(message.channel.topic.split(';').shift() === 'PRIVATE CALL') {
-                const voiceChannel = message.guild.channels.get(message.channel.topic.split(';').pop())
+                const voiceChannel = message.guild.channels.cache.get(message.channel.topic.split(';').pop())
                 const perms = voiceChannel.permissionOverwrites.filter(p => p.type === 'member')
 
                 if(perms.get(args.member.id)) {
-                    if(perms.get(args.member.id).allowed.serialize().VIEW_CHANNEL){
-                        await voiceChannel.overwritePermissions(args.member.id, { VIEW_CHANNEL: false })
+                    if(perms.get(args.member.id).allow.serialize().VIEW_CHANNEL){
+                        await voiceChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: false })
                         message.channel.send(`***${voiceChannel.name} is now invisible to ${args.member}***`)
                     } else {
-                        await voiceChannel.overwritePermissions(args.member.id, { VIEW_CHANNEL: true })
+                        await voiceChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: true })
                         message.channel.send(`***${voiceChannel.name} is now visible to ${args.member}***`)
                     }
                 } else {
-                    await voiceChannel.overwritePermissions(args.member.id, { VIEW_CHANNEL: true })
+                    await voiceChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: true })
                     message.channel.send(`***${voiceChannel.name} is now visible to ${args.member}***`)
                 }
 

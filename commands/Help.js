@@ -1,7 +1,6 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js');
-const color = require('../datafiles/colors.json')
-const config = require('../config.json')
+const { colors, prefix } = require('../config');
+const { rgb } = require('../functions');
 
 class HelpCommand extends Command {
     constructor() {
@@ -10,112 +9,100 @@ class HelpCommand extends Command {
             args: [
                 {
                     id: 'command',
-                    type: 'string'
+                    type: 'string',
+                    match: 'rest'
                 }
             ],
             description: {
                 content: 'Shows help for commands, or shows a list of commands.',
                 usage: 'help <command>'
             },
-            category: 'help'
         })
     }
     
-    exec(message, args) {
+    async exec(message, args) {
+
+        let categories = this.handler.categories.filter(c => c.id !== 'default')
+        let commands = this.handler.modules
 
         if(!args.command) {
 
-            let categories = this.handler.categories.filter(c => c.id !== 'default')
-
             let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
-    
-            let helpEmbed = new Discord.RichEmbed() 
-    
-                .setColor(color.purple)
-                .setAuthor(this.client.user.username, this.client.user.avatarURL)
-                .setThumbnail(this.client.user.avatarURL)
-                .setFooter(`Type ${config.prefix}help <command> for more information.`)
-                .addField('**Commands**', list)
             
-            message.author.send(helpEmbed)
+            message.author.send({ embed: {
 
-        } else if(args.command === 'fun'){
-
-            let categories = this.handler.categories.filter(c => c.id === 'fun')
-
-            let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
-    
-            let helpEmbed = new Discord.RichEmbed() 
-    
-                .setColor(color.purple)
-                .setAuthor(this.client.user.username, this.client.user.avatarURL)
-                .setThumbnail(this.client.user.avatarURL)
-                .setFooter(`Type ${config.prefix}help <command> for more information.`)
-                .addField('**Commands**', list)
-            
-            message.channel.send(helpEmbed)
-
-        } else if(args.command === 'moderation'){
-
-            let categories = this.handler.categories.filter(c => c.id === 'moderation')
-
-            let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
-    
-            let helpEmbed = new Discord.RichEmbed() 
-    
-                .setColor(color.purple)
-                .setAuthor(this.client.user.username, this.client.user.avatarURL)
-                .setThumbnail(this.client.user.avatarURL)
-                .setFooter(`Type ${config.prefix}help <command> for more information.`)
-                .addField('**Commands**', list)
-            
-            message.channel.send(helpEmbed)
-
-        } else if(args.command === 'utilities' || args.command === 'util'){
-
-            let categories = this.handler.categories.filter(c => c.id === 'utilities')
-
-            let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
-    
-            let helpEmbed = new Discord.RichEmbed() 
-    
-                .setColor(color.purple)
-                .setAuthor(this.client.user.username, this.client.user.avatarURL)
-                .setThumbnail(this.client.user.avatarURL)
-                .setFooter(`Type ${config.prefix}help <command> for more information.`)
-                .addField('**Commands**', list)
-            
-            message.channel.send(helpEmbed)
-            
-        } else if(args.command === 'embeds'){
-
-            let categories = this.handler.categories.filter(c => c.id === 'embeds')
-
-            let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
-    
-            let helpEmbed = new Discord.RichEmbed() 
-    
-                .setColor(color.purple)
-                .setAuthor(this.client.user.username, this.client.user.avatarURL)
-                .setThumbnail(this.client.user.avatarURL)
-                .setFooter(`Type ${config.prefix}help <command> for more information.`)
-                .addField('**Commands**', list)
-            
-            message.channel.send(helpEmbed)
-            
-        } else {
-        
-            let helpEmbed = new Discord.RichEmbed()
-
-                .setTitle(`${config.prefix} ${args.command}`.toUpperCase())
-                .setColor(color.purple)
-                .addField('Description', this.handler.modules.get(`${args.command}`).description.content)
-                .addField('Usage', config.prefix + this.handler.modules.get(`${args.command}`).description.usage)
-                if(this.handler.modules.get(`${args.command}`).aliases.length > 1){
-                    helpEmbed.addField('Aliases', this.handler.modules.get(`${args.command}`).aliases)
+                type: 'rich',
+                color: rgb(colors.purple),
+                fields: [
+                    {
+                        name: '**Commands**',
+                        value: list
+                    }
+                ],
+                thumbnail: {
+                    url: this.client.user.avatarURL()
+                },
+                author: {
+                    name: this.client.user.username,
+                    icon_url: this.client.user.avatarURL()
+                    },
+                footer: {
+                    text: `Type ${prefix}help <command> for more information.`
                 }
-            
-            message.channel.send(helpEmbed);
+            }})
+
+        } else if(args.command) {
+
+            if(categories.map(c => c.id.toLocaleLowerCase()).includes(args.command.toLowerCase())) {
+
+                let list = categories.filter(c => c.id === args.command).map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
+                message.channel.send({ embed: {
+
+                    type: 'rich',
+                    color: rgb(colors.purple),
+                    fields: [
+                        {
+                            name: '**Commands**',
+                            value: list
+                        }
+                    ],
+                    thumbnail: {
+                        url: this.client.user.avatarURL()
+                    },
+                    author: {
+                        name: this.client.user.username,
+                        icon_url: this.client.user.avatarURL()
+                        },
+                    footer: {
+                        text: `Type ${prefix}help <command> for more information.`
+                    }
+                }})
+            }
+
+            else if(commands.map(c => c.id).includes(args.command)) {
+
+                let command = commands.get(args.command)
+
+                message.channel.send({ embed: {
+
+                    title: `${prefix} ${command.id}`.toLocaleUpperCase(),
+                    color: rgb(colors.purple),
+                    fields: [
+                        {
+                            name: 'Description',
+                            value: command.description.content,
+                        },
+                        {
+                            name: 'Usage',
+                            value: `${prefix}${command.description.usage}`
+                        }
+                    ]
+                }})
+
+            } else {
+
+                message.reply(`No commands or categories found, check ${prefix}help to view them all.`)
+            }
         }
     }
 }

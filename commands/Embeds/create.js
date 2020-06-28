@@ -1,6 +1,4 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js');
-const color = require('../../datafiles/colors.json');
 
 class CreateEmbedCommand extends Command {
     constructor() {
@@ -8,7 +6,7 @@ class CreateEmbedCommand extends Command {
             aliases: ['embed-create','embedcreate'],
             description: {
                 content: 'Create a discord Embed, these embeds can be managed by people with the manage messages permission. They also must be able to speak in the channel they want to create the embed in.',
-                usage: 'create <channel> <title> <description> <color>'
+                usage: 'create <channel> <title> <description>'
             },
             userPermissions: 'MANAGE_MESSAGES',
             category: 'embeds',
@@ -29,9 +27,9 @@ class CreateEmbedCommand extends Command {
     }
 
     async exec(message, args) {
-
+try{
+        
         let channel = args.channel
-
 
         if(!channel.permissionsFor(message.author).has('SEND_MESSAGES')) {
             return message.reply('You don\'t have permission to send messages here.')
@@ -39,7 +37,7 @@ class CreateEmbedCommand extends Command {
 
         try{
 
-            let sent = await channel.send({embed: {
+            let sent = await channel.send( {embed: {
 
                 type: 'rich',
                 title: args.title,
@@ -65,7 +63,7 @@ class CreateEmbedCommand extends Command {
         } catch(error){console.log(error)}
         }
 
-
+    }catch(e){console.log(e)}
     }
 }
 

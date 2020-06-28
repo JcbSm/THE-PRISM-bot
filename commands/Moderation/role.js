@@ -16,7 +16,7 @@ class RoleCommand extends Command {
                 },
                 {
                     id: 'role',
-                    type: 'string',
+                    type: 'role',
                     match: 'rest'
                 }
             ],
@@ -34,24 +34,26 @@ class RoleCommand extends Command {
             }
 
             try{
-                let role = await message.guild.roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
-                let botMember = await message.guild.fetchMember(this.client.user.id)
+                let role = args.role
+                let botMember = await message.guild.members.fetch(this.client.user.id)
 
-                if(role.calculatedPosition >= botMember.highestRole.calculatedPosition && message.member.id) {
+                //console.log(static .comparePositions(role, botMember.roles.highest))
+
+                if(role.calculatedPosition >= botMember.roles.highest.calculatedPosition && message.member.id) {
                     return message.reply('I don\'t have the required permissions to perform such an action.')
-                } else if(role.calculatedPosition >= message.member.highestRole.calculatedPosition && message.member.id !== this.client.ownerID) {
+                } else if(role.calculatedPosition >= message.member.roles.highest.calculatedPosition && message.member.id !== this.client.ownerID) {
                     return message.reply('You can\'t give or remove roles higher or equal to your own.')
                 } else {
 
 
-                if(args.member.roles.has(role.id)) {
+                if(args.member.roles.cache.has(role.id)) {
 
-                    args.member.removeRole(role.id)
+                    args.member.roles.remove(role.id)
                     message.channel.send(`***Successfully removed \'${role.name}\' from ${args.member.user.tag}***`)
 
                 } else {
 
-                    args.member.addRole(role.id)
+                    args.member.roles.add(role.id)
                     message.channel.send(`***Successfully given ${args.member.user.tag} the \'${role.name}\' role***`)
 
                 } 

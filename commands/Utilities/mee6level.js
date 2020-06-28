@@ -1,7 +1,8 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js');
+const { colors } = require('../../config')
+const { rgb } = require('../../functions');
+const { re } = require('mathjs');
 const mee6calc  = 'http://mee6.github.io/Mee6-documentation/mee6calc/';
-const color = require('../../datafiles/colors.json')
 const mee6avatar = 'https://cdn.discordapp.com/avatars/159985870458322944/b50adff099924dd5e6b72d13f77eb9d7.png?size=2048'
 
 class LevelCommand extends Command {
@@ -31,7 +32,7 @@ class LevelCommand extends Command {
 
         if(args.level > 150) return message.reply('MEE6 levels only go up to 150.')
 
-        let leaderboardLink = 'https://mee6.xyz/leaderboard/'+message.guild.id
+        let leaderboardLink = 'https://mee6.xyz/leaderboard/'+ message.guild.id
 
         let currentXP = args.current
         let x = args.level
@@ -47,7 +48,44 @@ class LevelCommand extends Command {
         const minMessages = Math.round(requiredXP / 25)
         const maxMessages = Math.round(requiredXP / 15)
 
-        message.channel.send(new Discord.RichEmbed()
+        message.channel.send({ embed: {
+
+            type: 'rich',
+            title: 'MEE6 level calculator',
+            description: `Credit to the original creator, check that out [here](${mee6calc})\n-\nThe leaderboard for this server is [here](${leaderboardLink})`,
+            color: rgb(colors.purple),
+            thumbnail: {
+                url: mee6avatar
+            },
+            fields: [
+                {
+                    name: 'Required XP',
+                    value: requiredXP,
+                    inline: true
+                },
+                {
+                    name: 'Average Messages',
+                    value: avMessages,
+                    inline: true
+                },
+                {
+                    name: 'Maximum Messages',
+                    value: maxMessages
+                },
+                {
+                    name: 'Minimum Messages',
+                    value: minMessages,
+                    inline: true
+                },
+            ],
+            footer: {
+                text: 'NOTE: you can only earn XP once per minute. '
+            }
+        }}
+            
+            
+            
+            /*new Discord.RichEmbed()
             
             .setTitle('MEE6 level calculator')
             .setDescription(`Credit to the original creator, check that out [here](${mee6calc})\n-\nThe leaderboard for this server is [here](${leaderboardLink})`)
@@ -57,7 +95,7 @@ class LevelCommand extends Command {
             .addField('Average Messages', avMessages, true)
             .addField('Maximum Messages', maxMessages,true)
             .addField('Minimum Messages', minMessages, true)
-            .setFooter('NOTE: You can only earn XP once per minute.')
+            .setFooter('NOTE: You can only earn XP once per minute.')*/
 
         )
     }

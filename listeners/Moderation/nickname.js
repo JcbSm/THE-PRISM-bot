@@ -1,24 +1,25 @@
 const { Listener } = require('discord-akairo');
-
+const config = require('../../config');
 
 class NicknameListener extends Listener {
     constructor() {
         super('nick', {
             emitter: 'client',
-            eventName: 'guildMemberUpdate'
+            event: 'guildMemberUpdate'
         });
     }
     
-    exec(oldMember, newMember) {
-
+    async exec(oldMember, newMember) {
+try{
         if(!newMember.guild) return;
 
         if(!newMember.nickname) return;
 
-        if(newMember.guild.id !== '447504770719154192' && newMember.guild.id !== '569556194612740115') return;
+        if(newMember.guild.id !== config.prism.guild.id && newMember.guild.id !== '569556194612740115') return;
 
         if(/\b(\w*nn*ii*ggg*\w*)\b/.test(newMember.nickname.toLowerCase().split(" ").join(""))) {
 
+            let naughtyName = newMember.nickname;
             let oldNickname;
 
             if(!oldMember.nickname) {
@@ -27,8 +28,10 @@ class NicknameListener extends Listener {
                 oldNickname = oldMember.nickname
             }
 
-            newMember.setNickname(oldNickname).then(this.client.users.get(newMember.user.id).send('No'))
+            await newMember.setNickname(oldNickname);
+            (await this.client.users.fetch(newMember.user.id)).send(`*"${naughtyName}"* is not a nice nickname is it, so I changed it back.`)
         }
+    }catch(e) {console.log(e)}
     }
 }
 

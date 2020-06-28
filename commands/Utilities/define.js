@@ -1,7 +1,8 @@
 const { Command } = require('discord-akairo');
 const Discord = require('discord.js')
 const ud = require('urban-dictionary')
-const color = require('../../datafiles/colors.json')
+const { colors } = require('../../config');
+const { rgb } = require('../../functions');
 
 class DefineCommand extends Command {
     constructor() {
@@ -56,21 +57,22 @@ class DefineCommand extends Command {
                     
                     
                     }
-
-                    let sent = new Discord.RichEmbed()
-                        .setColor(color.purple)
-                        .setTitle(`The Urban Dictionary: "${udWord}"`)
-                        .setDescription(udDefinition)
-                        .addField('Example:', udExample)
                     
-                    message.channel.send(sent)
+                    message.channel.send({ embed: {
 
-                    /*await sent.react('⬅')
-                    await sent.react('➡')
-                    const filter = user => user.id === message.author.id;
-                    const collector = sent.createReactionCollector(filter, { time: 20000 })
-                    collector.on('collect' some code)
-                    collector.on('end', collected => message.channel.send('TimedOut'))*/
+                        type: 'rich',
+                        color: rgb(colors.purple),
+                        title: `The Urban Dictionary: "${udWord}"`,
+                        description: udDefinition,
+                        fields: [
+                            {
+                                name: 'Example:',
+                                value: udExample
+                            }
+                        ]
+                    }})
+
+                    
                 } catch(error){
                     console.error
                     message.reply("Something went wrong")

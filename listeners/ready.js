@@ -4,15 +4,23 @@ class ReadyListener extends Listener {
     constructor() {
         super('ready', {
             emitter: 'client',
-            eventName: 'ready'
+            event: 'ready'
         });
     }
 
-    exec(message) {
-        console.log(`\'${this.client.user.username}\' is Online on ${this.client.guilds.size} server(s)`);
-        
-        this.client.users.get("227848397447626752").send("I'm back online.");
+    async exec() {
 
+        const client = this.client;
+
+        console.log(`${client.user.username} is Online`);
+        
+        (await client.users.fetch(client.ownerID)).send({embed: {
+            type: 'rich',
+            title: 'Online',
+            timestamp: new Date()
+        }});
+
+        client.user.setPresence({ activity: { name: '▲', type: 'WATCHING'}, status: 'dnd'})
     }
 }
 

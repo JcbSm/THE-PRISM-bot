@@ -1,8 +1,6 @@
 const { Command } = require('discord-akairo')
-const Discord = require('discord.js')
-const emoji = require('../../datafiles/emoji-characters-array')
-const color = require('../../datafiles/colors.json')
-const config = require('../../config.json')
+const config = require('../../config');
+const { rgb } = require('../../functions');
 
 class PollCommand extends Command {
     constructor() {
@@ -24,6 +22,9 @@ class PollCommand extends Command {
     }
     
     async exec(message, args) {
+        try{
+        const emoji = config.emoji.characterArray;
+        const colors = config.colors;
 
         //Split options by `;`, remove whitespace
         let optionsUnfiltered = args.options.split(";").map(item => item.trim())
@@ -33,12 +34,6 @@ class PollCommand extends Command {
         //Set first item as question.
         let question = options.shift()
 
-        //Check if user has nickname
-        let nickname = message.member.nickname
-        if(!nickname) {
-            nickname = message.member.user.username
-        }
-        
         
         if(options.length >= 2 && options.length <= 20) {
 
@@ -48,11 +43,18 @@ class PollCommand extends Command {
             }
 
             //Create embed
-            let sent = await message.channel.send(new Discord.RichEmbed()
+            let sent = await message.channel.send({ embed: {
 
-                .setTitle(`${nickname}\'s poll`)
-                .setColor(color.purple)
-                .addField(`\"${question}\"`, options.map(item => item.join(" - "))))
+                type: 'rich',
+                description: `${message.member}\'s poll`,
+                color: rgb(colors.purple),
+                fields: [
+                    {
+                        name: `\"${question}\"`,
+                        value: options.map(item => item.join(" - "))
+                    }
+                ]
+            }})
             
             .then(message.delete())
 
@@ -63,6 +65,7 @@ class PollCommand extends Command {
         } else {
             return message.reply(`Something went wrong, type \"${config.prefix}help poll\" for more info`)
         }
+    }catch(e) {console.log(e)}
     }
 }
 

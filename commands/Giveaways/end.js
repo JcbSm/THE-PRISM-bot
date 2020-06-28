@@ -1,7 +1,6 @@
 const { Command } = require('discord-akairo')
-const color = require('../../datafiles/colors.json')
-const Discord = require('discord.js')
-const moment = require('moment')
+const { colors } = require('../../config')
+const { rgb } = require('../../functions')
 
 class GiveawayEndCommand extends Command {
     constructor() {
@@ -21,25 +20,25 @@ class GiveawayEndCommand extends Command {
     }
 
     async exec(message, args) {
-try{
-        if(!args.id) return message.reply('Please enter a the message ID and amount of winners.')
+        try{
 
-        let giveawayMessage = await message.channel.fetchMessage(args.id)
+            if(!args.id) return message.reply('Please enter a the message ID and amount of winners.')
 
-        if(giveawayMessage.reactions.keyArray().includes('🎁')) { 
-            let reaction = await giveawayMessage.reactions.get('🎁')
-            
-            let reactionUsers = (await reaction.fetchUsers()).filter(u => !u.bot).map(u => u.id)
+            let giveawayMessage = await message.channel.messages.fetch(args.id)
 
-            let reactionUsersNoBot = reactionUsers.filter(u => u.bot)
+            if(giveawayMessage.reactions.cache.keyArray().includes('🎁')) { 
 
-            let rng = Math.floor(Math.random()*reactionUsers.length)
-            let prize = (await giveawayMessage.embeds[0]).description
-            message.channel.send(`**<@${reactionUsers[rng]}> has won a giveaway:**\n ${prize}`)
-        }
+                let reaction = await giveawayMessage.reactions.cache.get('🎁')
+                let reactionUsers = (await reaction.users.fetch()).filter(u => !u.bot).map(u => u.id)
+                let rng = Math.floor(Math.random()*reactionUsers.length)
+                if(reactionUsers.length == 0) return message.channel.send("No one has entered the giveaway yet.")
+                let prize = (await giveawayMessage.embeds[0]).description
+                message.channel.send(`**<@${reactionUsers[rng]}> has won a giveaway:**\n\n ${prize}`)
+            }
 
-        await message.delete()
-    }catch(error){console.log(error)}
+            await message.delete()
+
+        } catch(error) {console.log(error)}
     }
 }
 

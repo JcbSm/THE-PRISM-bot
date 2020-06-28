@@ -12,6 +12,7 @@ class PingRoleCommand extends Command {
             args: [
                 {
                     id: 'role',
+                    type: 'role'
                 },
                 {
                     id: 'message',
@@ -24,7 +25,7 @@ class PingRoleCommand extends Command {
 
     async exec(message, args) {
 
-        const role = (await message.guild.fetchMembers()).roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
+        const role = args.role
         
         if(!role) return message.reply('No role found.')
 

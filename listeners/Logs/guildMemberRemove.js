@@ -1,31 +1,25 @@
 const { Listener } = require('discord-akairo');
-const Discord = require('discord.js')
-const moment = require('moment')
-const color = require('../../datafiles/colors.json')
-const Color = require('color')
+const config = require('../../config');
+const { rgb } = require('../../functions');
 
 class GuildMemberRemoveListener extends Listener {
     constructor() {
         super('guildMemberRemove', {
             emitter: 'client',
-            eventName: 'guildMemberRemove'
+            event: 'guildMemberRemove'
         })
     }
     
     async exec(member) {
 
         const guild = member.guild;
-        const log = this.client.channels.get('669653850902233098');
+        const log = await this.client.channels.fetch(config.prism.guild.channelIDs.log);
         const time = moment(Date.now()).format('DD MMM YYYY, HH:mm')
         
         if(!guild) return;
-        if(guild.id !== '447504770719154192') return;
+        if(guild.id !== config.prism.guild.id) return;
 
-        this.client.channels.get('447702094430863360').send(`***${member.user.tag} left the server.***`)
-
-        function rgb(inputColor) {
-            return Color(inputColor).rgbNumber()
-        }
+        (await this.client.channels.fetch('447702094430863360')).send(`***${member.user.tag} left the server.***`)
 
         await log.send({embed: {
             
@@ -33,7 +27,7 @@ class GuildMemberRemoveListener extends Listener {
             title: null,
             description: `**${member} left the server**`,
             url: null,
-            color: rgb(color.bad),
+            color: rgb(config.colors.bad),
             fields: [],
             timestamp: new Date(),
             tumbnail: null,

@@ -1,5 +1,6 @@
 const { Command } = require('discord-akairo');
-const roles = require('../../datafiles/self-roles.js')
+const { prism } = require('../../config')
+
 
 class LeaveRoleCommand extends Command {
     constructor() {
@@ -13,6 +14,7 @@ class LeaveRoleCommand extends Command {
             args: [
                 {
                     id: 'role',
+                    type: 'role',
                     match: 'rest'
                 }
             ]
@@ -21,15 +23,17 @@ class LeaveRoleCommand extends Command {
 
     async exec(message, args) {
 
-        const role = (await message.guild.fetchMembers()).roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
+        const selfRoles = prism.guild.selfRoles;
+
+        const role = args.role
         if(!role) return message.reply('No role found.')
 
-        let joinableRole = roles.find(r => r.id == role.id)
+        let joinableRole = selfRoles.find(r => r.id == role.id)
 
         if(!joinableRole) return message.reply(`This is not a removeable role.`)
 
-        if(message.member.roles.has(role.id)) {
-            message.member.removeRole(role.id).then(message.channel.send(`***Successfully removed the ${role.name} role.***`))
+        if(message.member.roles.cache.has(role.id)) {
+            message.member.roles.remove(role.id).then(message.channel.send(`***Successfully removed the ${role.name} role.***`))
         } else {
             message.reply('You don\'t have this role.')
         }

@@ -1,7 +1,6 @@
 const { Command } = require('discord-akairo');
-const roles = require('../../datafiles/self-roles.js')
-const color = require('../../datafiles/colors.json');
-const Discord = require('discord.js');
+const { colors, prism } = require('../../config')
+const { rgb } = require('../../functions')
 
 class JoinRoleCommand extends Command {
     constructor() {
@@ -15,49 +14,67 @@ class JoinRoleCommand extends Command {
             args: [
                 {
                     id: 'role',
-                    match: 'rest'
+                    type: 'role',
+                    match: 'rest',
                 }
             ]
         })
     }
 
     async exec(message, args) {
+        try{
+
+        const selfRoles = prism.guild.selfRoles;
 
         if(message.guild.id !== '447504770719154192') return message.reply('That Command only works in PRISM')
 
         if(!args.role) {
 
-            let gameRoles = roles.filter(r => r.category == 'Games')
-            let otherRoles = roles.filter(r => r.category === null)
+            let gameRoles = selfRoles.filter(r => r.category == 'Games')
+            let otherRoles = selfRoles.filter(r => r.category === null)
 
-            try{let selfRoleEmbed = new Discord.RichEmbed()
 
-                .setTitle('Joinable Roles in PRISM')
-                .setFooter('Type \"-joinRole <role>\" to get the role.')
-                .setColor(color.purple)
-                .addField('**Game Roles**', gameRoles.map(r => r.name))
-                .addField('**Other Roles**', otherRoles.map(r => r.name))
 
-            message.channel.send(selfRoleEmbed)
-            }catch(error)
-            {console.log(error)}
+                message.channel.send({ embed: {
+
+                    type: 'rich',
+                    title: `Joinable roles in PRISM`,
+                    footer: {
+                        text: 'Type \"-joinRole <role>\" to get the role.'
+                    },
+                    color: rgb(colors.purple),
+                    fields: [
+                        {
+                            name: '**Game Roles**',
+                            value: gameRoles.map(r =>r.name)
+                        },
+                        {
+                            name: '**Other Roles**',
+                            value: otherRoles.map(r => r.name)
+                        }
+                    ]
+
+                }})
+
+
 
         } else {
 
-            const role = (await message.guild.fetchMembers()).roles.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
+            const role = args.role
             if(!role) return message.reply('No role found.')
 
-            let joinableRole = roles.find(r => r.id == role.id)
+            let joinableRole = selfRoles.find(r => r.id == role.id)
 
             if(!joinableRole) return message.reply(`You are not allowed to give yourself this role`)
             
-            if(message.member.roles.has(role.id)) {
+            if(message.member.roles.cache.has(role.id)) {
                 message.reply('You already have this role.')
             } else {
-            message.member.addRole(role.id).then(message.channel.send(`***Successfully given you the ${role.name} role.***`))
+            message.member.roles.add(role.id).then(message.channel.send(`***Successfully given you the ${role.name} role.***`))
             }
 
         }
+    } catch(error) {console.log(error)}
     }
 }
 

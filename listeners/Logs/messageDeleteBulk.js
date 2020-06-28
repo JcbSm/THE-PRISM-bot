@@ -1,35 +1,24 @@
 const { Listener } = require('discord-akairo');
-const Discord = require('discord.js')
-const moment = require('moment')
-const color = require('../../datafiles/colors.json')
-const Color = require('color')
+const config = require('../../config');
+const { rgb } = require('../../functions');
 
 class MessageDeleteBulkListener extends Listener {
     constructor() {
         super('messageDeleteBulk', {
             emitter: 'client',
-            eventName: 'messageDeleteBulk'
+            event: 'messageDeleteBulk'
         })
     }
     
     async exec(messages) {
 
-        const message = messages.first()
-        const guild = message.guild
-        const log = this.client.channels.get('669653850902233098');
-        const time = moment(Date.now()).format('DD MMM YYYY, HH:mm')
+        const message = messages.first();
+        const guild = message.guild;
+        const log = await this.client.channels.fetch(config.prism.guild.channelIDs.log);
     
 
         if(!guild) return;
         if(guild.id !== '447504770719154192') return;
-
-
-
-        function rgb(inputColor) {
-            return Color(inputColor).rgbNumber()
-        }
-
-
 
         await log.send({embed: {
             
@@ -37,7 +26,7 @@ class MessageDeleteBulkListener extends Listener {
             title: null,
             description: `**Bulk delete in ${message.channel}**`,
             url: null,
-            color: rgb(color.bad),
+            color: rgb(config.colors.bad),
             fields: [],
             timestamp: new Date(),
             tumbnail: null,

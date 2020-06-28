@@ -1,13 +1,10 @@
 const { Listener } = require('discord-akairo');
-const Discord = require('discord.js')
-const color = require('../../datafiles/colors.json')
-const bans = require('../../datafiles/softBans')
 
 class VcTrackerListener extends Listener {
     constructor() {
         super('vcChallenge', {
             emitter: 'client',
-            eventName: 'voiceStateUpdate'
+            event: 'voiceStateUpdate'
         });
     }
 

@@ -1,17 +1,18 @@
 const { Listener } = require('discord-akairo');
-const color = require('../../datafiles/colors.json')
-const Discord = require('discord.js')
+const config = require('../../config');
+const { rgb } = require('../../functions');
 
 class CommandBlockedListener extends Listener {
     constructor() {
         super('commandBlocked', {
             emitter: 'commandHandler',
-            eventName: 'commandBlocked'
-        })
+            event: 'commandBlocked'
+        });
     }
 
-    exec(message, command, reason) {
-        console.log(`${message.author.tag} was blocked form using \'${command.id}\' because of \'${reason}\'!`)
+    async exec(message, command, reason) {
+        
+        console.log(`${message.author.username} was blocked from using ${command.id} because of ${reason}!`);
 
         message.channel.send(`${message.author}, you don\'t have permission to use that command.`)
         .then(msg => {
@@ -19,9 +20,9 @@ class CommandBlockedListener extends Listener {
 
         })
 
-        let reportsChannel = this.client.channels.get('567844048510124052')
+        //let reportsChannel = await this.client.channels.fetch('567844048510124052')
 
-        let reportEmbed = new Discord.RichEmbed() 
+        /*let reportEmbed = new Discord.RichEmbed() 
 
             .setTitle('**User blocked**')
             .setColor(color.purple)
@@ -31,7 +32,7 @@ class CommandBlockedListener extends Listener {
             .addField('Server', message.guild + ', ID: ' + message.guild.id)
             .setFooter(Date())
 
-        reportsChannel.send(reportEmbed)
+        reportsChannel.send(reportEmbed)*/
     };
 };
 

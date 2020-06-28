@@ -7,19 +7,20 @@ class DeafenCommand extends Command {
             description: {
                 content: 'either deafens or undeafens the user, while still allowing them to speak.',
                 usage: 'deafen'
-            }
+            },
+            category: 'utilities'
         })
     }
     exec(message) {
 
-        if(!message.member.voiceChannel) return message.reply("You must join a voice channel to use this command.")
+        if(!message.member.voice) return message.reply("You must join a voice channel to use this command.")
 
-        let deaf = message.member.serverDeaf;
+        let deaf = message.member.voice.serverDeaf;
 
         if(deaf) {
-            message.member.setDeaf(false)
+            message.member.voice.setDeaf(false)
         } else if(!deaf) {
-            message.member.setDeaf(true)
+            message.member.voice.setDeaf(true)
         }
 
     }

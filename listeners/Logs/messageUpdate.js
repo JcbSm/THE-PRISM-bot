@@ -1,42 +1,36 @@
 const { Listener } = require('discord-akairo');
-const Discord = require('discord.js')
-const moment = require('moment')
-const color = require('../../datafiles/colors.json')
-const Color = require('color')
+const config = require('../../config');
+const { rgb } = require('../../functions');
 
 class MessageUpdateListener extends Listener {
     constructor() {
         super('messageUpdate', {
             emitter: 'client',
-            eventName: 'messageUpdate'
+            event: 'messageUpdate'
         })
     }
     
     async exec(oldMessage, newMessage) {
 
         const guild = oldMessage.guild
-        const log = this.client.channels.get('669653850902233098');
-        const time = moment(Date.now()).format('DD MMM YYYY, HH:mm')
+        const log = await this.client.channels.fetch(config.prism.guild.channelIDs.log);
         
         if(!guild) return;
-        if(guild.id !== '447504770719154192') return;
+        if(guild.id !== config.prism.guild.id) return;
         if(oldMessage.content === newMessage.content) return;
         if(oldMessage.author.bot) return;
 
         if(/nigg/i.test(newMessage.content)) {
-            if(newMessage.guild.ownerID === newMessage.author.id) {
+            if(newMessage.author.id === this.client.ownerID) {
                 console.log("Jacob has the N pass")
+                newMessage.delete()
             } else {
                 newMessage.channel.send(`${newMessage.member} is a racist!`)
                 newMessage.delete()
             }
         }
-        if(newMessage.channel.id === '583742663627505669') {
+        if(newMessage.channel.id === config.prism.guild.channelIDs.counting) {
             newMessage.delete()
-        }
-
-        function rgb(inputColor) {
-            return Color(inputColor).rgbNumber()
         }
 
         await log.send({embed: {
@@ -45,7 +39,7 @@ class MessageUpdateListener extends Listener {
             title: null,
             description: `**${oldMessage.member} changed edited a message in ${oldMessage.channel}**`,
             url: null,
-            color: rgb(color.purple),
+            color: rgb(config.colors.purple),
             fields: [
                 {
                     name: '**Before:**',

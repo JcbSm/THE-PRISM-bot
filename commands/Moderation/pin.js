@@ -1,5 +1,6 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js');
+const { rgb } = require('../../functions')
+const { colors } = require('../../config')
 
 class PinCommand extends Command {
     constructor() {
@@ -27,24 +28,20 @@ class PinCommand extends Command {
         const channelID = channelMessageID.shift()
         const messageID = channelMessageID.pop()
 
-        const pinMessage = await this.client.channels.get(channelID).fetchMessage(messageID)
+        const pinMessage = await (await this.client.channels.fetch(channelID)).messages.fetch(messageID)
 
         //try{console.log(pinMessage.content)} catch(error) {console.log(error)}
         //console.log(pinMessage.content)
 
-        const pinChannel = this.client.channels.get('637349185997373470')
-
-        
-
-
+        const pinChannel = await this.client.channels.fetch(config.prism.guild.channels.pins.id)
 
         if(pinMessage.guild.id !== '447504770719154192') return;
 
         if(pinMessage.channel.id === pinChannel.id) return;
 
-        if((await pinMessage.reactions).map(e => e.emoji.name).includes('📌')) {
+        if((await pinMessage.reactions.cache).map(e => e.emoji.name).includes('📌')) {
 
-            if((await pinMessage.reactions.get('📌').fetchUsers()).map(u => u.id).includes(this.client.user.id)) {
+            if(await pinMessage.reactions.cache.get('📌').users.map(u => u.id).includes(this.client.user.id)) {
                 return message.reply('I have already pinned that message')
             }
             
@@ -64,10 +61,6 @@ class PinCommand extends Command {
                         ).map(a => a.url)[0]
                     }
 
-                    if(!pinMessage.pinned) {
-                        pinMessage.pin()
-                    }
-
                     await pinChannel.send({
                         embed: {
 
@@ -75,7 +68,7 @@ class PinCommand extends Command {
                             title: null,
                             description: `${pinMessage.content}\n\n${pinMessage.channel} [\`Jump\`](${pinMessage.url})` + '\n' + attachmentURL,
                             url: null,
-                            color: 6889949,
+                            color: rgb(colors.purple),
                             fields: [],
                             timestamp: pinMessage.createdAt,
                             tumbnail: null,

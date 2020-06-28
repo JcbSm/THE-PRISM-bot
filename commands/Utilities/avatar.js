@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
-const Discord = require('discord.js');
-const color = require('../../datafiles/colors.json');
+const { colors } = require('../../config');
+const { rgb } = require('../../functions')
 
 class AvatarCommand extends Command {
     constructor() {
@@ -28,13 +28,19 @@ class AvatarCommand extends Command {
                 return message.reply('No avatar found.')
             }
 
-            //No user targeted, own avatar shown
-            let OwnAvatarEmbed = new Discord.RichEmbed()
-                .setImage(message.author.avatarURL)
-                .setFooter('Couldn\'t find a target user, displaying own avatar')
-                .setColor(color.purple)
-            
-            message.channel.send(OwnAvatarEmbed);
+            //No user targeted, own avatar shown            
+            message.channel.send({ embed: {
+
+                type: 'rich',
+                image: {
+                    url: message.author.avatarURL({size: 4096})
+                },
+                footer: {
+                    text: 'Couldn\'t find a target user, displaying your own.'
+                },
+                color: rgb(colors.purple)
+
+            }});
         } else {
 
             //check for avatar
@@ -43,11 +49,14 @@ class AvatarCommand extends Command {
             }
 
             //Shows avatar of targeted user
-            let OtherAvatarEmbed = new Discord.RichEmbed()
-                .setImage(args.member.user.avatarURL)
-                .setColor(color.purple)
-            
-            message.channel.send(OtherAvatarEmbed);
+            message.channel.send({ embed: {
+
+                type: 'rich',
+                image: {
+                    url: args.member.user.avatarURL({size: 4096})
+                },
+                color: rgb(colors.purple)
+            }});
         }
     }
 }

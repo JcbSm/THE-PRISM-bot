@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const replies = require('../../datafiles/ratings')
+const { ratings } = require('../../config');
 
 class RateCommand extends Command {
     constructor() {
@@ -21,39 +21,45 @@ class RateCommand extends Command {
     }
 
     exec(message, args) {
+try{
 
         const rating = Math.round(Math.random()*10)
         
-        const resultGood = Math.floor(replies.good.length * Math.random())
-        const resultMedium = Math.floor(replies.medium.length * Math.random())
-        const resultBad = Math.floor(replies.bad.length * Math.random())
+        const resultGood = Math.floor(ratings.good.length * Math.random())
+        const resultMedium = Math.floor(ratings.medium.length * Math.random())
+        const resultBad = Math.floor(ratings.bad.length * Math.random())
 
-        let nickname = ''
+        let nickname;
 
-        let rateMessage = ''
+        let rateMessage;
 
         if(rating < 4) {
-            rateMessage = replies.bad[resultBad]
+            rateMessage = ratings.bad[resultBad]
         } else if(rating < 7) {
-            rateMessage = replies.medium[resultMedium]
+            rateMessage = ratings.medium[resultMedium]
         } else {
-            rateMessage = replies.good[resultGood]
+            rateMessage = ratings.good[resultGood]
         }
-
-        if(args.member.id == 567738379639324674) return message.channel.send(`12/10, whoever that guy is, they are the best. Whoever made them is too, probably...`)
 
         if(!args.member) {
             message.reply(`**${rating}/10**, ${rateMessage}`)
-        } else {
+
+        } 
+
+        if(args.member.id === this.client.user.id) return message.channel.send(`12/10, whoever that guy is, they are the best. Whoever made them is too, probably...`)
+        
+        if(args.member) {
             
+            console.log(true)
             if(!args.member.nickname) {
-                nickname = args.member.user.username
+                nickname = args.member.user.username;
             } else {
-                nickname = args.member.nickname
+                nickname = args.member.nickname;
             }
             message.channel.send(`${nickname}, **${rating}/10**, ${rateMessage}`)
         }
-    }
+    }catch(e){console.log(e)}
+}
 }
 
 module.exports = RateCommand
