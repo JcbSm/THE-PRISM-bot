@@ -17,10 +17,6 @@ class PrivateCallLeaveListener extends Listener {
                 const guild = oldState.guild
                 const pChannels = await guild.channels.cache.filter(c => c.type === 'voice' && c.name.startsWith('🔒'))
 
-                console.log(pChannels.map(m => m.id))
-
-                console.log((await newState.channel.members.map(m => m.id)).length)
-
                 if(!oldState) return;
 
                 if(oldState.channel !== newState.channel && pChannels.map(m => m.id).includes(oldState.channel.id)) {
