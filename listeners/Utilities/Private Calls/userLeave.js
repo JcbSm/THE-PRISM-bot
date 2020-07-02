@@ -17,11 +17,9 @@ class PrivateCallLeaveListener extends Listener {
                 const guild = oldState.guild
                 const pChannels = await guild.channels.cache.filter(c => c.type === 'voice' && c.name.startsWith('🔒'))
 
-                if(!oldState) return;
+                if(!oldState.channel) return;
 
                 if(oldState.channel !== newState.channel && pChannels.map(m => m.id).includes(oldState.channel.id)) {
-
-
 
                     if((await oldState.channel.members.map(m => m.id)).length == 0) {
 
@@ -31,11 +29,10 @@ class PrivateCallLeaveListener extends Listener {
                         await tChannel.delete()
 
                     }
-                }
-                            
+                }           
             }
         
-        }catch(error){console.log(error)}
+        } catch(error) {console.log(error)}
     }
 }
 

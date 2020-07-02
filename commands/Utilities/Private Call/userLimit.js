@@ -28,7 +28,7 @@ class UserLimitCommand extends Command {
 
             if(args.num > 99) return message.reply('Max user count is 99')
 
-            if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
+            if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') return message.reply('This is not a private call text channel, please either make one or use an existing one.');
             if(message.channel.topic.split(';').shift() === 'PRIVATE CALL') {
 
                 const voiceChannel = message.guild.channels.cache.get(message.channel.topic.split(';').pop())
