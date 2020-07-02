@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 class ShutdownCommand extends Command {
     constructor() {
         super('shutdown', {
-            aliases: ['shutdown', 'stop'],
+            aliases: ['shutdown', 'stop', 'kys'],
             description: {
                 content: 'Stops the bot',
                 usage: 'shutdown'
