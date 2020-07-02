@@ -4,17 +4,17 @@ const { rgb } = require('../../functions');
 
 class CommandBlockedListener extends Listener {
     constructor() {
-        super('commandBlocked', {
+        super('missingPermissions', {
             emitter: 'commandHandler',
-            event: 'commandBlocked'
+            event: 'missingPermissions'
         });
     }
 
-    async exec(message, command, reason) {
+    async exec(message, command, missing) {
 
         try{
         
-            console.log(`${message.author.username} was blocked from using ${command.id} because of ${reason}!`);
+            console.log(`${message.author.username} was blocked from using ${command.id} because of ${missing}!`);
 
             const log = await this.client.channels.fetch(prism.guild.channelIDs.log);
 
@@ -34,7 +34,7 @@ class CommandBlockedListener extends Listener {
                     },
                     {
                         name: 'Reason',
-                        value: reason
+                        value: missing
                     }
                 ],
                 timestamp: new Date(),
