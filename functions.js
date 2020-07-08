@@ -44,4 +44,73 @@ module.exports = {
         if(date === undefined) {date = new Date()}
         return `${module.exports.pad(date.getUTCHours(), 2)}:${module.exports.pad(date.getUTCMinutes(), 2)}:${module.exports.pad(date.getUTCSeconds(), 2)}`
     },
+
+    since: function since(timestamp, max) {
+
+        if(max === undefined) max = 6;   
+        const seconds = Math.round((new Date() - timestamp)/1000);
+        let msgArray = [];
+        let count = 0;
+        
+        let interval = Math.floor(seconds / (3600*24*30.4375*12))
+        if(interval === 1 && count < max) {
+            msgArray.push(`${interval} year`);
+            ++count;
+        } else if (interval > 1 && count < max) {
+            msgArray.push(`${interval} years`);
+            ++count;
+        }
+
+        const rMonths = seconds % (3600*24*30.4375*12);
+        interval = Math.floor(rMonths / (3600*24*30.4375))
+        if(interval === 1 && count < max) {
+            msgArray.push(`${interval} month`);
+            ++count;
+        } else if (interval > 1 && count < max) {
+            msgArray.push(`${interval} months`);
+            ++count;
+        }
+
+        const rDays = seconds % (3600*24*30.4375);
+        interval = Math.floor(rDays / (3600*24));
+        if(interval === 1 && count < max) {
+            msgArray.push(`${interval} day`);
+            ++count;
+        } else if (interval > 1 && count < max) {
+            msgArray.push(`${interval} days`);
+            ++count;
+        }
+
+        const rHours = seconds % 3600*24;
+        interval = Math.floor(rHours / 3600);
+        if(interval === 1 && count < max) {
+            msgArray.push(`${interval} hour`);
+            ++count;
+        } else if (interval > 1 && count < max) {
+            msgArray.push(`${interval} hours`);
+            ++count;
+        }
+
+        const rMinutes = seconds % 3600;
+        interval = Math.floor(rMinutes / 60);
+        if(interval === 1 && count < max) {
+            msgArray.push(`${interval} minute`);
+            ++count;
+        } else if (interval > 1 && count < max) {
+            msgArray.push(`${interval} minutes`);
+            ++count;
+        }
+
+        const rSeconds = seconds % 60
+        interval = Math.floor(rSeconds);
+        if(interval === 1 && count < max) {
+            msgArray.push(`${interval} second`);
+            ++count;
+        } else if (interval > 1 && count < max) {
+            msgArray.push(`${interval} seconds`);
+            ++count;
+        }
+
+        return msgArray.join(', ')
+    },
 }
