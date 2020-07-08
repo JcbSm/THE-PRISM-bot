@@ -47,7 +47,10 @@ class AddDonationCommand extends Command {
 
             await message.react('👌')
         
-        }catch(e){console.log(e)}
+        } catch(e) {
+            
+            console.log(e)
+        }
     }
 
 }
