@@ -5,47 +5,34 @@ const config = require('./config');
 try {
 
 function getConfig() {
+	let testing;
 	try {
 		const keys = require('./keys.json')
 		const token = keys.token;
-		const dbURL = keys.database
+		const dbURL = keys.database.url
 		const prefix = config.testPrefix;
+		testing = true
 		console.log('Starting using locally stored value for token.');
-		return {'token': token, 'prefix': prefix, 'dbURL': dbURL}
+		return {'token': token, 'prefix': prefix, 'dbURL': dbURL, 'testing': testing}
 	}
 	catch(error) {
 		const token = process.env.TOKEN;
 		const dbURL = process.env.DATABASE_URL
 		const prefix = config.prefix;
+		testing = false
 		console.log('Starting using token stored on Heroku');
-		return {'token': token, 'prefix': prefix, 'dbURL': dbURL}
+		return {'token': token, 'prefix': prefix, 'dbURL': dbURL, 'testing': testing}
 	}
 }
 const cfg = getConfig();
 
-const dbClient = new Client({
-	connectionString: cfg['dbURL'],
-	ssl: {
-		rejectUnauthorized: false
-	}
-});
-
-dbClient.connect();
-dbClient.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-	if (err) throw err;
-	for (let row of res.rows) {
-	  //console.log(JSON.stringify(row));
-	}
-	dbClient.end();
-});
-
 	class BotClient extends AkairoClient {
 		constructor() {
 			super({
-				ownerID: config.owner.id
+				ownerID: config.owner.id,
 			}, {
 				disableEveryone: true,
-				allowMention: true
+				allowMention: true,
 			});
 
 			this.commandHandler = new CommandHandler(
@@ -78,6 +65,17 @@ dbClient.query('SELECT table_schema,table_name FROM information_schema.tables;',
 		}
 	}
 	const client = new BotClient();
+
+	client.db = new Client({
+		connectionString: cfg['dbURL'],
+		ssl: {
+			rejectUnauthorized: false
+		}
+	});
+	client.db.connect();
+
+	client.testing = cfg['testing']
+
 	client.on('raw', async packet => { 
  		if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t)) return;
 		const channel = await client.channels.fetch(packet.d.channel_id);
