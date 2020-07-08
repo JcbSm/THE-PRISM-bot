@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const { pad } = require('../../functions')
 
 class SetDonationCommand extends Command {
     constructor() {
@@ -16,60 +17,40 @@ class SetDonationCommand extends Command {
 
     async exec(message, args) {
 
-        if(message.guild.id !== '447504770719154192') return;
+        try{
+            const donationChannel = (await this.client.channels.fetch('661310749947461691'));
+            const donationMessage = (await donationChannel.messages.fetch('661315838069964823'));
 
-        let donationBar = '[----------------------------]'
+            //const currentValue = Number(donationMessage.content.split("\n").pop().trim().split(" ").shift().split('£').pop())
+            const goal = Number(donationMessage.content.split("//").pop().split(' ').shift())
 
-        if(args.value/500 >= (500/28)/500) donationBar = '[■---------------------------]';
-        if(args.value/500 >= 2*(500/28)/500) donationBar = '[■■--------------------------]';
-        if(args.value/500 >= 3*(500/28)/500) donationBar = '[■■■-------------------------]';
-        if(args.value/500 >= 4*(500/28)/500) donationBar = '[■■■■------------------------]';
-        if(args.value/500 >= 5*(500/28)/500) donationBar = '[■■■■■-----------------------]';
-        if(args.value/500 >= 6*(500/28)/500) donationBar = '[■■■■■■----------------------]';
-        if(args.value/500 >= 7*(500/28)/500) donationBar = '[■■■■■■■---------------------]';
-        if(args.value/500 >= 8*(500/28)/500) donationBar = '[■■■■■■■■--------------------]';
-        if(args.value/500 >= 9*(500/28)/500) donationBar = '[■■■■■■■■■-------------------]';
-        if(args.value/500 >= 10*(500/28)/500) donationBar = '[■■■■■■■■■■------------------]';
-        if(args.value/500 >= 11*(500/28)/500) donationBar = '[■■■■■■■■■■■-----------------]';
-        if(args.value/500 >= 12*(500/28)/500) donationBar = '[■■■■■■■■■■■■----------------]';
-        if(args.value/500 >= 13*(500/28)/500) donationBar = '[■■■■■■■■■■■■■---------------]';
-        if(args.value/500 >= 14*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■--------------]';
-        if(args.value/500 >= 15*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■-------------]';
-        if(args.value/500 >= 16*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■------------]';
-        if(args.value/500 >= 17*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■-----------]';
-        if(args.value/500 >= 18*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■■----------]';
-        if(args.value/500 >= 19*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■■■---------]';
-        if(args.value/500 >= 20*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■■■■--------]';
-        if(args.value/500 >= 21*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■■■■■-------]';
-        if(args.value/500 >= 22*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■■■■■■------]';
-        if(args.value/500 >= 23*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■■■■■■■-----]';
-        if(args.value/500 >= 24*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■■■■■■■■----]';
-        if(args.value/500 >= 25*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■■■■■■■■■---]';
-        if(args.value/500 >= 26*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■■■■■■■■■■--]';
-        if(args.value/500 >= 27*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■■■■■■■■■■■-]';
-        if(args.value/500 >= 28*(500/28)/500) donationBar = '[■■■■■■■■■■■■■■■■■■■■■■■■■■■■]';
+            const newValue = Math.round((args.value)*100)/100
+            console.log(newValue)
 
+            if(message.guild.id !== '447504770719154192') return;
 
-        const moneyValue = args.value
-        const value = Math.round(args.value)
+            let barProgress = Math.floor((newValue/goal)*28);
+            if(barProgress > 28) barProgress = 28;
+            const barRemainder = 28 - barProgress
+            let bar = [];
 
-        let donationValue = '000'
+            for ( i = 0; i < barProgress; i++) {
+                bar.push('■');
+            }
+            for (i = 0; i < barRemainder; i++) {
+                bar.push('-')
+            }
 
-        if(args.value < 10) donationValue = '00' + value
-        if(args.value < 100 && value >= 10) donationValue = '0' + value
-        if(args.value < 1000 && value >= 100) donationValue = value
+            const donationBar = `[${bar.join('')}]`;
+            const value = pad(Math.round(newValue), 3)
+            const donationText = `╔════╣ 2020 Donations Board ╠════╗\n║ ${donationBar} ║\n╚══════════╣ ${value}//${goal} ╠══════════╝`
 
-        const donationText = `╔════╣ 2020 Donations Board ╠════╗\n║ ${donationBar} ║\n╚══════════╣ ${donationValue}//500 ╠══════════╝`
+            donationMessage.edit(`\`\`\`${donationText}\n\n       £${newValue} Donated so far\`\`\``)
 
-        const donationChannel = (await this.client.channels.fetch('661310749947461691'));
-        const donationMessage = (await donationChannel.messages.fetch('661315838069964823'))
-
-        donationMessage.edit(`\`\`\`${donationText}\n\n       £${moneyValue} Donated so far\`\`\``)
-
-
-        await message.react('👌')
+            await message.react('👌')
+        
+        }catch(e) {console.log(e)}
     }
-
 }
 
 module.exports = SetDonationCommand;
