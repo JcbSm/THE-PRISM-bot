@@ -16,17 +16,16 @@ class ReadyListener extends Listener {
 
         const readyEmbed = {
             type: 'rich',
-            title: `**Online**`,
-            description: `\`[${getUTCTime()}] UTC\` Client Ready!`,
-            fields: [
-                {
-                    name: 'Test Mode',
-                    value: this.client.testing
-                }
-            ],
+            title: `Online`,
+            description: `\`[${getUTCTime()} UTC]\`\nClient Ready!`,
+            fields: [],
             timestamp: new Date()
         }
-        if(this.client.testing) readyEmbed.color = colors.test;
+        if(this.client.testing) {
+
+            readyEmbed.color = colors.test;
+            readyEmbed.fields.push({name: 'Test mode', value: 'enabled'})
+        }
         if(!this.client.testing) readyEmbed.color = colors.good;
         
         (await this.client.users.fetch(this.client.ownerID)).send({embed: readyEmbed});
