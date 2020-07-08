@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const moment = require('moment')
 const { colors } = require('../../config');
-const { rgb } = require('../../functions');
+const { rgb, since } = require('../../functions');
 
 class ProfileCommand extends Command {
     constructor() {
@@ -27,78 +27,24 @@ class ProfileCommand extends Command {
         try{    
 
             let member;
-
             if(!args.member) member = message.member; else member = args.member;
                 
                 //Own profile, if no user is given.
                 let joinDate = new moment(member.joinedAt)
                 let createdDate = new moment(member.user.createdAt)
-                let guildName = message.guild.name
-
-                //Calc remainder values in milleseconds
-                let remainderMonthsSpent = (Date.now() - (member.joinedAt)) % (3600*1000*24*30.4375*12)
-                let remainderDaysSpent = (Date.now() - (member.joinedAt)) % (3600*1000*24*30.4375)
-                let remainderHoursSpent = (Date.now() - (member.joinedAt)) % (3600*1000*24)
-                let remainderMinutesSpent = (Date.now() - (member.joinedAt)) % (3600*1000)
-
-                //convert milleseconds to other things
-
-                let yearsSpent = `${Math.floor((Date.now() - (member.joinedAt)) / (3600*1000*24*30.4375*12))} years`
-                let monthsSpent = `${Math.floor(remainderMonthsSpent / (3600*1000*24*30.4375))} months`
-                let daysSpent = `${Math.floor(remainderDaysSpent / (3600*1000*24))} days`
-                let hoursSpent = `${Math.floor(remainderHoursSpent / (3600*1000))} hours`
-                let minutesSpent = `${Math.floor(remainderMinutesSpent / (1000*60))} minutes`
-
-                if(yearsSpent == `1 years`) {
-                    yearsSpent = '1 year'
-                }
-
-                if(monthsSpent == '1 months') {
-                    monthsSpent = '1 month'
-                }
-
-                if(daysSpent == '1 days') {
-                    daysSpent = '1 day'
-                }
-
-                if(hoursSpent == '1 hours') {
-                    hoursSpent = '1 hour'
-                }
-
-                if(minutesSpent == '1 minutes') {
-                    minutesSpent = '1 minute'
-                }
-
-                let timeSpent = ''
-
-                if(hoursSpent === '0 hours' && daysSpent === '0 days' && monthsSpent === '0 months' && yearsSpent === '0 years') {
-                    timeSpent = minutesSpent + 'ago.'
-                } else if(daysSpent === '0 days' && monthsSpent === '0 months' && yearsSpent === '0 years') {
-                    timeSpent = `${hoursSpent}, ${minutesSpent} ago.`
-                } else if(monthsSpent === '0 months' && yearsSpent === '0 years') {
-                    timeSpent = `${daysSpent}, ${hoursSpent} ago.`
-                } else if(yearsSpent === '0 years') {
-                    timeSpent = `${monthsSpent}, ${daysSpent}, ${hoursSpent} ago.`
-                } else {
-                    timeSpent = `${yearsSpent}, ${monthsSpent}, ${daysSpent} ago.`
-                }
 
                 //Join rank calculations
-
                 const memberListWithBots = (await message.guild.members.fetch());
                 const memberList = memberListWithBots.filter(b => !b.user.bot)
-                let sortedMemberlist = memberList.sort((a, b) => b.joinedTimestamp - a.joinedTimestamp).keyArray().reverse();
-                let joinRank = (sortedMemberlist.indexOf(member.user.id)) + 1
-
-                //Status
-                const presence = member.user.presence.status
+                const sortedMemberlist = memberList.sort((a, b) => b.joinedTimestamp - a.joinedTimestamp).keyArray().reverse();
+                const joinRank = (sortedMemberlist.indexOf(member.user.id)) + 1
 
                 await message.channel.send({ embed: {
 
                     type: 'rich',
-                    title: `**${guildName} Profile**`,
+                    title: `**${message.guild.name} Profile**`,
                     description: `<@${member.user.id}>`,
-                    color: rgb(colors.purple),
+                    color: colors.purple,
                     thumbnail: {
                         url: member.user.avatarURL()
                     },
@@ -113,7 +59,7 @@ class ProfileCommand extends Command {
                         },
                         {
                             name: 'Status',
-                            value: presence,
+                            value: member.user.presence.status,
                             inline: true
                         },                 
                         {
@@ -138,7 +84,7 @@ class ProfileCommand extends Command {
                         },                        
                         {
                             name: 'Joined',
-                            value: timeSpent,
+                            value: `${since(member.joinedAt, 3)} ago.`,
                             inline: true
                         },
                     ]
