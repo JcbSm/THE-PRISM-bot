@@ -1,4 +1,4 @@
 /node_modules/*
 package-lock.json
 keys.json
-/commands/debug.js
+commands/debug.js
