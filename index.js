@@ -4,27 +4,27 @@ const config = require('./config');
 
 try {
 
-function getConfig() {
-	let testing;
-	try {
-		const keys = require('./keys.json')
-		const token = keys.token;
-		const dbURL = keys.database.url
-		const prefix = config.testPrefix;
-		testing = true
-		console.log('Starting using locally stored value for token.');
-		return {'token': token, 'prefix': prefix, 'dbURL': dbURL, 'testing': testing}
+	function getConfig() {
+		let testing;
+		try {
+			const keys = require('./keys.json')
+			const token = keys.token;
+			const dbURL = keys.database.url
+			const prefix = config.testPrefix;
+			testing = true
+			console.log('Starting using locally stored value for token.');
+			return {'token': token, 'prefix': prefix, 'dbURL': dbURL, 'testing': testing}
+		}
+		catch(error) {
+			const token = process.env.TOKEN;
+			const dbURL = process.env.DATABASE_URL
+			const prefix = config.prefix;
+			testing = false
+			console.log('Starting using token stored on Heroku');
+			return {'token': token, 'prefix': prefix, 'dbURL': dbURL, 'testing': testing}
+		}
 	}
-	catch(error) {
-		const token = process.env.TOKEN;
-		const dbURL = process.env.DATABASE_URL
-		const prefix = config.prefix;
-		testing = false
-		console.log('Starting using token stored on Heroku');
-		return {'token': token, 'prefix': prefix, 'dbURL': dbURL, 'testing': testing}
-	}
-}
-const cfg = getConfig();
+	const cfg = getConfig();
 
 	class BotClient extends AkairoClient {
 		constructor() {
@@ -65,7 +65,7 @@ const cfg = getConfig();
 		}
 	}
 	const client = new BotClient();
-
+	
 	client.db = new Client({
 		connectionString: cfg['dbURL'],
 		ssl: {
@@ -73,9 +73,7 @@ const cfg = getConfig();
 		}
 	});
 	client.db.connect();
-
 	client.testing = cfg['testing']
-
 	client.on('raw', async packet => { 
  		if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t)) return;
 		const channel = await client.channels.fetch(packet.d.channel_id);
@@ -93,4 +91,7 @@ const cfg = getConfig();
 		});
 	});
 	client.login(cfg['token']);
-} catch(e) {console.log(e)}
+} catch(e) {
+
+	console.log(e)
+}
