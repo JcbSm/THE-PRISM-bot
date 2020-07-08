@@ -257,7 +257,8 @@ module.exports =
             purple: '#6921dd',
             good: '#75cf88',
             medium: '#cf8e75',
-            bad: '#e64d50'
+            bad: '#e64d50',
+            test: '#dbce39'
         },
 
         emoji: {
