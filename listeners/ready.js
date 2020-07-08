@@ -1,6 +1,6 @@
 const { Listener } = require('discord-akairo');
 const { colors } = require('../config')
-const { getTime } = require('../functions')
+const { getUTCTime } = require('../functions')
 
 class ReadyListener extends Listener {
     constructor() {
@@ -17,7 +17,7 @@ class ReadyListener extends Listener {
         const readyEmbed = {
             type: 'rich',
             title: `**Online**`,
-            description: `\`[${getTime()}]\` Client Ready!`,
+            description: `\`[${getUTCTime()}] UTC\` Client Ready!`,
             fields: [
                 {
                     name: 'Test Mode',
