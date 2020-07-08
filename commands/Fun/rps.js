@@ -38,7 +38,8 @@ class RpsCommand extends Command {
 
                 let playerChoice = collected.first().content.toLowerCase()
                 let botChoice = ['rock', 'paper', 'scissors'][Math.floor(Math.random()*3)];
-                let winner = ''
+
+                let winner;
     
                 if(playerChoice !== 'rock' && playerChoice !== 'paper' && playerChoice !== 'scissors') {
                     return message.reply(`You need to choose rock, paper or scissors. This isn\'t a single player game. :(`)
