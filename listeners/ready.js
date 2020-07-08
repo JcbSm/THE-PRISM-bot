@@ -1,4 +1,6 @@
 const { Listener } = require('discord-akairo');
+const { colors } = require('../config')
+const { getTime } = require('../functions')
 
 class ReadyListener extends Listener {
     constructor() {
@@ -10,17 +12,26 @@ class ReadyListener extends Listener {
 
     async exec() {
 
-        const client = this.client;
+        console.log(`${this.client.user.username} is Online`);
 
-        console.log(`${client.user.username} is Online`);
-        
-        (await client.users.fetch(client.ownerID)).send({embed: {
+        const readyEmbed = {
             type: 'rich',
-            title: 'Online',
+            title: `**Online**`,
+            description: `\`[${getTime()}]\` Client Ready!`,
+            fields: [
+                {
+                    name: 'Test Mode',
+                    value: this.client.testing
+                }
+            ],
             timestamp: new Date()
-        }});
+        }
+        if(this.client.testing) readyEmbed.color = colors.test;
+        if(!this.client.testing) readyEmbed.color = colors.good;
+        
+        (await this.client.users.fetch(this.client.ownerID)).send({embed: readyEmbed});
 
-        client.user.setPresence({ activity: { name: '▲', type: 'WATCHING'}, status: 'dnd'})
+        this.client.user.setPresence({ activity: { name: '▲', type: 'WATCHING'}, status: 'dnd'})
     }
 }
 
