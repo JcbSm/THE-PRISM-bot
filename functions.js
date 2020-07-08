@@ -39,6 +39,7 @@ module.exports = {
         if(date === undefined) {date = new Date()}
         return `${module.exports.pad(date.getHours(), 2)}:${module.exports.pad(date.getMinutes(), 2)}:${module.exports.pad(date.getSeconds(), 2)}`
     },
+    
     getUTCTime: function getTime(date) {
         if(date === undefined) {date = new Date()}
         return `${module.exports.pad(date.getUTCHours(), 2)}:${module.exports.pad(date.getUTCMinutes(), 2)}:${module.exports.pad(date.getUTCSeconds(), 2)}`
