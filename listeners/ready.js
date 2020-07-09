@@ -17,7 +17,7 @@ class ReadyListener extends Listener {
         const readyEmbed = {
             type: 'rich',
             title: `Online`,
-            description: `\`[${getUTCTime()} UTC]\`\nClient Ready!`,
+            description: `\`[${getUTCTime(this.client.readyAt)} UTC]\`\nClient Ready`,
             fields: [],
             timestamp: new Date()
         }
