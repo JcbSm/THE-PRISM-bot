@@ -35,14 +35,24 @@ module.exports = {
         return await (await client.channels.fetch(arr[0])).messages.fetch(arr[1]);
     },
 
-    getTime: function getTime(date) {
+    getLocalTime: function getLocalTime(date) {
         if(date === undefined) {date = new Date()}
-        return `${module.exports.pad(date.getHours(), 2)}:${module.exports.pad(date.getMinutes(), 2)}:${module.exports.pad(date.getSeconds(), 2)}`
+        let arr = []
+        arr.push(module.exports.pad(date.getHours(), 2));
+        arr.push(module.exports.pad(date.getMinutes(), 2));
+        arr.push(module.exports.pad(date.getSeconds(), 2));
+        if(milliseconds === true) arr.push(module.exports.pad(date.getUTCMilliseconds(), 3))
+        return arr.join(':')
     },
     
-    getUTCTime: function getTime(date) {
+    getUTCTime: function getTime(date, milliseconds) {
         if(date === undefined) {date = new Date()}
-        return `${module.exports.pad(date.getUTCHours(), 2)}:${module.exports.pad(date.getUTCMinutes(), 2)}:${module.exports.pad(date.getUTCSeconds(), 2)}`
+        let arr = []
+        arr.push(module.exports.pad(date.getUTCHours(), 2));
+        arr.push(module.exports.pad(date.getUTCMinutes(), 2));
+        arr.push(module.exports.pad(date.getUTCSeconds(), 2));
+        if(milliseconds === true) arr.push(module.exports.pad(date.getUTCMilliseconds(), 3))
+        return arr.join(':')
     },
 
     since: function since(timestamp, max) {
