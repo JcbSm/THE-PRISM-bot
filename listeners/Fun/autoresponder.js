@@ -58,8 +58,11 @@ class AutoResponderListener extends Listener {
         {
             if(/^no u$/i.test(message.content)) message.reply('no u')
             if(/^ok/i.test(message.content)) message.react('👌')
-            if(/^no$/i.test(message.content)) message.react('🚫')
+            if(/^no$/i.test(message.content)) message.react('699654286069465189')
             if(/^yes$/i.test(message.content)) message.react('✅')
+            if(/^yes or no$/i.test(message.content)) {
+                message.react('✅'); message.react('699654286069465189')
+            }
             if(/bruh/i.test(message.content)) message.react('623624603675394048')
             if(/\<3/i.test(message.content)) message.react('♥️')
         }
