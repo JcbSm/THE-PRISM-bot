@@ -58,10 +58,10 @@ class AutoResponderListener extends Listener {
         {
             if(/^no u$/i.test(message.content)) message.reply('no u')
             if(/^ok/i.test(message.content)) message.react('👌')
-            if(/^no$/i.test(message.content)) message.react('699654286069465189')
+            if(/^no$/i.test(message.content)) message.react('730846979977904218')
             if(/^yes$/i.test(message.content)) message.react('✅')
             if(/^yes or no$/i.test(message.content)) {
-                message.react('✅'); message.react('699654286069465189')
+                message.react('✅'); message.react('730846979977904218')
             }
             if(/bruh/i.test(message.content)) message.react('623624603675394048')
             if(/\<3/i.test(message.content)) message.react('♥️')
@@ -74,6 +74,7 @@ class AutoResponderListener extends Listener {
             if(/\:\)/i.test(message.content)) message.react('🙂')
             if(/\:\(/i.test(message.content)) message.react('🙁')
             if(/hmm/i.test(message.content)) message.react('448143170509733899') 
+            if(/B\)/i.test(message.content)) message.react('😎')
         }
 
         //Bad Words
