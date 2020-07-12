@@ -16,7 +16,6 @@ class FactCommand extends Command {
     exec(message) {
 
         let result = Math.floor(Math.random()* facts.length);
-        
         message.reply(facts[result])
     }
 }
