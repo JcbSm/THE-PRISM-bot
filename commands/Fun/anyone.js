@@ -9,7 +9,7 @@ class AnyoneCommand extends Command {
             prefix: `Hey prism bot, tag`,
             description: {
                 content: 'Tags a random server member',
-                usage: 'anyone (just kidding, it\'s a secret'
+                usage: 'anyone (just kidding, it\'s a secret)'
             },
             category: 'fun'
         })
