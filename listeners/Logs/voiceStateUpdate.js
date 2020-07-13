@@ -57,7 +57,7 @@ class voiceStateUpdateListener extends Listener {
                 video: null,
                 author: {
                     name: newState.member.user.tag,
-                    icon_url: newState.member.user.avatarURL
+                    icon_url: newState.member.user.avatarURL()
                     },
                 provider: null,
                 footer: {

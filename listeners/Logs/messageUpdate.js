@@ -60,7 +60,7 @@ class MessageUpdateListener extends Listener {
             video: null,
             author: {
                 name: oldMessage.member.user.tag,
-                icon_url: oldMessage.member.user.avatarURL
+                icon_url: oldMessage.member.user.avatarURL()
                 },
             provider: null,
             footer: {

@@ -59,7 +59,7 @@ try{
                 video: null,
                 author: {
                     name: newMember.user.tag,
-                    icon_url: newMember.user.avatarURL
+                    icon_url: newMember.user.avatarURL()
                     },
                 provider: null,
                 footer: {
