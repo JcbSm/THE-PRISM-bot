@@ -38,6 +38,11 @@ class ToggleUserCommand extends Command {
                         await voiceChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: true })
                         message.channel.send(`***${voiceChannel.name} is now visible to ${args.member}***`)
                     }
+                } else if(voiceChannel.permissionOverwrites.get(message.guild.roles.cache.find(r => r.name === '@everyone').id).allow.serialize().VIEW_CHANNEL) {
+
+                    await voiceChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: false })
+                    message.channel.send(`***${voiceChannel.name} is now invisible to ${args.member}***`)
+
                 } else {
                     await voiceChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: true })
                     message.channel.send(`***${voiceChannel.name} is now visible to ${args.member}***`)
