@@ -46,6 +46,7 @@ class AutoResponderListener extends Listener {
             if(/prism/gi.test(message.content)) message.react('597841926451888130')
             if(/^helll*oo*o$/i.test(message.content)) message.react('453964150385672203')
             if(/brian/i.test(message.content)) message.react('453928256371032064')
+            if(/asda/i.test(message.content)) message.react('731691628955435041')
         }
 
         //Memes 
