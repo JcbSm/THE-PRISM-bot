@@ -53,7 +53,7 @@ class AvatarCommand extends Command {
 
                 type: 'rich',
                 image: {
-                    url: args.member.user.avatarURL({size: 4096})
+                    url: args.member.user.displayAvatarURL({size: 4096})
                 },
                 color: rgb(colors.purple)
             }});
