@@ -63,9 +63,11 @@ class PrivateCallCommand extends Command {
 `${message.member} This is your private Voice Chat text channel for ${name}: Here are some commands you can use to change things around:\n
 \`\`\`
 -endCall: Ends and removes the voice channel
--toggleView: Toggles whether or not other users can see the channel
+-allowText <member>: Toggles user's view on this channel
+-toggleView: Toggles whether or not @everyone can see the channel
 -toggleUser <member>: Toggles whether or not a user can see the channel
 -userLimit <number>: Set the voice channel's user limit
+-rename <name>: renames the channel (only works once for some reason)
 \`\`\`
 **THE CHANNELS WILL BE AUTOMATICALLY REMOVED ONCE EVERYONE LEAVES**
 `)
