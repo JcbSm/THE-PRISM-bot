@@ -17,7 +17,7 @@ class MoveCommand extends Command {
             ],
             split: 'quoted',
             description: {
-                content: 'Moves all or given members into a specified voice channel. The members must be mentions and split by spaces',
+                content: 'Moves all or given members into a specified voice channel. Split members with \';\'',
                 usage: 'move <channel> <"all" | members>'
             },
             userPermissions: 'MOVE_MEMBERS'
@@ -30,7 +30,10 @@ class MoveCommand extends Command {
 
             let allChannelMembers = await message.member.voice.channel.members;
 
-            if(args.members === 'all') {
+            if(!args.members) {
+                await message.member.voice.setChannel(args.channel);
+                
+            }else if(args.members === 'all') {
 
                 for (let i = 0; i < allChannelMembers.keyArray().length; i++) {
                     
@@ -39,22 +42,25 @@ class MoveCommand extends Command {
 
             } else {
 
-                let memberArray = (((args.members.split('<').join('')).split('@').join('')).split('>').join('')).split('!').join('').split(' ');
-
-                let channelMembers = []
-
-                for (let i = 0; i < memberArray.length; i++ ) {
-
-                    let oneMember = allChannelMembers.get(memberArray[i]);
-                    channelMembers.push(oneMember)
-
-                }
+                let memberArray = args.members.split(';');
+                let unresolveable = []
                 
-                for (let i = 0; i < channelMembers.length; i++) {
-                       
-                    await channelMembers[i].voice.setChannel(args.channel)
+                for (const resolveable of memberArray) {
+                    
+                    resolveable.trim()
+                    const member = this.client.util.resolveMember(resolveable.trim(), message.guild.members.cache)
+
+                    if(!member) {
+                        unresolveable.push(resolveable.trim())
+                    } else if(message.member.voice.channel.members.keyArray().includes(member.user.id)) {
+                        member.voice.setChannel(args.channel)
+                    }
                 }
-                
+
+                if(unresolveable.length > 0) {
+
+                    message.reply(`Unable to resolve: \`${unresolveable.join(', ')}\``)
+                }                
             }
         } catch(e) {
             message.reply('An error occurred, type "-help move" for more information.')
