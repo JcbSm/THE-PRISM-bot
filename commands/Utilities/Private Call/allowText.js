@@ -11,7 +11,7 @@ class AllowTextClass extends Command {
                     match: 'rest'
                 }
             ],
-            category: 'private calls'
+            category: 'calls'
         })
     }
 

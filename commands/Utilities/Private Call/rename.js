@@ -16,7 +16,7 @@ class RenameCallCommand extends Command {
                 content: 'Renames the private call',
                 usage: 'renameCall <name>'
             },
-            category: 'private calls'
+            category: 'calls'
 
         })
     }

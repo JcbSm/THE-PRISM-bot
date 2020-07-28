@@ -8,7 +8,7 @@ class PrivateCallDeleteCommand extends Command {
                 content: 'Delete a private voice channel',
                 usage: 'endCall'
             },
-            category: 'private calls',
+            category: 'calls',
         })
     }
 

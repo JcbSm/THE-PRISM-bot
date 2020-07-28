@@ -8,7 +8,7 @@ class UserLimitCommand extends Command {
                 content: 'Sets the user limit for the channel',
                 usage: 'userlimit <number>'
             },
-            category: 'private calls',
+            category: 'calls',
             args: [
                 {
                     id: 'num',

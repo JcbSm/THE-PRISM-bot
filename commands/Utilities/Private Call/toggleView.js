@@ -8,7 +8,7 @@ class ToggleViewCommand extends Command {
                 content: 'Toggles whether or not other users can view the voice channel',
                 usage: 'toggleView'
             },
-            category: 'private calls',
+            category: 'calls',
         })
     }
 

@@ -8,7 +8,7 @@ class ToggleUserCommand extends Command {
                 content: 'Allows or denies a specific user to view the channel',
                 usage: 'toggleUser <user>'
             },
-            category: 'private calls',
+            category: 'calls',
             args: [
                 {
                     id: 'member',
