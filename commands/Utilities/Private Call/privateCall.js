@@ -32,7 +32,7 @@ class PrivateCallCommand extends Command {
         if(message.guild.id === '447504770719154192' || message.guild.id === '569556194612740115') {
 
             const guild = message.guild
-            const everyoneRole = message.guild.roles.cache.find(r => r.name === '@everyone')
+            const everyoneRole = message.guild.roles.everyone
 
             if(args.num > 99) return message.reply('Max user count is 99')
 
