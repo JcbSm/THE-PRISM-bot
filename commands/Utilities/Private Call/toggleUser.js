@@ -26,8 +26,6 @@ class ToggleUserCommand extends Command {
 
             if(!args.members) return message.reply('Please provide at least one member.')
 
-            const guild = message.guild
-
             if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
             if(message.channel.topic.split(';').shift() === 'PRIVATE CALL') {
                 const voiceChannel = message.guild.channels.cache.get(message.channel.topic.split(';').pop())
@@ -52,7 +50,7 @@ class ToggleUserCommand extends Command {
                                 await voiceChannel.createOverwrite(member.id, { VIEW_CHANNEL: true })
                                 message.channel.send(`***${voiceChannel.name} is now visible to ${member}***`)
                             }
-                        } else if(voiceChannel.permissionOverwrites.get(message.guild.roles.cache.find(r => r.name === '@everyone').id).allow.serialize().VIEW_CHANNEL) {
+                        } else if(voiceChannel.permissionOverwrites.get(message.guild.roles.everyone.id).allow.serialize().VIEW_CHANNEL) {
         
                             await voiceChannel.createOverwrite(member.id, { VIEW_CHANNEL: false })
                             message.channel.send(`***${voiceChannel.name} is now invisible to ${member}***`)
@@ -61,7 +59,6 @@ class ToggleUserCommand extends Command {
                             await voiceChannel.createOverwrite(member.id, { VIEW_CHANNEL: true })
                             message.channel.send(`***${voiceChannel.name} is now visible to ${member}***`)
                         }
-        
                     }
                 }
 
