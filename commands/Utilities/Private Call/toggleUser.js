@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 class ToggleUserCommand extends Command {
     constructor() {
         super('toggleUser', {
-            aliases: ['toggleUser'],
+            aliases: ['toggleUser', 'toggleUsers'],
             description: {
                 content: 'Allows or denies a specific user to view the channel',
                 usage: 'toggleUser <user>'
@@ -11,8 +11,9 @@ class ToggleUserCommand extends Command {
             category: 'calls',
             args: [
                 {
-                    id: 'member',
-                    type: 'member'
+                    id: 'members',
+                    type: 'string',
+                    match: 'rest',
                 }
             ]
         })
@@ -23,6 +24,8 @@ class ToggleUserCommand extends Command {
         
         if(message.guild.id === '447504770719154192' || message.guild.id === '569556194612740115') {
 
+            if(!args.members) return message.reply('Please provide at least one member.')
+
             const guild = message.guild
 
             if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
@@ -30,27 +33,43 @@ class ToggleUserCommand extends Command {
                 const voiceChannel = message.guild.channels.cache.get(message.channel.topic.split(';').pop())
                 const perms = voiceChannel.permissionOverwrites.filter(p => p.type === 'member')
 
-                if(perms.get(args.member.id)) {
-                    if(perms.get(args.member.id).allow.serialize().VIEW_CHANNEL){
-                        await voiceChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: false })
-                        message.channel.send(`***${voiceChannel.name} is now invisible to ${args.member}***`)
+                const memberArray = args.members.split(';')
+                let unresolveable = []
+
+                for(const resolveable of memberArray) {
+
+                    const member = this.client.util.resolveMember(resolveable.trim(), message.guild.members.cache)
+                    if(!member) {
+
+                        unresolveable.push(resolveable.trim())
                     } else {
-                        await voiceChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: true })
-                        message.channel.send(`***${voiceChannel.name} is now visible to ${args.member}***`)
+
+                        if(perms.get(member.id)) {
+                            if(perms.get(member.id).allow.serialize().VIEW_CHANNEL){
+                                await voiceChannel.createOverwrite(member.id, { VIEW_CHANNEL: false })
+                                message.channel.send(`***${voiceChannel.name} is now invisible to ${member}***`)
+                            } else {
+                                await voiceChannel.createOverwrite(member.id, { VIEW_CHANNEL: true })
+                                message.channel.send(`***${voiceChannel.name} is now visible to ${member}***`)
+                            }
+                        } else if(voiceChannel.permissionOverwrites.get(message.guild.roles.cache.find(r => r.name === '@everyone').id).allow.serialize().VIEW_CHANNEL) {
+        
+                            await voiceChannel.createOverwrite(member.id, { VIEW_CHANNEL: false })
+                            message.channel.send(`***${voiceChannel.name} is now invisible to ${member}***`)
+        
+                        } else {
+                            await voiceChannel.createOverwrite(member.id, { VIEW_CHANNEL: true })
+                            message.channel.send(`***${voiceChannel.name} is now visible to ${member}***`)
+                        }
+        
                     }
-                } else if(voiceChannel.permissionOverwrites.get(message.guild.roles.cache.find(r => r.name === '@everyone').id).allow.serialize().VIEW_CHANNEL) {
-
-                    await voiceChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: false })
-                    message.channel.send(`***${voiceChannel.name} is now invisible to ${args.member}***`)
-
-                } else {
-                    await voiceChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: true })
-                    message.channel.send(`***${voiceChannel.name} is now visible to ${args.member}***`)
                 }
 
-
+                if(unresolveable.length > 0) {
+                    
+                    message.reply(`Unable to resolve: \`${unresolveable.join(', ')}\``)
+                }
             }
-
         }
     
     }catch(error){console.log(error)}

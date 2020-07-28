@@ -6,8 +6,8 @@ class AllowTextClass extends Command {
             aliases: ['allowText'],
             args: [
                 {
-                    id: 'member',
-                    type: 'member',
+                    id: 'members',
+                    type: 'string',
                     match: 'rest'
                 }
             ],
@@ -20,6 +20,8 @@ class AllowTextClass extends Command {
         try{        
         
             if(message.guild.id === '447504770719154192' || message.guild.id === '569556194612740115') {
+
+                if(!args.members) return message.reply('Please provide at least one member.')
     
                 const guild = message.guild
     
@@ -28,30 +30,46 @@ class AllowTextClass extends Command {
                     const textChannel = message.channel
                     const perms = textChannel.permissionOverwrites.filter(p => p.type === 'member')
 
-                    if(!args.member) return message.reply('Please provide a member')
-                    if(message.channel.topic.includes(args.member.user.id)) return message.reply('You can\'t kick the owner')
+                    const memberArray = args.members.split(';')
+                    let unresolveable = []
 
-                    if(perms.get(args.member.id)) {
-                        if(perms.get(args.member.id).allow.serialize().VIEW_CHANNEL){
-                            await textChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: false })
-                            message.channel.send(`***${textChannel.name} is now invisible to ${args.member.user.tag}***`)
+                    for(const resolveable of memberArray) {
+
+                        const member = this.client.util.resolveMember(resolveable.trim(), message.guild.members.cache)
+                        if(!member) {
+                            unresolveable.push(resolveable.trim())
                         } else {
-                            await textChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: true })
-                            message.channel.send(`***${textChannel.name} is now visible to ${args.member.user.tag}***`)
+
+                            if(message.channel.topic.includes(member.user.id)) {
+                                message.reply('You can\'t kick the owner')
+                            } else {
+
+                                if(perms.get(member.id)) {
+                                    if(perms.get(member.id).allow.serialize().VIEW_CHANNEL){
+                                        await textChannel.createOverwrite(member.id, { VIEW_CHANNEL: false })
+                                        message.channel.send(`***${textChannel.name} is now invisible to ${member.user.tag}***`)
+                                    } else {
+                                        await textChannel.createOverwrite(member.id, { VIEW_CHANNEL: true })
+                                        message.channel.send(`***${textChannel.name} is now visible to ${member.user.tag}***`)
+                                    }
+                                } else if(textChannel.permissionOverwrites.get(message.guild.roles.cache.find(r => r.name === '@everyone').id).allow.serialize().VIEW_CHANNEL) {
+                
+                                    await textChannel.createOverwrite(member.id, { VIEW_CHANNEL: false })
+                                    message.channel.send(`***${textChannel.name} is now invisible to ${member.user.tag}***`)
+                
+                                } else {
+                                    await textChannel.createOverwrite(member.id, { VIEW_CHANNEL: true })
+                                    message.channel.send(`***${textChannel.name} is now visible to ${member.user.tag}***`)
+                                }
+                            }
                         }
-                    } else if(textChannel.permissionOverwrites.get(message.guild.roles.cache.find(r => r.name === '@everyone').id).allow.serialize().VIEW_CHANNEL) {
-    
-                        await textChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: false })
-                        message.channel.send(`***${textChannel.name} is now invisible to ${args.member.user.tag}***`)
-    
-                    } else {
-                        await textChannel.createOverwrite(args.member.id, { VIEW_CHANNEL: true })
-                        message.channel.send(`***${textChannel.name} is now visible to ${args.member.user.tag}***`)
+                    }  
+                    
+                    if(unresolveable.length > 0) {
+                    
+                        message.reply(`Unable to resolve: \`${unresolveable.join(', ')}\``)
                     }
-    
-    
                 }
-    
             }
         
         }catch(error){console.log(error)}
