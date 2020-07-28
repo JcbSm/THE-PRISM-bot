@@ -47,7 +47,6 @@ class MoveCommand extends Command {
                 
                 for (const resolveable of memberArray) {
                     
-                    resolveable.trim()
                     const member = this.client.util.resolveMember(resolveable.trim(), message.guild.members.cache)
 
                     if(!member) {
