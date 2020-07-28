@@ -29,9 +29,9 @@ class RoleCommand extends Command {
     async exec(message, args) {
 
             
-            if(!args.member) {
-                return message.reply('No user found.')
-            }
+            if(!args.member) return message.reply('No user found.')
+
+            if(!args.role) return message.reply('No role found.');
 
             try{
                 let role = args.role
@@ -59,8 +59,7 @@ class RoleCommand extends Command {
                 } 
             }
             } catch(error) {
-                console.log(error)
-                message.reply('No role found.')                
+                console.log(error)              
             }
     }
 }
