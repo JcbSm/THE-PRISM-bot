@@ -24,7 +24,9 @@ class ProfileCommand extends Command {
 
     async exec(message, args) {
 
-        try{    
+        try{
+            
+            
 
             let member;
             if(!args.member) member = message.member; else member = args.member;
@@ -46,7 +48,7 @@ class ProfileCommand extends Command {
                     description: `<@${member.user.id}>`,
                     color: colors.purple,
                     thumbnail: {
-                        url: member.user.avatarURL()
+                        url: member.user.avatarURL({size: 1024})
                     },
                     footer: {
                         text: `ID: ${member.user.id}`
@@ -64,7 +66,7 @@ class ProfileCommand extends Command {
                         },                 
                         {
                             name: 'Highest Role',
-                            value: member.roles.highest,
+                            value: member.roles.cache.filter(r => !r.name.includes('═')).sort((a, b) => a.rawPosition - b.rawPosition).last(),
                             inline: true
                         },                        
                         {
