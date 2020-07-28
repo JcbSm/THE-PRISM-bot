@@ -44,10 +44,10 @@ class ServerInfoCommand extends Command {
         const categoriesSize = guildChannels.filter(c => c.type === 'category').size
 
         //Emojis
-        const eomjiSize = guildInfo.emojis.size
+        const eomjiSize = guildInfo.emojis.cache.size
 
         //Roles
-        const roleSize = guildInfo.roles.size
+        const roleSize = guildInfo.roles.cache.size
 
         //Verified
         let isVerified = ''
