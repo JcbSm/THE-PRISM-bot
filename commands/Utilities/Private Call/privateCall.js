@@ -2,13 +2,13 @@ const { Command } = require('discord-akairo');
 
 class PrivateCallCommand extends Command {
     constructor() {
-        super('privatecall', {
-            aliases: ['privatecall'],
+        super('call', {
+            aliases: ['call', 'privatecall'],
             description: {
                 content: 'Create a temporary private voice channel',
-                usage: 'privatecall <user limit> <name>'
+                usage: 'call/privatecall <user limit> <name>'
             },
-            category: 'private calls',
+            category: 'calls',
             args: [
                 {
                     id: 'num',
@@ -25,7 +25,9 @@ class PrivateCallCommand extends Command {
     }
 
     async exec(message, args) {
-        try{        
+        try{ 
+            
+        const alias = message.content.split(" ")[0].split(this.client.commandHandler.prefix)[1]
         
         if(message.guild.id === '447504770719154192' || message.guild.id === '569556194612740115') {
 
@@ -46,19 +48,48 @@ class PrivateCallCommand extends Command {
                 }
             }
 
-            const voiceChannel = await guild.channels.create(name, {type: 'voice', userLimit: args.num})
-            await voiceChannel.createOverwrite(message.author.id, { VIEW_CHANNEL: true })
-            await voiceChannel.createOverwrite(this.client.user.id, { VIEW_CHANNEL: true })
-            await voiceChannel.createOverwrite(everyoneRole, { VIEW_CHANNEL: true })
-            await voiceChannel.setParent('638153434096205846')
-
-            const textChannel = await guild.channels.create(name, { type: 'text'})
-            await textChannel.createOverwrite(message.author.id, { VIEW_CHANNEL: true })
-            await textChannel.createOverwrite(this.client.user.id, { VIEW_CHANNEL: true })
-            await textChannel.createOverwrite(everyoneRole, { VIEW_CHANNEL: false })
-            await textChannel.setParent('638153434096205846')
-            await textChannel.setTopic(`PRIVATE CALL;${message.member};${voiceChannel.id}`)
-
+            const voiceChannel = await guild.channels.create(name, {
+                type: 'voice',
+                userLimit: args.num,
+                permissionOverwrites: [
+                    {
+                        id: everyoneRole.id,
+                        deny: ['VIEW_CHANNEL']
+                    },
+                    {
+                        id: message.author.id,
+                        allow: ['VIEW_CHANNEL']
+                    },
+                    {
+                        id: this.client.user.id,
+                        allow: ['VIEW_CHANNEL']
+                    }
+                ],
+                parent: '638153434096205846'
+            })
+            if(alias === 'call') {
+                await voiceChannel.createOverwrite(everyoneRole, { VIEW_CHANNEL: true })
+            }
+            
+            const textChannel = await guild.channels.create(name, {
+                type: 'text',
+                permissionOverwrites: [
+                    {
+                        id: everyoneRole.id,
+                        deny: ['VIEW_CHANNEL']
+                    },
+                    {
+                        id: message.author.id,
+                        allow: ['VIEW_CHANNEL']
+                    },
+                    {
+                        id: this.client.user.id,
+                        allow: ['VIEW_CHANNEL']
+                    }
+                ],
+                parent: '638153434096205846',
+                topic: `PRIVATE CALL;${message.member};${voiceChannel.id}`
+            })
             await textChannel.send(
 `${message.member} This is your private Voice Chat text channel for ${name}: Here are some commands you can use to change things around:\n
 \`\`\`
