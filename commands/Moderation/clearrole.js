@@ -23,20 +23,15 @@ class ClearRoleCommand extends Command {
 
     async exec(message, args) {
 
-        let role = message.guild.roles.cache.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
-
-        const num = role.members.keyArray().length
-
+        const role = message.guild.roles.cache.find(r => r.name.toLowerCase().includes(args.role.toLowerCase()))
+        let num = 0
         let msg = await message.channel.send("Working...")
 
-        for(let i = 0; i < role.members.keyArray().length; i++) {
+        for(const [ID, member] of role.members) {
 
-            try {
-                (await message.guild.members.fetch(role.members.keyArray()[i])).roles.remove(role.id)
-            } catch (error) {
-                console.log(error)
-            }
-
+            await member.roles.remove(role.id)
+            console.log(`Cleared ${member.user.tag}`);
+            num++;
         }
 
         await msg.delete()
