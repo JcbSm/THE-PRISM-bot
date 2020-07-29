@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 class PrivateCallCommand extends Command {
     constructor() {
         super('call', {
-            aliases: ['call', 'privatecall'],
+            aliases: ['call', 'pcall', 'privatecall'],
             description: {
                 content: 'Create a temporary private voice channel',
                 usage: 'call/privatecall <user limit> <name>'
@@ -27,7 +27,7 @@ class PrivateCallCommand extends Command {
     async exec(message, args) {
         try{ 
             
-        const alias = message.content.split(" ")[0].split(this.client.commandHandler.prefix)[1]
+        const command = await this.client.commandHandler.parseCommand(message)
         
         if(message.guild.id === '447504770719154192' || message.guild.id === '569556194612740115') {
 
@@ -67,7 +67,7 @@ class PrivateCallCommand extends Command {
                 ],
                 parent: '638153434096205846'
             })
-            if(alias === 'call') {
+            if(command.alias === 'call') {
                 await voiceChannel.createOverwrite(everyoneRole, { VIEW_CHANNEL: true })
             }
             
@@ -100,7 +100,7 @@ class PrivateCallCommand extends Command {
 -userLimit <number>: Set the voice channel's user limit
 -rename <name>: renames the channel (only works once for some reason)
 \`\`\`
-**THE CHANNELS WILL BE AUTOMATICALLY REMOVED ONCE EVERYONE LEAVES**
+**THE CHANNELS WILL BE AUTOMATICALLY REMOVED 60 SECONDS AFTER EVERYONE LEAVES**
 `)
 
         }
