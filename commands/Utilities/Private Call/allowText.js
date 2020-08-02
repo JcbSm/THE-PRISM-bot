@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const { colors } = require('../../../config');
 
 class AllowTextClass extends Command {
     constructor() {
@@ -32,6 +33,8 @@ class AllowTextClass extends Command {
                 const textChannel = message.channel
                 const perms = textChannel.permissionOverwrites.filter(p => p.type === 'member')
 
+                let [unresolveable, allow, deny] = [[], [], []]
+
                 if(!args.members) {
 
                     for(const [ID, member] of await voiceChannel.members) {
@@ -40,54 +43,87 @@ class AllowTextClass extends Command {
                         if(!memberPerm) {
 
                             await textChannel.createOverwrite(ID, { VIEW_CHANNEL: true })
-                            message.channel.send(`***${textChannel.name} is now visible to ${member.user.tag}***`) 
+                            allow.push(member.id); 
                         }
                     }
 
                 } else {
 
                     const memberArray = args.members.split(';')
-                    let unresolveable = []
 
-                        for(const resolveable of memberArray) {
+                    for(const resolveable of memberArray) {
 
-                            const member = this.client.util.resolveMember(resolveable.trim(), message.guild.members.cache)
-                            if(!member) {
-                                unresolveable.push(resolveable.trim())
+                        const member = this.client.util.resolveMember(resolveable.trim(), message.guild.members.cache)
+                        if(!member) {
+                            unresolveable.push(resolveable.trim())
+                        } else {
+
+                            if(message.channel.topic.includes(member.id)) {
+                                message.reply('You can\'t kick the owner')
                             } else {
 
-                                if(message.channel.topic.includes(member.id)) {
-                                    message.reply('You can\'t kick the owner')
-                                } else {
-
-                                    if(perms.get(member.id)) {
-                                        if(perms.get(member.id).allow.serialize().VIEW_CHANNEL){
-                                            await textChannel.createOverwrite(member.id, { VIEW_CHANNEL: false })
-                                            message.channel.send(`***${textChannel.name} is now invisible to ${member.user.tag}***`)
-                                        } else {
-                                            await textChannel.createOverwrite(member.id, { VIEW_CHANNEL: true })
-                                            message.channel.send(`***${textChannel.name} is now visible to ${member.user.tag}***`)
-                                        }
-                                    } else if(textChannel.permissionOverwrites.get(message.guild.roles.cache.find(r => r.name === '@everyone').id).allow.serialize().VIEW_CHANNEL) {
-                    
+                                if(perms.get(member.id)) {
+                                    if(perms.get(member.id).allow.serialize().VIEW_CHANNEL){
                                         await textChannel.createOverwrite(member.id, { VIEW_CHANNEL: false })
-                                        message.channel.send(`***${textChannel.name} is now invisible to ${member.user.tag}***`)
-                    
+                                        deny.push(member.id)
                                     } else {
                                         await textChannel.createOverwrite(member.id, { VIEW_CHANNEL: true })
-                                        message.channel.send(`***${textChannel.name} is now visible to ${member.user.tag}***`)
+                                        allow.push(member.id)
                                     }
+                                } else if(textChannel.permissionOverwrites.get(message.guild.roles.cache.find(r => r.name === '@everyone').id).allow.serialize().VIEW_CHANNEL) {
+                
+                                    await textChannel.createOverwrite(member.id, { VIEW_CHANNEL: false })
+                                    deny.push(member.id)
+                    
+                                } else {
+                                    await textChannel.createOverwrite(member.id, { VIEW_CHANNEL: true })
+                                    allow.push(member.id)
                                 }
                             }
-                        }  
-                        
-                        if(unresolveable.length > 0) {
-                        
-                            message.reply(`Unable to resolve: \`${unresolveable.join(', ')}\``)
-                        }
+                        }                        
                     }
                 }
+
+                let fieldArray = [];
+
+                if(allow.length > 0) {
+                    fieldArray.push({
+                        name: 'Allowed',
+                        value: `- <@!${allow.join(`>\n- <@!`)}>`
+                    })
+                }
+                if(deny.length > 0) {
+                    fieldArray.push({
+                        name: 'Denied',
+                        value: `- <@!${deny.join(`>\n- <@!`)}>`
+                    })
+                }
+                if(unresolveable.length > 0) {
+                    fieldArray.push({
+                        name: 'Unresolveable',
+                        value: `\`${unresolveable.join(`\n`)}\``
+                    })
+                }
+
+                if(fieldArray.length === 0) {
+                    message.channel.send({ embed: {
+
+                        type: 'rich',
+                        title: `No changes made to ${voiceChannel.name}`,
+                        color: colors.purple
+                    }})
+                } else {
+
+                    message.channel.send({ embed: {
+
+                        type: 'rich',
+                        title: `Updated ${voiceChannel.name}`,
+                        fields: fieldArray,
+                        color: colors.purple
+                    }})
+                }
             }
+        }
         
         } catch(error) {
             console.log(error)
