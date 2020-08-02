@@ -99,6 +99,7 @@ class PrivateCallCommand extends Command {
 -toggleUser <member>: Toggles whether or not a user can see the channel
 -userLimit <number>: Set the voice channel's user limit
 -rename <name>: renames the channel (only works once for some reason)
+-list: Lists the members which have access to the voice channel
 \`\`\`
 **THE CHANNELS WILL BE AUTOMATICALLY REMOVED 60 SECONDS AFTER EVERYONE LEAVES**
 `)
