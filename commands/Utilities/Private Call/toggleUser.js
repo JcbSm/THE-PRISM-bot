@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const { colors } = require('../../../config')
 
 class ToggleUserCommand extends Command {
     constructor() {
@@ -32,7 +33,7 @@ class ToggleUserCommand extends Command {
                 const perms = voiceChannel.permissionOverwrites.filter(p => p.type === 'member')
 
                 const memberArray = args.members.split(';')
-                let unresolveable = []
+                let [unresolveable, allow, deny] = [[], [], []]
 
                 for(const resolveable of memberArray) {
 
@@ -45,27 +46,52 @@ class ToggleUserCommand extends Command {
                         if(perms.get(member.id)) {
                             if(perms.get(member.id).allow.serialize().VIEW_CHANNEL){
                                 await voiceChannel.createOverwrite(member.id, { VIEW_CHANNEL: false })
-                                message.channel.send(`***${voiceChannel.name} is now invisible to ${member}***`)
+                                deny.push(member.id)
+
                             } else {
                                 await voiceChannel.createOverwrite(member.id, { VIEW_CHANNEL: true })
-                                message.channel.send(`***${voiceChannel.name} is now visible to ${member}***`)
+                                allow.push(member.id)
                             }
                         } else if(voiceChannel.permissionOverwrites.get(message.guild.roles.everyone.id).allow.serialize().VIEW_CHANNEL) {
         
                             await voiceChannel.createOverwrite(member.id, { VIEW_CHANNEL: false })
-                            message.channel.send(`***${voiceChannel.name} is now invisible to ${member}***`)
+                            deny.push(member.id)
         
                         } else {
                             await voiceChannel.createOverwrite(member.id, { VIEW_CHANNEL: true })
-                            message.channel.send(`***${voiceChannel.name} is now visible to ${member}***`)
+                            allow.push(member.id)
                         }
                     }
                 }
 
-                if(unresolveable.length > 0) {
-                    
-                    message.reply(`Unable to resolve: \`${unresolveable.join(', ')}\``)
+                let fieldArray = [];
+
+                if(allow.length > 0) {
+                    fieldArray.push({
+                        name: 'Allowed',
+                        value: `- <@!${allow.join(`>\n- <@!`)}>`
+                    })
                 }
+                if(deny.length > 0) {
+                    fieldArray.push({
+                        name: 'Denied',
+                        value: `- <@!${deny.join(`>\n- <@!`)}>`
+                    })
+                }
+                if(unresolveable.length > 0) {
+                    fieldArray.push({
+                        name: 'Unresolveable',
+                        value: `\`${unresolveable.join(`\n`)}\``
+                    })
+                }
+
+                message.channel.send({ embed: {
+
+                    type: 'rich',
+                    title: `Updated ${voiceChannel.name}`,
+                    fields: fieldArray,
+                    color: colors.purple
+                }})
             }
         }
     
