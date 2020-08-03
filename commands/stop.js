@@ -17,7 +17,10 @@ class ShutdownCommand extends Command {
         if(message.author.id !== '227848397447626752') return;
         
         console.log(`Process remotely shut down by ${message.author.tag} in ${message.guild}`)
-        await message.channel.send(`Putting ${this.client.user} to sleep...`)
+        await message.channel.send( {embed: {
+            type: 'rich',
+            description: `Putting ${this.client.user} to sleep...`
+        }})
         await this.client.destroy()
     }
 }
