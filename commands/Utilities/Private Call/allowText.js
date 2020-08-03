@@ -70,7 +70,7 @@ class AllowTextClass extends Command {
                                         await textChannel.createOverwrite(member.id, { VIEW_CHANNEL: true })
                                         allow.push(member.id)
                                     }
-                                } else if(textChannel.permissionOverwrites.get(message.guild.roles.cache.find(r => r.name === '@everyone').id).allow.serialize().VIEW_CHANNEL) {
+                                } else if(textChannel.permissionOverwrites.get(message.guild.roles.everyone.id).allow.serialize().VIEW_CHANNEL) {
                 
                                     await textChannel.createOverwrite(member.id, { VIEW_CHANNEL: false })
                                     deny.push(member.id)
@@ -109,7 +109,7 @@ class AllowTextClass extends Command {
                     message.channel.send({ embed: {
 
                         type: 'rich',
-                        title: `No changes made to ${voiceChannel.name}`,
+                        title: `No changes made to ${textChannel.name}`,
                         color: colors.purple
                     }})
                 } else {
@@ -119,7 +119,8 @@ class AllowTextClass extends Command {
                         type: 'rich',
                         title: `Updated ${voiceChannel.name}`,
                         fields: fieldArray,
-                        color: colors.purple
+                        color: colors.purple,
+                        timestamp: new Date()
                     }})
                 }
             }
