@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const { colors } = require('../../../config')
 
 class UserLimitCommand extends Command {
     constructor() {
@@ -12,7 +13,8 @@ class UserLimitCommand extends Command {
             args: [
                 {
                     id: 'num',
-                    type: 'number'
+                    type: 'number',
+                    default: 0
                 }
             ]
         })
@@ -34,7 +36,14 @@ class UserLimitCommand extends Command {
                 const voiceChannel = message.guild.channels.cache.get(message.channel.topic.split(';').pop())
 
                 await voiceChannel.setUserLimit(args.num)
-                message.channel.send(`***${voiceChannel.name}\'s user limit is now ${args.num}***`)
+                message.channel.send({ embed: {
+
+                    type: 'rich',
+                    title: `Updated ${voiceChannel.name}`,
+                    description: `User limit: \`${args.num}\``,
+                    color: colors.purple,
+                    timestamp: new Date()
+                }})
             }
 
         }
