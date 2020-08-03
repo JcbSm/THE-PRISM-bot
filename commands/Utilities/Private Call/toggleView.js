@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const { colors } = require('../../../config')
 
 class ToggleViewCommand extends Command {
     constructor() {
@@ -28,10 +29,12 @@ class ToggleViewCommand extends Command {
                 let role;
                 
                 if(!args.role) {
-                    role = message.guild.roles.cache.find(r => r.name === '@everyone')
+                    role = message.guild.roles.everyone
                 } else {
                     role = args.role
                 }
+
+                const [allow, deny] = [[], []];
 
                 if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
                 if(message.channel.topic.split(';').shift() === 'PRIVATE CALL') {
@@ -40,18 +43,42 @@ class ToggleViewCommand extends Command {
                     
                     if(!perms) {
                         await voiceChannel.createOverwrite(role, { VIEW_CHANNEL: true })
-                        message.channel.send(`***${voiceChannel.name} is now visible to \`@${role.name}\`***`)
+                        allow.push(role.id)
 
                     } else {
 
                         if(perms.allow.serialize().VIEW_CHANNEL) {
                             await voiceChannel.createOverwrite(role, { VIEW_CHANNEL: false })
-                            message.channel.send(`***${voiceChannel.name} is now invisible to \`@${role.name}\`***`)
+                            deny.push(role.id)
                         } else {
                             await voiceChannel.createOverwrite(role, { VIEW_CHANNEL: true })
-                            message.channel.send(`***${voiceChannel.name} is now visible to \`@${role.name}\`***`)
+                            allow.push(role.id)
                         }
                     }
+
+                    let fieldArray = []
+
+                    if(allow.length > 0) {
+                        fieldArray.push({
+                            name: 'Allowed',
+                            value: `- <@&${allow.join(`>\n- <@&`)}>`
+                        })
+                    }
+                    if(deny.length > 0) {
+                        fieldArray.push({
+                            name: 'Denied',
+                            value: `- <@&${deny.join(`>\n- <@&`)}>`
+                        })
+                    }
+
+                    message.channel.send({ embed: {
+
+                        type: 'rich',
+                        title: `Updated ${voiceChannel.name}`,
+                        fields: fieldArray,
+                        color: colors.purple,
+                        timestamp: new Date()
+                    }})
                 }
             }
             
