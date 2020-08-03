@@ -22,12 +22,12 @@ class HelpCommand extends Command {
     
     async exec(message, args) {
 
-        let categories = this.handler.categories.filter(c => c.id !== 'default')
+        let categories = this.handler.categories.filter(c => c.id !== 'default').sort((a, b) => a.size - b.size)
         let commands = this.handler.modules
 
         if(!args.command) {
 
-            let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
+            /*let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
             
             message.author.send({ embed: {
 
@@ -49,6 +49,36 @@ class HelpCommand extends Command {
                 footer: {
                     text: `Type ${prefix}help <command> for more information.`
                 }
+            }})*/
+
+            let fieldArray = [];
+
+            for(const [id, category] of categories) {
+
+                fieldArray.push({
+                    name: id.toUpperCase(),
+                    value: `- ${category.map(c => c.id).join("\n - ")}\n---------------`,
+                    inline: false
+                })
+            }
+
+            message.author.send({ embed: {
+
+                type: 'rich',
+                title: `COMMANDS`,
+                fields: fieldArray,
+                color: colors.purple,
+                thumbnail: {
+                    url: this.client.user.avatarURL()
+                },
+                author: {
+                    name: this.client.user.username,
+                    icon_url: this.client.user.avatarURL()
+                    },
+                footer: {
+                    text: `Type ${prefix}help <command> for more information.`
+                }
+
             }})
 
         } else if(args.command) {
