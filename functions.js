@@ -35,7 +35,7 @@ module.exports = {
         return await (await client.channels.fetch(arr[0])).messages.fetch(arr[1]);
     },
 
-    getLocalTime: function getLocalTime(date) {
+    getLocalTime: function getLocalTime(date, milliseconds) {
         if(date === undefined) {date = new Date()}
         let arr = []
         arr.push(module.exports.pad(date.getHours(), 2));
