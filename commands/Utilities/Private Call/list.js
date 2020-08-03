@@ -20,20 +20,34 @@ try{
             if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
             if(message.channel.topic.split(';').shift() === 'PRIVATE CALL') {
                 const voiceChannel = message.guild.channels.cache.get(message.channel.topic.split(';').pop())
-                const perms = voiceChannel.permissionOverwrites.filter(p => p.type === 'member')
+                const memberPerms = voiceChannel.permissionOverwrites.filter(p => p.type === 'member')
+                const rolePerms = voiceChannel.permissionOverwrites.filter(p => p.type === 'role')
 
                 let [allow, deny] = [[], []]
 
-                for(const [,perm] of perms) {
+                for(const [,perm] of memberPerms) {
 
                     if(perm.allow.serialize().VIEW_CHANNEL === true && !((await this.client.users.fetch(perm.id)).bot)) {
 
-                        allow.push(perm.id)
+                        allow.push('!'+perm.id)
                     }
 
                     if(perm.allow.serialize().VIEW_CHANNEL === false && !((await this.client.users.fetch(perm.id)).bot)) {
 
-                        deny.push(perm.id)
+                        deny.push('!'+perm.id)
+                    }
+                }
+
+                for(const [id, perm] of rolePerms) {
+
+                    if(perm.allow.serialize().VIEW_CHANNEL === true) {
+
+                        allow.push('&'+perm.id)
+                    }
+
+                    if(perm.allow.serialize().VIEW_CHANNEL === false) {
+
+                        deny.push('&'+perm.id)
                     }
                 }
 
@@ -42,13 +56,13 @@ try{
                 if(allow.length > 0) {
                     fieldArray.push({
                         name: 'Allowed',
-                        value: `- <@!${allow.join(`>\n- <@!`)}>`
+                        value: `- <@${allow.join(`>\n- <@`)}>`
                     })
                 }
                 if(deny.length > 0) {
                     fieldArray.push({
                         name: 'Denied',
-                        value: `- <@!${deny.join(`>\n- <@!`)}>`
+                        value: `- <@${deny.join(`>\n- <@`)}>`
                     })
                 }
 
@@ -57,7 +71,8 @@ try{
                     type: 'rich',
                     title: `Users with access to ${voiceChannel.name}`,
                     fields: fieldArray,
-                    color: colors.purple
+                    color: colors.purple,
+                    timestamp: new Date()
                 }})
             }
         }
