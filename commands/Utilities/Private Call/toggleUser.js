@@ -90,7 +90,8 @@ class ToggleUserCommand extends Command {
                     type: 'rich',
                     title: `Updated ${voiceChannel.name}`,
                     fields: fieldArray,
-                    color: colors.purple
+                    color: colors.purple,
+                    timestamp: new Date()
                 }})
             }
         }
