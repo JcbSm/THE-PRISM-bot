@@ -22,7 +22,9 @@ class UmListener extends Listener {
             })
 
             const scoreMessage = await linkToMessage('https://discordapp.com/channels/447504770719154192/740196706058108958/740558584940593182', this.client)
+            const highScoreMessage = await linkToMessage('https://discordapp.com/channels/447504770719154192/740196706058108958/740557623845322752', this.client)
             let score = Number(scoreMessage.content.split("\`")[1])
+            let highScore = Number(highScoreMessage.content.split('\`')[1])
 
             const lastMessage = messages.filter(m => !m.author.bot).array()[1]
             let messagesArray = messages.map(m => m.content.toLowerCase())
@@ -57,9 +59,13 @@ class UmListener extends Listener {
 
                     message.react('✅')
                     score++
+                    if(score > highScore) {
+                        highScore = score
+                    }
                 }
 
                 scoreMessage.edit(`**CURRENT SCORE**: \`${score}\``)
+                highScoreMessage.edit(`**HIGHEST SCORE**: \`${highScore}\``)
             }
 
         } catch(e) {
