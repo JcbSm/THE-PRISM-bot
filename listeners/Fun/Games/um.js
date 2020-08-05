@@ -37,30 +37,52 @@ class UmListener extends Listener {
                 message.delete()
             } else {
 
-                if(messagesArray.includes(message.content.toLowerCase())) {
-
-                    message.react('730846979977904218')
-                    message.reply(`You failed, **SCORE:** \`${score}\``)
-                    score = 0;
-                    //console.log('Repetition')
-                } else if(lastMessage.content.toLowerCase().split("").pop() !== message.content.toLowerCase().split("").shift()) {
-
-                    message.react('730846979977904218')
-                    message.reply(`You failed, **SCORE:** \`${score}\``)
-                    score = 0;
-                    //console.log('No match')
-                } else if(!words[message.content.toLowerCase()]) {
+                if(!words[message.content.toLowerCase()]) {
 
                     message.react('730846979977904218')
                     message.reply(`You failed, **SCORE:** \`${score}\``)
                     score = 0;
                     //console.log('Not a word')
+
+                } else if(messagesArray.length > 0) {
+                
+                    if(messagesArray[0].trim().toLowerCase().charAt(messagesArray[0].length - 1) !== message.content.trim().toLowerCase().charAt(0)) {
+
+                        message.react('730846979977904218')
+                        message.reply(`You failed, **SCORE:** \`${score}\``)
+                        score = 0;
+                        console.log('No match')
+                    } else if(messagesArray.includes(message.content.toLowerCase())) {
+
+                        message.react('730846979977904218')
+                        message.reply(`You failed, **SCORE:** \`${score}\``)
+                        score = 0;
+                        //console.log('Repetition')
+                    } else {
+
+                        message.react('✅')
+                        score++
+                        if(score > highScore) {
+                            highScore = score
+                        }
+    
+                        if(lastMessage.content.trim().toLowerCase().split("").reverse().join("") == message.content.trim().toLowerCase()) {
+    
+                            message.react('🔁')
+                        }
+                    }
+
                 } else {
 
                     message.react('✅')
                     score++
                     if(score > highScore) {
                         highScore = score
+                    }
+
+                    if(lastMessage.content.trim().toLowerCase().split("").reverse().join("") == message.content.trim().toLowerCase()) {
+
+                        message.react('🔁')
                     }
                 }
 
