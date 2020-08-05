@@ -31,7 +31,7 @@ class UmListener extends Listener {
 
             //console.log(messagesArray)
 
-            if(/^[a-z]{1,}$/i.test(message.content) === false /*|| message.author.id === lastMessage.author.id*/) {
+            if(/^[a-z]{1,}$/i.test(message.content) === false || message.author.id === lastMessage.author.id) {
                 message.delete()
             } else {
 
