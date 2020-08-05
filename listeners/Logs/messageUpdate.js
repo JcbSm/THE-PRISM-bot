@@ -32,6 +32,9 @@ class MessageUpdateListener extends Listener {
         if(newMessage.channel.id === config.prism.guild.channelIDs.counting) {
             newMessage.delete()
         }
+        if(newMessage.channel.id === config.prism.guild.channelIDs.um) {
+            newMessage.delete()
+        }
 
         await log.send({embed: {
             
