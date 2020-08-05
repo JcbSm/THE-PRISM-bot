@@ -20,7 +20,7 @@ class AutoResponderListener extends Listener {
             if(!message.author.permissions.has('MANAGE_SERVER')) message.delete()
         }
 
-        if(message.author.id === '628232571003863041' && message.mentions.roles.size > 0) {
+        if(message.mentions.roles.size > 0) {
 
             message.channel.send('<:pingsock:731609128941912096>')
         }
