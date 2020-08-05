@@ -25,10 +25,13 @@ class UmListener extends Listener {
             let score = Number(scoreMessage.content.split("\`")[1])
 
             const lastMessage = messages.filter(m => !m.author.bot).array()[1]
-            let messagesArray = messages.filter(m => !m.author.bot).map(m => m.content.toLowerCase())
+            let messagesArray = messages.map(m => m.content.toLowerCase())
             messagesArray.shift()
+            messagesArray.splice(messagesArray.findIndex(m => m.startsWith('<')), 100)
 
-            if(/^[a-z]{1,}$/i.test(message.content) === false || message.author.id === lastMessage.author.id) {
+            //console.log(messagesArray)
+
+            if(/^[a-z]{1,}$/i.test(message.content) === false /*|| message.author.id === lastMessage.author.id*/) {
                 message.delete()
             } else {
 
