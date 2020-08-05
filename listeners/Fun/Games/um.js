@@ -51,7 +51,7 @@ class UmListener extends Listener {
                         message.react('730846979977904218')
                         message.reply(`You failed, **SCORE:** \`${score}\``)
                         score = 0;
-                        console.log('No match')
+                        //console.log('No match')
                     } else if(messagesArray.includes(message.content.toLowerCase())) {
 
                         message.react('730846979977904218')
