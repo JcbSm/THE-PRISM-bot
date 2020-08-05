@@ -22,9 +22,7 @@ class UmListener extends Listener {
             })
 
             const scoreMessage = await linkToMessage('https://discordapp.com/channels/447504770719154192/740196706058108958/740558584940593182', this.client)
-            console.log(scoreMessage.content.split("\`"))
             let score = Number(scoreMessage.content.split("\`")[1])
-            console.log(score)
 
             const lastMessage = messages.filter(m => !m.author.bot).array()[1]
             let messagesArray = messages.filter(m => !m.author.bot).map(m => m.content)
