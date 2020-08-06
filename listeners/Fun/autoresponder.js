@@ -1,4 +1,5 @@
 const { Listener } = require('discord-akairo');
+const { prism } = require('../../config')
 
 class AutoResponderListener extends Listener {
     constructor() {
@@ -19,6 +20,20 @@ class AutoResponderListener extends Listener {
         if(/(discord.gg\/)/.test(message.content) || /(discordapp.com\/invite\/)/.test(message.content)) {
             if(!message.author.permissions.has('MANAGE_SERVER')) message.delete()
         }
+
+        //Bad Words
+        {
+            if(/nigg/i.test(message.content.split(" ").join("").split(/\W/).join("").split("_").join("").split(/1/).join("i").split(/4/).join("a").split(/3/).join("e").split(/\d/).join(""))) {
+                /*if(message.guild.ownerID === message.author.id) {
+                    message.channel.send("Jacob has the N pass")
+                } else {*/
+                    message.channel.send(`${message.member} is a racist!`)
+                    message.delete()
+                //}
+            }
+        }
+
+        if(message.channel.id === prism.guild.channelIDs.um) return;
 
         if(message.mentions.roles.size > 0) {
 
@@ -80,20 +95,6 @@ class AutoResponderListener extends Listener {
             if(/hmm/i.test(message.content)) message.react('448143170509733899') 
             if(/B\)/i.test(message.content)) message.react('😎')
         }
-
-        //Bad Words
-        {
-            if(/nigg/i.test(message.content.split(" ").join("").split(/\W/).join("").split("_").join("").split(/1/).join("i").split(/4/).join("a").split(/3/).join("e").split(/\d/).join(""))) {
-                /*if(message.guild.ownerID === message.author.id) {
-                    message.channel.send("Jacob has the N pass")
-                } else {*/
-                    message.channel.send(`${message.member} is a racist!`)
-                    message.delete()
-                //}
-            }
-        }
-
-
     }
 }
 
