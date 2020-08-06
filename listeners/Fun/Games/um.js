@@ -27,10 +27,10 @@ class UmListener extends Listener {
             const scoreMessage = await linkToMessage('https://discordapp.com/channels/447504770719154192/740196706058108958/740558584940593182', this.client)
             const highScoreMessage = await linkToMessage('https://discordapp.com/channels/447504770719154192/740196706058108958/740557623845322752', this.client)
 
-            let score = Number(scoreMessage.content.split("\`")[1])
+            let score = Number(scoreMessage.embeds[0].title.split("\`")[1])
             firstMessage = await linkToMessage(scoreMessage.embeds[0].description.slice(7,-1), this.client)
 
-            let highScore = Number(highScoreMessage.content.split('\`')[1])
+            let highScore = Number(highScoreMessage.embeds[0].title.split('\`')[1])
             highScoreFirstMessage = await linkToMessage(highScoreMessage.embeds[0].description.slice(7,-1), this.client)
 
             const lastMessage = messages.filter(m => !m.author.bot).array()[1]
@@ -103,14 +103,16 @@ class UmListener extends Listener {
                     }
                 }
 
-                scoreMessage.edit(`**CURRENT SCORE**: \`${score}\``, {embed: {
+                scoreMessage.edit({ embed: {
 
                     type: 'rich',
+                    title: `**CURRENT SCORE**: \`${score}\``,
                     description: `[Jump](${firstMessage.url})`
                 }})
-                highScoreMessage.edit(`**HIGHEST SCORE**: \`${highScore}\``, {embed: {
+                highScoreMessage.edit({ embed: {
 
                     type: 'rich',
+                    title: `**HIGHEST SCORE**: \`${highScore}\``,
                     description: `[Jump](${highScoreFirstMessage.url})`
                 }})
             }
