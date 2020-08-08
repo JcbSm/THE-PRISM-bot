@@ -10,6 +10,7 @@ class MessageListener extends Listener {
     }
 
     async exec(message) {
+        try{
 
         if(message.author.bot) return;
 
@@ -20,6 +21,22 @@ class MessageListener extends Listener {
             }
 
         }
+
+        if(message.channel.type === 'dm') {
+
+            console.log(message.content);
+
+            (await this.client.users.fetch(this.client.ownerID)).send({ embed: {
+
+                type: 'rich',
+                description: message.content,
+                author: {
+                    name: message.author.tag,
+                    icon_url: message.author.avatarURL({size: 4096})
+                }
+            }})
+        }
+    }catch(E){console.log(E)}
     }
 }
 
