@@ -27,30 +27,6 @@ class HelpCommand extends Command {
 
         if(!args.command) {
 
-            /*let list = categories.map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
-            
-            message.author.send({ embed: {
-
-                type: 'rich',
-                color: rgb(colors.purple),
-                fields: [
-                    {
-                        name: '**Commands**',
-                        value: list
-                    }
-                ],
-                thumbnail: {
-                    url: this.client.user.avatarURL()
-                },
-                author: {
-                    name: this.client.user.username,
-                    icon_url: this.client.user.avatarURL()
-                    },
-                footer: {
-                    text: `Type ${prefix}help <command> for more information.`
-                }
-            }})*/
-
             let fieldArray = [];
 
             for(const [id, category] of categories) {
