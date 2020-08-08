@@ -11,26 +11,53 @@ class ReadyListener extends Listener {
     }
 
     async exec() {
+        try{
 
         console.log(`${this.client.user.username} is Online`);
 
-        const readyEmbed = {
-            type: 'rich',
-            title: `Online`,
-            description: `\`[${getUTCTime(this.client.readyAt)} UTC]\`\nClient Ready`,
-            fields: [],
-            timestamp: new Date()
-        }
+        let embedColor;
+        let [configArray, valuesArray] = [[], []]
+
+        configArray = [
+            'Testing',
+            'Commands',
+            'Listeners'
+        ]
+        valuesArray = [
+            this.client.testing,
+            this.client.commandHandler.modules.size,
+            this.client.listenerHandler.modules.size
+        ]
+
         if(this.client.testing) {
 
-            readyEmbed.color = colors.test;
-            readyEmbed.fields.push({name: 'Test mode', value: 'enabled'})
+            embedColor = colors.test;
         }
-        if(!this.client.testing) readyEmbed.color = colors.good;
+        if(!this.client.testing) embedColor = colors.good;
         
-        (await this.client.users.fetch(this.client.ownerID)).send({embed: readyEmbed});
+        (await this.client.users.fetch(this.client.ownerID)).send({embed: {
+
+            type: 'rich',
+            title: 'Online',
+            description: `\`[${getUTCTime(this.client.readyAt)} UTC]\``,
+            color: embedColor,
+            fields: [
+                {
+                    name: 'Config',
+                    value: `- ${configArray.join("\n - ")}`,
+                    inline: true
+                },
+                {
+                    name: '-',
+                    value: `- ${valuesArray.join("\n - ")}`,
+                    inline: true
+                }
+            ],
+            timestamp: new Date()
+        }});
 
         this.client.user.setPresence({ activity: { name: '▲', type: 'WATCHING'}, status: 'dnd'})
+    }catch(e){console.log(e)}
     }
 }
 
