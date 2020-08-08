@@ -74,6 +74,9 @@ try {
 	});
 	client.db.connect();
 	client.testing = cfg['testing']
+
+	
+
 	client.on('raw', async packet => { 
  		if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t)) return;
 		const channel = await client.channels.fetch(packet.d.channel_id);
