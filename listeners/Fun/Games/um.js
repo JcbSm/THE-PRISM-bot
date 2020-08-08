@@ -78,7 +78,7 @@ class UmListener extends Listener {
                     } else {
 
                         message.react('✅')
-                        score++
+                        score++;
                         if(score > highScore) {
                             highScore = score
                             highScoreFirstMessage = firstMessage
@@ -86,7 +86,8 @@ class UmListener extends Listener {
     
                         if(lastMessage.content.trim().toLowerCase().split("").reverse().join("") == message.content.trim().toLowerCase()) {
     
-                            message.react('🔁')
+                            message.react('🔁');
+                            score++;
                         }
                     }
 
@@ -96,11 +97,6 @@ class UmListener extends Listener {
                     score++
 
                     firstMessage = message
-
-                    if(lastMessage.content.trim().toLowerCase().split("").reverse().join("") == message.content.trim().toLowerCase()) {
-
-                        message.react('🔁')
-                    }
                 }
 
                 scoreMessage.edit({ embed: {
