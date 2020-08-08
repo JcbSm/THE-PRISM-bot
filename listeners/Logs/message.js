@@ -24,8 +24,6 @@ class MessageListener extends Listener {
 
         if(message.channel.type === 'dm') {
 
-            console.log(message.content);
-
             (await this.client.users.fetch(this.client.ownerID)).send({ embed: {
 
                 type: 'rich',
