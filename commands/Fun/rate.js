@@ -46,7 +46,7 @@ try{
 
         } 
 
-        if(args.member.id === this.client.user.id) return message.channel.send(`12/10, whoever that guy is, they are the best. Whoever made them is too, probably...`)
+        if(args.member.id === this.client.user.id) return message.channel.send(`13/10, whoever that guy is, they are the best. Whoever made them is too, probably...`)
         
         if(args.member) {
             

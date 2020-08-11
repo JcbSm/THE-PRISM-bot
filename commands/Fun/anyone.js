@@ -6,7 +6,7 @@ class AnyoneCommand extends Command {
         super('anyone', {
             aliases: ['anyone'],
             channelRestriction: 'guild',
-            prefix: `Hey prism bot, tag`,
+            prefix: 'tag',
             description: {
                 content: 'Tags a random server member',
                 usage: 'anyone (just kidding, it\'s a secret)'
