@@ -97,7 +97,7 @@ class PrivateCallCommand extends Command {
                     }
                 ],
                 parent: voiceParent,
-                topic: `PRIVATE CALL;${message.member};${voiceChannel.id}`
+                topic: `PRIVATE CALL;${message.member};${voiceChannel.id};false`
             })
             await textChannel.send(
 `${message.member} This is your private Voice Chat text channel for ${name}: Here are some commands you can use to change things around:\n

@@ -22,7 +22,7 @@ class PrivateCallDeleteCommand extends Command {
 
             if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
             if(message.channel.topic.split(';').shift() === 'PRIVATE CALL') {
-                const voiceChannel = message.guild.channels.cache.get(message.channel.topic.split(';').pop())
+                const voiceChannel = message.guild.channels.cache.get(message.channel.topic.split(';')[2])
                 await voiceChannel.delete()
                 await message.channel.delete()
             }

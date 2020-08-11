@@ -15,18 +15,20 @@ class PrivateCallLeaveListener extends Listener {
             if(oldState.guild.id === '447504770719154192' || oldState.guild.id === '742026925156860026') {
 
                 const guild = oldState.guild
-                const pChannels = await guild.channels.cache.filter(c => c.type === 'voice' && c.name.startsWith('🔒'))
+                const tChannels = await guild.channels.cache.filter(c => c.type === 'text' && c.topic && c.topic.startsWith('PRIVATE CALL'))
                 let tChannel;
                 
                 if(!oldState.channel) {
 
                 } else {
 
-                    tChannel = await guild.channels.cache.find(c => c.type === 'text' && c.topic && c.topic.startsWith('PRIVATE CALL') && c.topic.split(';').pop() === oldState.channel.id)
-    
+                    tChannel = tChannels.find(c => c.topic.split(";")[2] === oldState.channel.id)
+
                     if(oldState.channel !== newState.channel) {
+
+                        if(tChannel.topic.split(";")[3] === 'true') return;
     
-                        if(pChannels.map(m => m.id).includes(oldState.channel.id) && (await oldState.channel.members.map(m => m.id)).length == 0) {
+                        if(tChannels.map(c => c.topic.split(";")[2]).includes(oldState.channel.id) && (await oldState.channel.members.map(m => m.id)).length == 0) {
     
                             async function tenSeconds (n, end, client) {
 
@@ -42,7 +44,7 @@ class PrivateCallLeaveListener extends Listener {
 
                                 }, 1000);
                     
-                                n++;
+                                console.log(n++)
                             };
 
                             tenSeconds(0, 60, this.client)
