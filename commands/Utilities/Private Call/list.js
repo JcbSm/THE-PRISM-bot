@@ -15,7 +15,7 @@ class ListCommand extends Command {
 
     async exec(message) {
 try{
-        if(message.guild.id === '447504770719154192' || message.guild.id === '569556194612740115') {
+        if(message.guild.id === '447504770719154192' || message.guild.id === '742026925156860026') {
 
             if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
             if(message.channel.topic.split(';').shift() === 'PRIVATE CALL') {

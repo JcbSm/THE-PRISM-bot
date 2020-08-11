@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const { prism } = require('../../../config')
 
 class PrivateCallCommand extends Command {
     constructor() {
@@ -29,7 +30,15 @@ class PrivateCallCommand extends Command {
             
         const command = await this.client.commandHandler.parseCommand(message)
         
-        if(message.guild.id === '447504770719154192' || message.guild.id === '569556194612740115') {
+        if(message.guild.id === prism.guild.id || message.guild.id === '742026925156860026') {
+
+            let voiceParent;
+
+            if(message.guild.id === prism.guild.id) {
+                voiceParent = prism.guild.channelIDs.voiceParent
+            } else if(message.guild.id === '742026925156860026') {
+                voiceParent = '742026925156860029'
+            }
 
             const guild = message.guild
             const everyoneRole = message.guild.roles.everyone
@@ -65,7 +74,7 @@ class PrivateCallCommand extends Command {
                         allow: ['VIEW_CHANNEL']
                     }
                 ],
-                parent: '638153434096205846'
+                parent: voiceParent
             })
             if(command.alias === 'call') {
                 await voiceChannel.createOverwrite(everyoneRole, { VIEW_CHANNEL: true })
@@ -87,7 +96,7 @@ class PrivateCallCommand extends Command {
                         allow: ['VIEW_CHANNEL']
                     }
                 ],
-                parent: '638153434096205846',
+                parent: voiceParent,
                 topic: `PRIVATE CALL;${message.member};${voiceChannel.id}`
             })
             await textChannel.send(

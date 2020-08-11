@@ -12,7 +12,7 @@ class PrivateCallLeaveListener extends Listener {
 
         try{
 
-            if(oldState.guild.id === '447504770719154192' || oldState.guild.id === '569556194612740115') {
+            if(oldState.guild.id === '447504770719154192' || oldState.guild.id === '742026925156860026') {
 
                 const guild = oldState.guild
                 const pChannels = await guild.channels.cache.filter(c => c.type === 'voice' && c.name.startsWith('🔒'))
