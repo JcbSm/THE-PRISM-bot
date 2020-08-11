@@ -25,16 +25,16 @@ class PrivateCallLeaveListener extends Listener {
                     tChannel = tChannels.find(c => c.topic.split(";")[2] === oldState.channel.id)
 
                     if(oldState.channel !== newState.channel) {
-
-                        if(tChannel.topic.split(";")[3] === 'true') return;
     
                         if(tChannels.map(c => c.topic.split(";")[2]).includes(oldState.channel.id) && (await oldState.channel.members.map(m => m.id)).length == 0) {
+
+                            if(tChannel.topic.split(";")[3] === 'true') return;
     
                             async function tenSeconds (n, end, client) {
 
                                 if(n < end) setTimeout(async function() {
 
-                                    if((await client.channels.fetch(oldState.channel.id)).members.size === 0) {
+                                    if((await client.channels.fetch(oldState.channel.id)).members.size === 0 && tChannel.topic.split(";")[3] === 'false') {
                                         tenSeconds(n, end, client);
                                     }
                                     if(n === end && (await client.channels.fetch(oldState.channel.id)).members.size === 0) {

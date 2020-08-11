@@ -27,9 +27,9 @@ class ToggleUserCommand extends Command {
 
             if(!args.members) return message.reply('Please provide at least one member.')
 
-            if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
-            if(message.channel.topic.split(';').shift() === 'PRIVATE CALL') {
-                const voiceChannel = message.guild.channels.cache.get(message.channel.topic.split(';').pop())
+            if(message.channel.topic.split(';')[0] !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
+            if(message.channel.topic.split(';')[0] === 'PRIVATE CALL') {
+                const voiceChannel = message.guild.channels.cache.get(message.channel.topic.split(';')[2])
                 const perms = voiceChannel.permissionOverwrites.filter(p => p.type === 'member')
 
                 const memberArray = args.members.split(';')

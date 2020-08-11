@@ -26,10 +26,10 @@ class AllowTextClass extends Command {
         
             if(message.guild.id === '447504770719154192' || message.guild.id === '742026925156860026') {
     
-                if(message.channel.topic.split(';').shift() !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
-                if(message.channel.topic.split(';').shift() === 'PRIVATE CALL') {
+                if(message.channel.topic.split(';')[0] !== 'PRIVATE CALL') message.reply('This is not a private call text channel, please either make one or use an existing one.');
+                if(message.channel.topic.split(';')[0] === 'PRIVATE CALL') {
 
-                const voiceChannel = message.guild.channels.cache.get(message.channel.topic.split(';').pop())
+                const voiceChannel = message.guild.channels.cache.get(message.channel.topic.split(';')[2])
                 const textChannel = message.channel
                 const perms = textChannel.permissionOverwrites.filter(p => p.type === 'member')
 
