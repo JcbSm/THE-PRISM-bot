@@ -46,8 +46,16 @@ class PollCommand extends Command {
             let sent = await message.channel.send({ embed: {
 
                 type: 'rich',
-                description: `**${message.member} asks:**\n\n${question}\n${options.map(item => item.join(" - "))}`,
-                color: rgb(colors.purple)
+                description: `**${message.member} asks:**\n\n*${question}*\n\n${options.map(item => item.join(" - ")).join('\n')}`,
+                color: rgb(colors.purple),
+                timestamp: new Date(),
+                thumbnail: {
+                    url: message.author.displayAvatarURL({size: 4096})
+                },
+                footer: {
+                    text: message.author.tag
+                }
+
             }})
             
             .then(message.delete())
