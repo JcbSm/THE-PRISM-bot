@@ -46,11 +46,12 @@ class PollCommand extends Command {
             let sent = await message.channel.send({ embed: {
 
                 type: 'rich',
+                title: question,
                 description: `${message.member}\'s poll`,
                 color: rgb(colors.purple),
                 fields: [
                     {
-                        name: `\"${question}\"`,
+                        name: `Options`,
                         value: options.map(item => item.join(" - "))
                     }
                 ]
