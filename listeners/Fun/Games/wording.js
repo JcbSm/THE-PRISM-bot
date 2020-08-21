@@ -89,6 +89,20 @@ class UmListener extends Listener {
                             message.react('🔁');
                             score++;
                         }
+
+                        function alphabetical(str) {
+                            return str.split("").sort(function(a, b) {
+                                if(a < b) return -1;
+                                if(a > b) return 1;
+                                return 0;
+                            }).join("")
+                        }
+
+                        if(alphabetical(message.content) === alphabetical(lastMessage.content)) {
+
+                            message.react('🔀'),
+                            score = score + Math.floor(message.content.length/3)
+                        }
                     }
 
                 } else {
