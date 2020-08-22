@@ -29,11 +29,7 @@ class ReadyListener extends Listener {
             this.client.listenerHandler.modules.size
         ]
 
-        if(this.client.testing) {
-
-            embedColor = colors.test;
-        }
-        if(!this.client.testing) embedColor = colors.good;
+        embedColor = this.client.testing ? colors.test : colors.good;
         
         (await this.client.users.fetch(this.client.ownerID)).send({embed: {
 
