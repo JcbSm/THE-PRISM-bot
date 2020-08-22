@@ -29,6 +29,7 @@ class LevelCommand extends Command {
     
     exec(message, args) {
 
+        if(!args.level) return message.reply('Please provide at laest one argument')
 
         if(args.level > 150) return message.reply('MEE6 levels only go up to 150.')
 
@@ -83,19 +84,6 @@ class LevelCommand extends Command {
             }
         }}
             
-            
-            
-            /*new Discord.RichEmbed()
-            
-            .setTitle('MEE6 level calculator')
-            .setDescription(`Credit to the original creator, check that out [here](${mee6calc})\n-\nThe leaderboard for this server is [here](${leaderboardLink})`)
-            .setColor(color.purple)
-            .setThumbnail(mee6avatar)
-            .addField('Required XP:', requiredXP, true)
-            .addField('Average Messages', avMessages, true)
-            .addField('Maximum Messages', maxMessages,true)
-            .addField('Minimum Messages', minMessages, true)
-            .setFooter('NOTE: You can only earn XP once per minute.')*/
 
         )
     }
