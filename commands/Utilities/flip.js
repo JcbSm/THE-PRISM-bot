@@ -20,15 +20,9 @@ class FlipCommand extends Command {
 
     exec(message, args) {
 
-        //Check arguments are either heads, tails or null
-        if(args.side !== 'heads' && args.side !== 'tails' && args.side !== '') {
-            return message.reply('You need to choose a side, heads or tails?');
-
-        } else {
-
             //Generate heads or tails
             let randomNumber = Math.floor(Math.random()*2);
-            let outcome = ''
+            let outcome;
 
             switch(randomNumber) {
                 case 0:
@@ -52,7 +46,7 @@ class FlipCommand extends Command {
             } else if(args.side !== outcome) {
                 return message.reply(`You flipped ${outcome}, unlucky...`)
             }
-        }
+        
     };
 }
 
