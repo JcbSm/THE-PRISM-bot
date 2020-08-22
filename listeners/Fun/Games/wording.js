@@ -1,6 +1,6 @@
 const { Listener } = require('discord-akairo');
 const { prism } = require('../../../config')
-const { linkToMessage } = require('../../../functions')
+const { linkToMessage, alphabetical } = require('../../../functions')
 const words = require('./words_dictionary.json')
 
 class UmListener extends Listener {
@@ -13,6 +13,20 @@ class UmListener extends Listener {
     async exec(message) {
 
         try{
+
+            function fail(message, score, high) {
+
+                let failMessage;
+                message.react('730846979977904218')
+                if(score == high) {
+
+                    failMessage = `You failed, **NEW HIGH SCORE:** \`${score}\``
+                } else {
+                    failMessage = `You failed, **SCORE:** \`${score}\``
+                }
+                message.reply(failMessage)
+                
+            }
 
             if(message.channel.id !== prism.guild.channelIDs.um || message.author.bot) return;
 
@@ -37,21 +51,6 @@ class UmListener extends Listener {
             let messagesArray = messages.map(m => m.content.toLowerCase())
             messagesArray.shift()
             messagesArray.splice(messagesArray.findIndex(m => m.startsWith('<')), 100)
-
-            function fail(message, score, high) {
-
-                let failMessage;
-                message.react('730846979977904218')
-                if(score == high) {
-
-                    failMessage = `You failed, **NEW HIGH SCORE:** \`${score}\``
-                } else {
-                    failMessage = `You failed, **SCORE:** \`${score}\``
-                }
-                message.reply(failMessage)
-                
-            }
-
 
             if(/^[a-z]{1,}$/i.test(message.content) === false || message.author.id === lastMessage.author.id) {
                 message.delete()
@@ -88,15 +87,7 @@ class UmListener extends Listener {
     
                             message.react('🔁');
                             score++;
-                        }
-
-                        function alphabetical(str) {
-                            return str.split("").sort(function(a, b) {
-                                if(a < b) return -1;
-                                if(a > b) return 1;
-                                return 0;
-                            }).join("")
-                        }
+                        } else
 
                         if(alphabetical(message.content) === alphabetical(lastMessage.content)) {
 
