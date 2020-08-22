@@ -15,28 +15,27 @@ class ReadyListener extends Listener {
 
         console.log(`${this.client.user.username} is Online`);
 
-        let embedColor;
-        let [configArray, valuesArray] = [[], []]
+        const color = this.client.testing ? colors.test : colors.good;
+
+        let [configArray, valuesArray] = [[], []];
 
         configArray = [
             'Testing',
             'Commands',
             'Listeners'
-        ]
+        ];
         valuesArray = [
             this.client.testing,
             this.client.commandHandler.modules.size,
             this.client.listenerHandler.modules.size
-        ]
-
-        embedColor = this.client.testing ? colors.test : colors.good;
+        ];
         
         (await this.client.users.fetch(this.client.ownerID)).send({embed: {
 
             type: 'rich',
             title: 'Online',
             description: `\`[${getUTCTime(this.client.readyAt)} UTC]\``,
-            color: embedColor,
+            color: color,
             fields: [
                 {
                     name: 'Config',
