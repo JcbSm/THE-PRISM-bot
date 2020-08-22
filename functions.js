@@ -123,4 +123,8 @@ module.exports = {
 
         return msgArray.join(', ')
     },
+
+    alphabetical: function alphabetical(str) {
+        return str.toLowerCase().split("").sort().join('')
+    },
 }
