@@ -13,7 +13,7 @@ class DeafenCommand extends Command {
     }
     exec(message) {
 
-        message.member.voice ? message.member.voice.setDeaf(!message.member.voice.serverDeaf) : message.reply("You must join a voice channel to use this command."); 
+        message.member.voice.channel ? message.member.voice.setDeaf(!message.member.voice.serverDeaf) : message.reply("You must join a voice channel to use this command."); 
     }
 }
 
