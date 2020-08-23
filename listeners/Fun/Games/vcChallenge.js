@@ -12,7 +12,7 @@ class VcChallengeListener extends Listener {
 
     async exec(oldState, newState) {
     try{
-
+        
         if(oldState.channel === newState.channel) return;
         
         const [ vc, tc ] = [ await this.client.channels.fetch(prism.guild.channelIDs.vcChallenge), await this.client.channels.fetch(prism.guild.channelIDs.vcChallengeText) ]
@@ -24,7 +24,7 @@ class VcChallengeListener extends Listener {
 
                 const time = new Date() - lastMessage.createdAt;
                 if(time < 900000) return lastMessage.delete();
-                tc.send(`${newState.member} left the channel after \`\`\`${milliToTime(time)}\`\`\`-`);
+                else return tc.send(`${newState.member} left the channel after \`\`\`${milliToTime(time)}\`\`\`-`);
             }
         }
 
@@ -32,7 +32,7 @@ class VcChallengeListener extends Listener {
 
             if(!lastMessage.content.startsWith("***<@")) {
             
-                tc.send(`***${newState.member} has joined the channel.***\n-`)
+                return tc.send(`***${newState.member} has joined the channel.***\n-`)
             }
         }
 
