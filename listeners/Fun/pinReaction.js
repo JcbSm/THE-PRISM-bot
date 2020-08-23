@@ -20,7 +20,7 @@ try{
 
         if(message.channel.id === pinChannel.id) return;
 
-        if(messageReaction.emoji.name === '📌' && messageReaction.count == 5) {
+        if(messageReaction.emoji.name === '📌' && messageReaction.count == 1) {
 
             if((await messageReaction.users.fetch()).map(u => u.id).includes(this.client.user.id)) {
                 return console.log('I have already pinned')
@@ -43,23 +43,35 @@ try{
 
                             type: 'rich',
                             title: null,
-                            description: `${message.content}\n\n${message.channel} ${message.member} [\`Jump\`](${message.url})` + '\n' + attachmentURL,
+                            description: `**${message.member}:**\n\n${message.content}\n\n${attachmentURL}`,
                             url: null,
                             color: rgb(config.colors.purple),
-                            fields: [],
+                            fields: [
+                                {
+                                    name: '\u200b',
+                                    value: message.channel,
+                                    inline: true
+                                },
+                                {
+                                    name: '\u200b',
+                                    value: `[\`Jump\`](${message.url})`,
+                                    inline: true
+                                }
+                            ],
                             timestamp: message.createdAt,
-                            tumbnail: null,
+                            thumbnail: {
+                                url: message.author.displayAvatarURL({size:512})
+                            },
                             image: {
                                 url: (await message.attachments).filter(a => 
                                     a.url.includes('.jpg') || a.url.includes('.png')
                                 ).map(a => a.url)[0]
                             },
-                            author:  {
-                                name: message.author.tag,
-                                icon_url: message.author.avatarURL
-                                },
+                            author:  null,
                             provider: null,
-                            footer: null
+                            footer: {
+                                text: message.author.tag
+                            }
 
                         }
                     })
