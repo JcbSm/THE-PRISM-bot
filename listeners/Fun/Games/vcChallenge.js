@@ -36,10 +36,8 @@ class VcChallengeListener extends Listener {
             }
         }
 
-        if(!newState.channel && oldState.channel.id === vc.id) { leave() }
-        if(!oldState.channel && newState.channel.id === vc.id) { join() }
-        if(newState.channel && oldState.channel && newState.channel.id === vc.id) { join() }
-        if(newState.channel && oldState.channel && oldState.channel.id === vc.id) { leave() }
+        if( (!newState.channel && oldState.channelID === vc.id) || (newState.channel && oldState.channel && oldState.channelID === vc.id) ) return leave();
+        else if( (!oldState.channel && newState.channelID === vc.id) || (newState.channel && oldState.channel && newState.channelID === vc.id) ) return join();
 
     }catch(e){console.log(e)}
     }
