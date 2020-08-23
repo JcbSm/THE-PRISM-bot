@@ -23,7 +23,7 @@ class VcChallengeListener extends Listener {
             if(lastMessage.content.startsWith(`***${newState.member}`)) {
 
                 const time = new Date() - lastMessage.createdAt;
-                if(time < 600) return lastMessage.delete();
+                if(time < 60000) return lastMessage.delete();
                 tc.send(`${newState.member} left the channel after \`\`\`${milliToTime(time)}\`\`\`-`);
             }
         }
