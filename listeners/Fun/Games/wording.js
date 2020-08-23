@@ -60,7 +60,6 @@ class UmListener extends Listener {
 
                     fail(message, score, highScore)
                     score = 0;
-                    //console.log('Not a word')
 
                 } else if(messagesArray.length > 0) {
                 
@@ -68,12 +67,12 @@ class UmListener extends Listener {
 
                         fail(message, score, highScore)
                         score = 0;
-                        //console.log('No match')
+
                     } else if(messagesArray.includes(message.content.toLowerCase())) {
 
                         fail(message, score, highScore)
                         score = 0;
-                        //console.log('Repetition')
+
                     } else {
 
                         message.react('✅')
