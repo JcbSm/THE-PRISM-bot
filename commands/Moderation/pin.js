@@ -22,23 +22,22 @@ class PinCommand extends Command {
     }
 
     async exec(message, args) {
-        try{        
-        const pinMessage = await linkToMessage(args.link, this.client)
-        const pinChannel = await this.client.channels.fetch(prism.guild.channelIDs.pins)
+        try{   
 
-        if(pinMessage.guild.id !== '447504770719154192') return;
+            const pinMessage = await linkToMessage(args.link, this.client)
+            const pinChannel = await this.client.channels.fetch(prism.guild.channelIDs.pins)
 
-        if(pinMessage.channel.id === pinChannel.id) return;
+            if(pinMessage.guild.id !== '447504770719154192') return;
 
-        if((await pinMessage.reactions.cache).map(e => e.emoji.name).includes('📌')) {
+            if(pinMessage.channel.id === pinChannel.id) return;
 
-            if(await pinMessage.reactions.cache.get('📌').users.map(u => u.id).includes(this.client.user.id)) {
-                return message.reply('I have already pinned that message')
+            if((await pinMessage.reactions.cache).map(e => e.emoji.name).includes('📌')) {
+
+                if(await pinMessage.reactions.cache.get('📌').users.map(u => u.id).includes(this.client.user.id)) {
+                    return message.reply('I have already pinned that message')
+                }
+                
             }
-            
-        }
-
-
                 pinMessage.react('📌')
                 
                 
@@ -57,23 +56,35 @@ class PinCommand extends Command {
 
                             type: 'rich',
                             title: null,
-                            description: `${pinMessage.content}\n\n${pinMessage.channel} [\`Jump\`](${pinMessage.url})` + '\n' + attachmentURL,
+                            description: `**${pinMessage.member}:**\n\n${pinMessage.content}\n\n${attachmentURL}`,
                             url: null,
-                            color: rgb(colors.purple),
-                            fields: [],
+                            color: colors.purple,
+                            fields: [
+                                {
+                                    name: '\u200b',
+                                    value: pinMessage.channel,
+                                    inline: true
+                                },
+                                {
+                                    name: '\u200b',
+                                    value: `[\`Jump\`](${pinMessage.url})`,
+                                    inline: true
+                                }
+                            ],
                             timestamp: pinMessage.createdAt,
-                            tumbnail: null,
+                            thumbnail: {
+                                url: pinMessage.author.displayAvatarURL({size:512})
+                            },
                             image: {
                                 url: (await pinMessage.attachments).filter(a => 
                                     a.url.includes('.jpg') || a.url.includes('.png')
                                 ).map(a => a.url)[0]
                             },
-                            author:  {
-                                name: pinMessage.author.tag,
-                                icon_url: pinMessage.author.avatarURL
-                                },
+                            author:  null,
                             provider: null,
-                            footer: null
+                            footer: {
+                                text: pinMessage.author.tag
+                            }
 
                         }
                     })
