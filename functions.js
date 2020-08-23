@@ -124,6 +124,15 @@ module.exports = {
         return msgArray.join(', ')
     },
 
+    milliToTime: function milliToTime(milli) {
+        let arr = []
+        arr.push(module.exports.pad(Math.floor((milli / (60 * 60 * 1000)) % 60), 2))
+        arr.push(module.exports.pad(Math.floor((milli / (60 * 1000)) % 60), 2))
+        arr.push(module.exports.pad(Math.floor((milli / 1000) % 60), 2))
+        arr.push(module.exports.pad(milli % 1000, 3))
+        return arr.join(':')
+    },
+
     alphabetical: function alphabetical(str) {
         return str.toLowerCase().split("").sort().join('')
     },
