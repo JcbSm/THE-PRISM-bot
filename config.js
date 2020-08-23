@@ -14,7 +14,9 @@ module.exports =
                     log: '669653850902233098',
                     reports: '567844048510124052',
                     modChat: '447702094430863360',
-                    voiceParent: '638153434096205846'
+                    voiceParent: '638153434096205846',
+                    vcChallenge: '667837515759222786',
+                    vcChallengeText: '668047084666093578'
                 },
 
                 roles: [
