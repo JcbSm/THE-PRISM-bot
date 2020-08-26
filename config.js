@@ -19,6 +19,11 @@ module.exports =
                     vcChallengeText: '668047084666093578'
                 },
 
+                roleIDs: {
+
+                    speaker: '627829247339266048',
+                },
+
                 roles: [
 
                     //Special
@@ -404,6 +409,21 @@ module.exports =
                 'I\'ll keep my distance',
                 '😷',
                 'Disgusting',
+            ]
+        },
+
+        roulette: {
+            challenges: [
+                {
+                    players: 2,
+                    forfeit: 3,
+                    task: '{PLAYER} let {PLAYER} send a text from your phone'
+                },
+                {
+                    players: 1,
+                    forfeit: 1,
+                    task: '{PLAYER} tell everyone about the last time you ate a bagel'
+                }
             ]
         }
     }
