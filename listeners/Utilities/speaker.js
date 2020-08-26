@@ -1,4 +1,5 @@
 const { Listener } = require('discord-akairo');
+const { prism } = require('../../config')
 
 class SpeakerListener extends Listener {
     constructor() {
@@ -10,37 +11,27 @@ class SpeakerListener extends Listener {
 
     exec(oldMember, newMember) {
 
-        if(!oldMember.roles.cache.has('627829247339266048') && newMember.roles.cache.has('627829247339266048')) {
+        try{
 
-            if(!newMember.voiceChannel) return;
+            const speakerID = prism.guild.roleIDs.speaker
 
-            let voiceMembers = newMember.voiceChannel.members
+            if(newMember.roles.cache.has(speakerID) && !oldMember.roles.cache.has(speakerID) && newMember.voice.channel) {
 
-            let voiceMembersFiltered = voiceMembers.filter(u => !u.roles.cache.has('627829247339266048'))
-
-            for(let i = 0; i < voiceMembersFiltered.keyArray().length; i++) {
-                try {
-                    voiceMembersFiltered.get(voiceMembersFiltered.keyArray()[i]).setMute(true)
-                } catch (error) {
-                    console.log(error)
+                for(const [id, member] of newMember.voice.channel.members.filter(m => !m.roles.cache.has(speakerID))) {
+                    member.voice.setMute(true)
                 }
-    
+            } else
+
+            if(oldMember.roles.cache.has(speakerID) && !newMember.roles.cache.has(speakerID) && newMember.voice.channel) {
+
+                for(const [id, member] of newMember.voice.channel.members.filter(m => m.voice.serverMute)) {
+                    member.voice.setMute(false)
+                }
             }
+
+        } catch(e) {
             
-        } else if(oldMember.roles.cache.has('627829247339266048') && !newMember.roles.cache.has('627829247339266048')) {
-
-            if(!newMember.voiceChannel) return;
-
-            let mutedMembers = this.client.guilds.get('447504770719154192').members.filter(m => m.serverMute)
-
-            for(let i = 0; i < mutedMembers.keyArray().length; i++) {
-                try {
-                    mutedMembers.get(mutedMembers.keyArray()[i]).setMute(false)
-                } catch (error) {
-                    console.log(error)
-                }
-    
-            }
+            console.log(e)
         }
     }
 }
