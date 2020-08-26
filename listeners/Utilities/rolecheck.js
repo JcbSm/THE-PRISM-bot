@@ -9,39 +9,49 @@ class RoleCheckListener extends Listener {
         });
     }
 
-    exec(guildMember, newMember) {
+    exec(oldMember, newMember) {
 
-        const roles = config.prism.guild.roles;
+        try{
 
-        if(guildMember.guild.id !== '447504770719154192') return;
+            if(newMember.guild.id !== '447504770719154192') return;
 
-        //Games
-        if(roles.filter(r => r.category == 'Games').map(r => r.id).some(id => newMember.roles.cache.has(id))) {
-            guildMember.roles.add('614511709339779103')
-        } else {
-            guildMember.roles.remove('614511709339779103')
-        }
+            const [guildRoles, memberRoles, everyone] = [
+                newMember.guild.roles.cache.sort((a, b) => a.rawPosition - b.rawPosition).filter(r => r !== newMember.guild.roles.everyone),
+                newMember.roles.cache.sort((a, b) => a.rawPosition - b.rawPosition).filter(r => r !== newMember.guild.roles.everyone),
+                newMember.guild.roles.everyone
+            ];
 
-        //Levels
-        if(roles.filter(r => r.category == 'Levels').map(r => r.id).some(id => newMember.roles.cache.has(id))) {
-            guildMember.roles.add('578622055487111189')
-        } else {
-            guildMember.roles.remove('578622055487111189')
-        }
+            let arr = [{position: everyone.rawPosition, role: everyone, required: false}];
 
-        //Special
-        if(roles.filter(r => r.category == 'Special').map(r => r.id).some(id => newMember.roles.cache.has(id))) {
-            guildMember.roles.add('578622430386454528')
-        } else {
-            guildMember.roles.remove('578622430386454528')
-        }
+            for(const [id, role] of guildRoles) {
 
-        //Other
-        if(roles.filter(r => r.category == null).map(r => r.id).some(id => newMember.roles.cache.has(id))) {
-            guildMember.roles.add('578286642670993428')
-        } else {
-            guildMember.roles.remove('578286642670993428')
-        }
+                role.name.startsWith('═') ? arr.push({position: role.rawPosition, role: role, required: false}) : ''
+            }
+
+            for(const [id, role] of memberRoles) {
+
+                for(let i = 1; i < arr.length; i++) {
+
+                    if(role.rawPosition < arr[i].position && role.rawPosition > arr[i-1].position) {
+                        arr[i].required = true
+                    }
+                }
+            }
+
+            arr.shift()
+
+            for(const seperator of arr) {
+
+                if(seperator.required && !newMember.roles.cache.has(seperator.role.id)) {
+
+                    newMember.roles.add(seperator.role.id)
+                } else if(!seperator.required && newMember.roles.cache.has(seperator.role.id)) {
+
+                    newMember.roles.remove(seperator.role.id)
+                }
+            }
+
+        } catch(e) {console.log(e)}
     }
 }
 
