@@ -14,24 +14,27 @@ class RoleCheckListener extends Listener {
 
             if(newMember.guild.id !== '447504770719154192') return;
 
-            const [guildRoles, memberRoles, everyone] = [
-                newMember.guild.roles.cache.sort((a, b) => a.rawPosition - b.rawPosition).filter(r => r !== newMember.guild.roles.everyone),
-                newMember.roles.cache.sort((a, b) => a.rawPosition - b.rawPosition).filter(r => r !== newMember.guild.roles.everyone),
-                newMember.guild.roles.everyone
-            ];
+            const everyone = newMember.guild.roles.everyone;
 
-            let arr = [{position: everyone.rawPosition, role: everyone, required: false}];
+            function sortRoles(roleManager) {
+
+                return roleManager.cache.filter(r => r !== everyone).sort((a, b) => a.rawPosition - b.rawPosition);
+            }
+
+            const [guildRoles, memberRoles] = [sortRoles(newMember.guild.roles), sortRoles(newMember.roles)]
+
+            let arr = [{role: everyone, required: false}];
 
             for(const [id, role] of guildRoles) {
 
-                role.name.startsWith('═') ? arr.push({position: role.rawPosition, role: role, required: false}) : ''
+                role.name.startsWith('═') && arr.push({role: role, required: false})
             }
 
             for(const [id, role] of memberRoles) {
 
                 for(let i = 1; i < arr.length; i++) {
 
-                    if(role.rawPosition < arr[i].position && role.rawPosition > arr[i-1].position) {
+                    if(role.rawPosition < arr[i].role.rawPosition && role.rawPosition > arr[i-1].role.rawPosition) {
                         arr[i].required = true
                     }
                 }
