@@ -12,48 +12,34 @@ class RoleCheckListener extends Listener {
 
         try{
 
-            if(newMember.guild.id !== '447504770719154192') return;
+            if(newMember.guild.id !== '447504770719154192' || newMember.roles.cache.keyArray().join("") === oldMember.roles.cache.keyArray().join("")) return;
 
-            const everyone = newMember.guild.roles.everyone;
+            console.log("running")
 
-            function sortRoles(roleManager) {
+            let separatorRequired = false
 
-                return roleManager.cache.filter(r => r !== everyone).sort((a, b) => a.rawPosition - b.rawPosition);
-            }
+            for(const [id, role] of newMember.guild.roles.cache.sort((a, b) => a.rawPosition - b.rawPosition)) {
 
-            const [guildRoles, memberRoles] = [sortRoles(newMember.guild.roles), sortRoles(newMember.roles)]
+                if(role.name.startsWith("═")) {
 
-            let arr = [{role: everyone, required: false}];
+                    if(separatorRequired && !newMember.roles.cache.has(id)) {
 
-            for(const [id, role] of guildRoles) {
+                        newMember.roles.add(role)
+                    } else if(!separatorRequired && newMember.roles.cache.has(id)) {
 
-                role.name.startsWith('═') && arr.push({role: role, required: false})
-            }
-
-            for(const [id, role] of memberRoles) {
-
-                for(let i = 1; i < arr.length; i++) {
-
-                    if(role.rawPosition < arr[i].role.rawPosition && role.rawPosition > arr[i-1].role.rawPosition) {
-                        arr[i].required = true
+                        newMember.roles.remove(role)
                     }
+                    separatorRequired = false
+
+                } else if(id !== newMember.guild.roles.everyone.id) {
+
+                    separatorRequired = separatorRequired || newMember.roles.cache.has(id)
                 }
             }
 
-            arr.shift()
-
-            for(const seperator of arr) {
-
-                if(seperator.required && !newMember.roles.cache.has(seperator.role.id)) {
-
-                    newMember.roles.add(seperator.role.id)
-                } else if(!seperator.required && newMember.roles.cache.has(seperator.role.id)) {
-
-                    newMember.roles.remove(seperator.role.id)
-                }
-            }
-
-        } catch(e) {console.log(e)}
+        } catch(e) {
+            console.log(e)
+        }
     }
 }
 
