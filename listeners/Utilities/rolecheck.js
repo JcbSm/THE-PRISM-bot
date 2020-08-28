@@ -1,4 +1,5 @@
 const { Listener } = require('discord-akairo');
+const { compareArray } = require('../../functions')
 
 class RoleCheckListener extends Listener {
     constructor() {
@@ -12,9 +13,7 @@ class RoleCheckListener extends Listener {
 
         try{
 
-            if(newMember.guild.id !== '447504770719154192' || newMember.roles.cache.keyArray().join("") === oldMember.roles.cache.keyArray().join("")) return;
-
-            console.log("running")
+            if(newMember.guild.id !== '447504770719154192' || compareArray(oldMember.roles.cache.keyArray(), newMember.roles.cache.keyArray())) return;
 
             let separatorRequired = false
 
