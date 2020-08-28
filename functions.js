@@ -136,4 +136,20 @@ module.exports = {
     alphabetical: function alphabetical(str) {
         return str.toLowerCase().split("").sort().join('')
     },
+
+    compareArray: function compareArray(a, b) {
+
+        let valid = true
+
+        if(a.length !== b.length) {
+            valid = false
+        } else {
+
+            for(i = 0; i < a.length; i++) {
+                valid = a[i] === b[i] ? valid : false
+            }
+        }
+
+        return valid;
+    }
 }
