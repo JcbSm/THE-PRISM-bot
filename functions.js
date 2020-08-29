@@ -30,7 +30,7 @@ module.exports = {
         return Color(inputColor).rgbNumber()
     },
 
-    linkToMessage: async function linkToMessage(link, client) {
+    linkToMessage: async function linkToMessage(link, client = this.client) {
         let arr = link.split('/').slice(Math.max(link.split('/').length - 2, 0));
         return await (await client.channels.fetch(arr[0])).messages.fetch(arr[1]);
     },
@@ -45,8 +45,7 @@ module.exports = {
         return arr.join(':')
     },
     
-    getUTCTime: function getTime(date, milliseconds) {
-        if(date === undefined) {date = new Date()}
+    getUTCTime: function getTime(date = new Date(), milliseconds = false) {
         let arr = []
         arr.push(module.exports.pad(date.getUTCHours(), 2));
         arr.push(module.exports.pad(date.getUTCMinutes(), 2));
@@ -55,9 +54,8 @@ module.exports = {
         return arr.join(':')
     },
 
-    since: function since(timestamp, max) {
-
-        if(max === undefined) max = 6;   
+    since: function since(timestamp, max = 6) {
+ 
         const seconds = Math.round((new Date() - timestamp)/1000);
         let msgArray = [];
         let count = 0;
@@ -138,18 +136,18 @@ module.exports = {
     },
 
     compareArray: function compareArray(a, b) {
-
         let valid = true
-
         if(a.length !== b.length) {
             valid = false
         } else {
-
             for(i = 0; i < a.length; i++) {
                 valid = a[i] === b[i] ? valid : false
             }
         }
-
         return valid;
-    }
+    },
+
+    rng: function rng(max = 2, min = 1) {
+        return Math.floor((Math.random() * (Math.floor(max) - Math.floor(min - 1)) + Math.floor(min - 1)))
+    },
 }
