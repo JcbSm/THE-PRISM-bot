@@ -107,6 +107,7 @@ class WordingListener extends Listener {
                     increasedScore++;
                     message.react(emoji.characters[increasedScore])
                     firstMessage = message
+                    score+=increasedScore;
                 }
 
                 scoreMessage.edit({ embed: {
