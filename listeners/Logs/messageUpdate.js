@@ -32,7 +32,7 @@ class MessageUpdateListener extends Listener {
         if(newMessage.channel.id === config.prism.guild.channelIDs.counting) {
             newMessage.delete()
         }
-        if(newMessage.channel.id === config.prism.guild.channelIDs.um) {
+        if(newMessage.channel.id === config.prism.guild.channelIDs.wording) {
             newMessage.delete()
         }
 
