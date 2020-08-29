@@ -1,11 +1,11 @@
 const { Listener } = require('discord-akairo');
-const { prism } = require('../../../config')
+const { prism, emoji } = require('../../../config')
 const { linkToMessage, alphabetical } = require('../../../functions')
 const words = require('./words_dictionary.json')
 
-class UmListener extends Listener {
+class WordingListener extends Listener {
     constructor() {
-        super('um', {
+        super('wording', {
             emitter: 'client',
             event: 'message'
         })
@@ -28,7 +28,7 @@ class UmListener extends Listener {
                 
             }
 
-            if(message.channel.id !== prism.guild.channelIDs.um || message.author.bot) return;
+            if(message.channel.id !== prism.guild.channelIDs.wording || message.author.bot) return;
 
             const messages = await message.channel.messages.fetch({
 
@@ -51,6 +51,8 @@ class UmListener extends Listener {
             let messagesArray = messages.map(m => m.content.toLowerCase())
             messagesArray.shift()
             messagesArray.splice(messagesArray.findIndex(m => m.startsWith('<')), 100)
+
+            let increasedScore = 0
 
             if(/^[a-z]{1,}$/i.test(message.content) === false || message.author.id === lastMessage.author.id) {
                 message.delete()
@@ -75,31 +77,35 @@ class UmListener extends Listener {
 
                     } else {
 
-                        message.react('✅')
-                        score++;
-                        if(score > highScore) {
-                            highScore = score
-                            highScoreFirstMessage = firstMessage
-                        }
+                        let multiplier = 1
     
                         if(lastMessage.content.trim().toLowerCase().split("").reverse().join("") == message.content.trim().toLowerCase()) {
     
                             message.react('🔁');
-                            score++;
-                        } else
-
-                        if(alphabetical(message.content) === alphabetical(lastMessage.content)) {
+                            multiplier++
+                        
+                        } else if(alphabetical(message.content) === alphabetical(lastMessage.content)) {
 
                             message.react('🔀'),
-                            score = score + Math.floor(message.content.length/3)
+                            multiplier++
+                        }
+
+                        increasedScore += Math.floor(multiplier * message.content.length / 3);
+
+                        if(increasedScore > 10) increasedScore = 10;
+
+                        message.react(emoji.characters[increasedScore]);
+
+                        if((score += increasedScore) > highScore) {
+                            highScore = score += increasedScore
+                            highScoreFirstMessage = firstMessage
                         }
                     }
 
                 } else {
 
-                    message.react('✅')
-                    score++
-
+                    increasedScore++;
+                    message.react(emoji.characters[increasedScore])
                     firstMessage = message
                 }
 
@@ -123,4 +129,4 @@ class UmListener extends Listener {
     }
 }
 
-module.exports = UmListener;
+module.exports = WordingListener;
