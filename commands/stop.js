@@ -21,7 +21,8 @@ class ShutdownCommand extends Command {
             type: 'rich',
             description: `Putting ${this.client.user} to sleep...`
         }})
-        await this.client.destroy()
+        
+        process.exit()
     }
 }
 
