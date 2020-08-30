@@ -22,7 +22,7 @@ class ShutdownCommand extends Command {
             description: `Putting ${this.client.user} to sleep...`
         }})
         
-        process.exit()
+        this.client.testing ? process.exit() : this.client.destroy()
     }
 }
 
