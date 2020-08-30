@@ -2,6 +2,8 @@ const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = requ
 const { Client } = require('pg');
 const config = require('./config');
 
+console.log('\x1b[31m%s\x1b[0m','Initialising...')
+
 try {
 
 	function getConfig() {
@@ -59,9 +61,11 @@ try {
 				listenerHandler: this.listenerHandler
 			});
 			
-			this.commandHandler.loadAll();
-			this.inhibitorHandler.loadAll();
-			this.listenerHandler.loadAll();	
+			console.log('Loading Modules...')
+			this.commandHandler.loadAll()
+			this.listenerHandler.loadAll()
+			this.inhibitorHandler.loadAll()
+			console.log('\x1b[32m%s\x1b[0m', 'All modules lodaded')
 		}
 	}
 	const client = new BotClient();
@@ -72,10 +76,20 @@ try {
 			rejectUnauthorized: false
 		}
 	});
-	client.db.connect();
-	client.testing = cfg['testing']
 
-	
+	(async function dbConnect() {
+
+		console.log('Connecting to Database...')
+		try{
+			await client.db.connect()
+			console.log('\x1b[32m%s\x1b[0m', 'Connection to Database established.')
+		} catch(error)
+		{
+			console.log(error)
+		}
+	}())
+
+	client.testing = cfg['testing']
 
 	client.on('raw', async packet => { 
  		if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t)) return;
