@@ -1,5 +1,5 @@
 const { Listener } = require('discord-akairo');
-const { prism, emoji } = require('../../../config')
+const { prism, emoji, embeds } = require('../../../config')
 const { linkToMessage, alphabetical } = require('../../../functions')
 const words = require('./words_dictionary.json');
 
@@ -18,26 +18,23 @@ class WordingListener extends Listener {
             
             // Define Variables
 
-            const [scoreMessage, highScoreMessage] = [
-                await linkToMessage('https://discordapp.com/channels/447504770719154192/740196706058108958/749406792282538035', this.client),
-                await linkToMessage('https://discordapp.com/channels/447504770719154192/740196706058108958/749406778810433556', this.client)
-            ];
+            const scoreMessage = await linkToMessage('https://discordapp.com/channels/447504770719154192/740196706058108958/749406792282538035', this.client);
 
             let [score, highScore] = [
-                Number(scoreMessage.embeds[0].title.split("\`")[1]),
-                Number(highScoreMessage.embeds[0].title.split("\`")[1])
-            ]
+                Number(scoreMessage.embeds[0].fields[0].name.split("\`")[1]),
+                Number(scoreMessage.embeds[0].fields[1].name.split("\`")[1])
+            ];
 
             let [firstMessage, highScoreFirstMessage] = [];
 
             try {
-                firstMessage = await linkToMessage(scoreMessage.embeds[0].description.slice(7,-1), this.client)
+                firstMessage = await linkToMessage(scoreMessage.embeds[0].fields[0].value.slice(7,-1), this.client)
             } catch {
                 firstMessage = message
             }
 
             try {
-                highScoreFirstMessage = await linkToMessage(highScoreMessage.embeds[0].description.slice(7,-1), this.client)
+                highScoreFirstMessage = await linkToMessage(scoreMessage.embeds[0].fields[1].value.slice(7,-1), this.client)
             } catch {
                 highScoreFirstMessage = firstMessage
             }
@@ -123,14 +120,18 @@ class WordingListener extends Listener {
             // Editing the Scoreboards
 
             scoreMessage.edit('', { embed: {
-
-                title: `CURRENT SCORE: \`${score}\``,
-                description: `[Jump](${firstMessage.url})`
-            }})
-            highScoreMessage.edit('', { embed: {
-
-                title: `HIGHEST SCORE: \`${highScore}\``,
-                description: `[Jump](${highScoreFirstMessage.url})`
+                title: `${message.guild.name} WORDING SCORES:`,
+                description: `═══════════════════`,
+                fields: [
+                    {
+                        name: `CURRENT SCORE: \`${score}\``,
+                        value: `[Jump](${firstMessage.url})`,
+                    },
+                    {
+                        name: `HIGHEST SCORE: \`${highScore}\``,
+                        value: `[Jump](${highScoreFirstMessage.url})`,
+                    }
+                ]
             }})
 
         } catch(e) {
