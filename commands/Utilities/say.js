@@ -14,7 +14,7 @@ class SayCommand extends Command {
                 },
                 {
                     id: 'channel',
-                    type: 'channelMention'
+                    type: 'channel'
                 }
             ],
             split: 'quoted',
