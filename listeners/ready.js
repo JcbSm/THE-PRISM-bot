@@ -13,7 +13,7 @@ class ReadyListener extends Listener {
     async exec() {
         try{
 
-        console.log(`${this.client.user.username} is Online`);
+        console.log(`\x1b[1m[ \x1b[35m${this.client.user.username} is Online \x1b[37m]\x1b[0m`);
 
         const color = this.client.testing ? colors.test : colors.good;
 
