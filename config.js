@@ -431,6 +431,20 @@ module.exports =
                     task: '{PLAYER} tell everyone about the last time you ate a bagel'
                 }
             ]
+        },
+
+        embeds: {
+
+            blank: {
+                name: '\u200b',
+                value: '\u200b'
+            },
+
+            blankInline: {
+                name: '\u200b',
+                value: '\u200b',
+                inline: true
+            }
         }
     }
 
