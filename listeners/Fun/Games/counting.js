@@ -26,17 +26,40 @@ class CountingListener extends Listener {
             if(Number(message.content) !== Number(lastCount.content)+1 || message.author.id === lastCount.author.id || !valid) return message.delete();
 
 
+            // Count Tracker
+
+            const DB = this.client.db;
+
+            DB.query(`
+                SELECT Counts FROM Users
+                WHERE ID = ${message.author.id}
+            `, (err, res) => {
+
+                if(res.rows.length > 0) {
+
+                    const counts = res.rows[0].counts
+
+                    DB.query(`
+                        UPDATE Users
+                        SET Counts = ${counts + 1}
+                        WHERE ID = ${message.author.id};
+                    `)
+                }
+                
+            })
+
+
             // Top Counter
             
             const pinMessage = await linkToMessage('https://discordapp.com/channels/447504770719154192/583742663627505669/749343323793260645', this.client);
             
-            let currentCounts = Number(pinMessage.embeds[0].description.split('\`')[1])
-            let recentCountValue = pinMessage.embeds[0].fields[1].value
             const topCounter = await this.client.users.fetch('140150251213422592')
+            //let currentCounts = Number(pinMessage.embeds[0].description.split('\`')[1])
+            let currentCounts = (await this.client.db.query(`SELECT Counts FROM Users WHERE ID = ${topCounter.id}`)).rows[0].counts
+            let recentCountValue = pinMessage.embeds[0].fields[1].value
 
             if(message.author.id === topCounter.id) {
 
-                currentCounts++;
                 recentCountValue = `\`${Number(message.content)}\``
             }
 
