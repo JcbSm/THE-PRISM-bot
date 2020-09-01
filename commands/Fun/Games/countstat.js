@@ -21,7 +21,6 @@ class CountStatCommand extends Command {
     }
     async exec(message, args) {
 
-
         const member = args.member ? args.member : message.member;
 
         try{
