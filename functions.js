@@ -45,7 +45,7 @@ module.exports = {
         return arr.join(':')
     },
     
-    getUTCTime: function getTime(date = new Date(), milliseconds = false) {
+    getUTCTime: function getUTCTime(date = new Date(), milliseconds = false) {
         let arr = []
         arr.push(module.exports.pad(date.getUTCHours(), 2));
         arr.push(module.exports.pad(date.getUTCMinutes(), 2));
