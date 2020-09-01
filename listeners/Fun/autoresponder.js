@@ -13,10 +13,19 @@ class AutoResponderListener extends Listener {
 
     async exec(message) {
 
-        if(message.channel.id === '568455212419776512' && !this.client.testing && message.embeds[0].color === rgb(colors.test)) {
+        if(message.channel.id === '568455212419776512') {
 
-            console.log("Shutting down due to another instance.")
-            this.client.destroy()
+            if(this.client.testing) {
+
+                message.embeds[0].color === rgb(colors.good) ? process.exit() : ''
+                
+            } else {
+
+                message.embeds[0].color === rgb(colors.test) ? this.client.destroy : ''
+            }
+
+            
+
         }
 
         if(!message.guild) return;
