@@ -21,15 +21,19 @@ class AvatarCommand extends Command {
 
     exec(message, args) {
 
-        const member = args.member ? args.member : message.member
+        try{
 
-        message.channel.send({ embed: {
+            const member = args.member ? args.member : message.member
 
-            type: 'rich',
-            image: { url: member.user.displayAvatarURL({size: 4096}) },
-            color: colors.purple
+            message.channel.send({ embed: {
+
+                type: 'rich',
+                image: { url: member.user.displayAvatarURL({size: 4096}) },
+                color: colors.purple
+                
+            }})
             
-        }})
+        } catch(e) {console.log(e)}
     }
 }
 
