@@ -53,6 +53,7 @@ class WordingListener extends Listener {
             function fail() {
 
                 const failMessage = score >= highScore ? `You failed, **NEW HIGH SCORE:** \`${score}\`` : `You failed, **SCORE:** \`${score}\``
+                message.react('730846979977904218')
                 message.reply(failMessage)
                 score = 0
             }
