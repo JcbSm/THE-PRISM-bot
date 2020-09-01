@@ -1,6 +1,5 @@
 const { Command } = require('discord-akairo');
 const { colors } = require('../../../config');
-const { sendDataToProcessId } = require('pm2');
 
 class CountingLBCommand extends Command {
     constructor() {
@@ -16,7 +15,8 @@ class CountingLBCommand extends Command {
                     type: 'number',
                     default: 1
                 }
-            ]
+            ],
+            category: 'games'
         })
     }
     async exec(message, args) {
@@ -26,9 +26,9 @@ class CountingLBCommand extends Command {
             let sent = await message.channel.send('***Calculating...***')
 
             const arr = (await this.client.db.query(`
-                SELECT ID, Counts
-                FROM Users
-                WHERE Counts > 0;
+                SELECT user_id, counts
+                FROM tbl_counts
+                WHERE counts > 0;
             `)).rows
 
             arr.sort((a, b) => b.counts - a.counts)
@@ -37,9 +37,13 @@ class CountingLBCommand extends Command {
 
             for(let i = 0; i < arr.length; i++) {
 
-                const user = await this.client.users.fetch(arr[i].id)
-
-                arr2.push(`**${i+1}.** ${user.tag} • \`${arr[i].counts}\``)
+                let user;
+                try{
+                    user = await this.client.users.fetch(arr[i].user_id)
+                } catch(err) {
+                    continue;
+                }
+                arr2.push(`**${i+1}.** ${user} • \`${arr[i].counts}\``)
             }
 
             const footer = arr2.length < args.page*10 ? `Page ${args.page} | ${((args.page-1)*10)+1} - ${arr2.length} of ${arr2.length}` : `Page ${args.page} | ${((args.page-1)*10)+1} - ${args.page*10} of ${arr2.length}`
@@ -60,6 +64,7 @@ class CountingLBCommand extends Command {
                 },
                 timestamp: new Date()
             }})
+
         } catch(e) {console.log(e)}
 
     }

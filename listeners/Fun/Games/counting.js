@@ -30,23 +30,28 @@ class CountingListener extends Listener {
 
             const DB = this.client.db;
 
-            DB.query(`
-                SELECT Counts FROM Users
-                WHERE ID = ${message.author.id}
-            `, (err, res) => {
+            const res = (await DB.query(`SELECT * FROM tbl_counts WHERE user_id = ${message.author.id}`)).rows[0];
 
-                if(res.rows.length > 0) {
+            if(!res) {
+                await DB.query(`
+                    INSERT INTO tbl_counts (user_id, counts)
+                    VALUES (${array[i].id}, 1)
+                `, (err, res) => {
+                    if(err) return console.log(err)
+                    console.log(`Added user ${array[i].id} into tbl_counts`)
+                })
+            } else {
 
-                    const counts = res.rows[0].counts
+                await DB.query(`UPDATE tbl_counts
+                    SET counts = ${res.counts + 1},
+                    last_count = ${Number(message.content)},
+                    last_count_timestamp = ${message.createdTimestamp},
+                    last_count_url = '${message.url}'
+                    WHERE user_id = ${message.author.id}`)
 
-                    DB.query(`
-                        UPDATE Users
-                        SET Counts = ${counts + 1}
-                        WHERE ID = ${message.author.id};
-                    `)
-                }
-                
-            })
+            }
+
+
 
 
             // Top Counter
@@ -55,27 +60,25 @@ class CountingListener extends Listener {
             
             const topCounter = await this.client.users.fetch('140150251213422592')
             //let currentCounts = Number(pinMessage.embeds[0].description.split('\`')[1])
-            let currentCounts = (await this.client.db.query(`SELECT Counts FROM Users WHERE ID = ${topCounter.id}`)).rows[0].counts
-            let recentCountValue = pinMessage.embeds[0].fields[1].value
+            let data = (await this.client.db.query(`SELECT * FROM tbl_counts WHERE user_id = ${topCounter.id}`)).rows[0]
 
-            if(message.author.id === topCounter.id) {
-
-                recentCountValue = `\`${Number(message.content)}\``
-            }
-
-            pinMessage.edit('', { embed: {
+            pinMessage.edit({ embed: {
                 title: `The ${message.guild.name} top counter`,
-                description: `${topCounter} counts: \`${currentCounts}\``,
+                description: `${topCounter} counts: \`${data.counts}\``,
                 fields: [
                     {
                         name: 'Percentage of all counts',
-                        value: `\`${Math.round(currentCounts/Number(message.content)*10000)/100}%\``
+                        value: `\`${Math.round(data.counts/Number(message.content)*10000)/100}%\``
                     },
                     {
                         name: 'Most recent count',
-                        value: recentCountValue
+                        value: `\`${data.last_count}\` [Jump](${data.last_count_url})`
                     }
-                ]
+                ],
+                timestamp: Number(data.last_count_timestamp),
+                footer: {
+                    text: 'Last counted'
+                }
             }})
         
         } catch(e) {console.log(e)}
