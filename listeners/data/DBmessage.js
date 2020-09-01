@@ -11,7 +11,7 @@ class DBMessageListener extends Listener {
 
         const DB = this.client.db;
 
-        DB.query(`
+        /*DB.query(`
             SELECT * FROM Users
             WHERE ID = ${message.author.id};
         `, (err, res) => {
@@ -28,7 +28,7 @@ class DBMessageListener extends Listener {
                     console.log(`Added user ${message.author.tag} into tbl_Users with ID: ${message.author.id}`)
                 })
             }
-        })
+        })*/
 
         
 
