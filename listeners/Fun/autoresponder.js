@@ -1,5 +1,6 @@
 const { Listener } = require('discord-akairo');
-const { prism } = require('../../config')
+const { prism, colors } = require('../../config')
+const { rgb } = require('../../functions')
 
 class AutoResponderListener extends Listener {
     constructor() {
@@ -11,6 +12,12 @@ class AutoResponderListener extends Listener {
     }
 
     async exec(message) {
+
+        if(message.channel.id === '568455212419776512' && !this.client.testing && message.embeds[0].color === rgb(colors.test)) {
+
+            console.log("Shutting down due to another instance.")
+            this.client.destroy()
+        }
 
         if(!message.guild) return;
         if(message.guild.id !== '447504770719154192') return;
