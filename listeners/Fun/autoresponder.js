@@ -15,13 +15,23 @@ class AutoResponderListener extends Listener {
 
         if(message.channel.id === '568455212419776512') {
 
+            function testShutdown() {
+
+                process.exit()
+            }
+
+            function shutDown(client) {
+
+                client.destroy
+            }
+
             if(this.client.testing) {
 
-                message.embeds[0].color === rgb(colors.good) ? process.exit() : ''
+                message.embeds[0].color === rgb(colors.good) ? testShutdown() : ''
                 
             } else {
 
-                message.embeds[0].color === rgb(colors.test) ? this.client.destroy() : ''
+                message.embeds[0].color === rgb(colors.test) ? shutDown(this.client) : ''
             }
 
             
