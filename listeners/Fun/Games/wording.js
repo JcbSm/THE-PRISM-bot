@@ -15,6 +15,27 @@ class WordingListener extends Listener {
         try{
 
             if(message.channel.id !== prism.guild.channelIDs.wording || message.author.bot) return;
+
+            // Get DB Data
+
+            const DB = this.client.db
+
+            let data = (await DB.query(`SELECT * FROM tbl_wording WHERE user_id = ${message.author.id}`)).rows[0]
+
+            if(data === undefined) {
+
+                await DB.query(`INSERT INTO tbl_wording (user_id, total_points, total_words, total_fails) VALUES (${message.author.id}, 0, 0, 0)`, (err, res) => {
+
+                    if(err) return console.log(err);
+
+                    console.log(`Added ${message.author.tag} to tbl_wording with user_id ${message.author.id}`)
+                })
+
+                data = (await DB.query(`SELECT * FROM tbl_wording WHERE user_id = ${message.author.id}`)).rows[0]
+            }
+
+            //console.log(data)
+
             
             // Define Variables
 
@@ -50,18 +71,22 @@ class WordingListener extends Listener {
             let msgArray = messages.map(m => m.content.toLowerCase().trim()).splice(1)
             msgArray.splice(msgArray.findIndex(m => m.startsWith('<')))
 
+            let pointsLost = 0
+            let scoreDiff = 0
+            let failed = 0
+
             function fail() {
 
                 const failMessage = score >= highScore ? `You failed, **NEW HIGH SCORE:** \`${score}\`` : `You failed, **SCORE:** \`${score}\``
                 message.react('730846979977904218')
                 message.reply(failMessage)
+                pointsLost = score
+                failed = 1
                 score = 0
             }
 
-            let scoreDiff = 0
-
             if(/^[a-z]{1,}$/i.test(message.content) === false || message.author.id === lastMessage.author.id) {
-                message.delete()
+                return message.delete()
 
             } else {
 
@@ -96,6 +121,7 @@ class WordingListener extends Listener {
 
                         scoreDiff += Math.floor( mult * message.content.length / 3 );
                         //(scoreDiff > 10) && (scoreDiff = 10)
+                        if(scoreDiff > 10) scoreDiff = 10
 
                         message.react(emoji.characters[scoreDiff]);
 
@@ -117,6 +143,28 @@ class WordingListener extends Listener {
                 highScore = score;
                 highScoreFirstMessage = firstMessage
             }
+
+            // Update DB
+
+            const worstFail = pointsLost > data.worst_fail ? pointsLost : data.worst_fail
+
+            await DB.query(
+
+                `UPDATE tbl_wording SET
+                    total_points = ${data.total_points + scoreDiff},
+                    total_words = ${data.total_words + 1},
+                    total_fails = ${data.total_fails + failed},
+                    worst_fail = ${worstFail},
+                    last_word = '${message.content}',
+                    last_word_timestamp = ${message.createdTimestamp},
+                    last_word_url = '${message.url}'
+                WHERE user_id = ${message.author.id}`,
+                
+                (err, res) => {
+
+                    if(err) console.log(err)
+                }
+            )
 
             // Editing the Scoreboards
 
