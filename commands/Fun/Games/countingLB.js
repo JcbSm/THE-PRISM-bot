@@ -4,7 +4,7 @@ const { colors } = require('../../../config');
 class CountingLBCommand extends Command {
     constructor() {
         super('counting', {
-            aliases: ['counting', 'counts', 'leaderboard'],
+            aliases: ['counting', 'counts'],
             description: {
                 content: 'Shows the leaderboard for #counting',
                 usage: 'counting <page>'
@@ -53,7 +53,7 @@ class CountingLBCommand extends Command {
             await sent.delete();
             await message.channel.send({embed: {
 
-                title: `${message.guild.name} counting leaderboard`,
+                title: `${message.guild.name} COUNTING LEADERBOARD`,
                 description: arr2.join("\n"),
                 color: colors.purple,
                 thumbnail: {
