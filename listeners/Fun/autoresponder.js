@@ -21,7 +21,7 @@ class AutoResponderListener extends Listener {
                 
             } else {
 
-                message.embeds[0].color === rgb(colors.test) ? this.client.destroy : ''
+                message.embeds[0].color === rgb(colors.test) ? this.client.destroy() : ''
             }
 
             
