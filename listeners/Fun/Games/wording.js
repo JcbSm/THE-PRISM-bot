@@ -74,6 +74,7 @@ class WordingListener extends Listener {
             let pointsLost = 0
             let scoreDiff = 0
             let failed = 0
+            let first = false
 
             function fail() {
 
@@ -120,7 +121,6 @@ class WordingListener extends Listener {
                         }
 
                         scoreDiff += Math.floor( mult * message.content.length / 3 );
-                        //(scoreDiff > 10) && (scoreDiff = 10)
                         if(scoreDiff > 10) scoreDiff = 10
 
                         message.react(emoji.characters[scoreDiff]);
@@ -132,6 +132,8 @@ class WordingListener extends Listener {
                     scoreDiff++;
                     firstMessage = message;
                     message.react(emoji.characters[scoreDiff]);
+                    first = true
+
                 }
             }
 
@@ -148,23 +150,26 @@ class WordingListener extends Listener {
 
             const worstFail = pointsLost > data.worst_fail ? pointsLost : data.worst_fail
 
-            await DB.query(
+            if(!first) {
 
-                `UPDATE tbl_wording SET
-                    total_points = ${data.total_points + scoreDiff},
-                    total_words = ${data.total_words + 1},
-                    total_fails = ${data.total_fails + failed},
-                    worst_fail = ${worstFail},
-                    last_word = '${message.content}',
-                    last_word_timestamp = ${message.createdTimestamp},
-                    last_word_url = '${message.url}'
-                WHERE user_id = ${message.author.id}`,
-                
-                (err, res) => {
+                await DB.query(
 
-                    if(err) console.log(err)
-                }
-            )
+                    `UPDATE tbl_wording SET
+                        total_points = ${data.total_points + scoreDiff},
+                        total_words = ${data.total_words + 1},
+                        total_fails = ${data.total_fails + failed},
+                        worst_fail = ${worstFail},
+                        last_word = '${message.content}',
+                        last_word_timestamp = ${message.createdTimestamp},
+                        last_word_url = '${message.url}'
+                    WHERE user_id = ${message.author.id}`,
+                    
+                    (err, res) => {
+    
+                        if(err) console.log(err)
+                    }
+                )
+            }
 
             // Editing the Scoreboards
 

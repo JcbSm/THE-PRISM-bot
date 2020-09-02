@@ -105,7 +105,6 @@ class WordingLBCommand extends Command {
                     title = 'Worst Fails'
 
                     arr.sort((a, b) => Number(b.worst_fail) - Number(a.worst_fail));
-                    console.log(arr)
 
                     for(let i = 0; i < arr.length; i++) {
 
