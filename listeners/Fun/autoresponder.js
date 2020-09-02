@@ -22,7 +22,7 @@ class AutoResponderListener extends Listener {
 
             function shutDown(client) {
 
-                client.destroy
+                client.destroy()
             }
 
             if(this.client.testing) {
