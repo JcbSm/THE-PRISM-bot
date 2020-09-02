@@ -17,11 +17,13 @@ class AutoResponderListener extends Listener {
 
             function testShutdown() {
 
+                console.log("Shutting down due to another instance coming online")
                 process.exit()
             }
 
             function shutDown(client) {
 
+                console.log("Shutting down due to another instance coming online")
                 client.destroy()
             }
 
