@@ -14,7 +14,7 @@ class XPMessageListener extends Listener {
 
         try{
 
-            if(message.author.bot || message.content.startsWith(`${this.client.commandHandler.prefix}rank`)) return;
+            if(message.author.bot || message.content.startsWith(`${this.client.commandHandler.prefix}rank`) || message.guild.id !== prism.guild.id) return;
 
             const DB = this.client.db;
 
