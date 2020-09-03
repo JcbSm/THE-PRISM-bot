@@ -147,7 +147,11 @@ module.exports = {
         return valid;
     },
 
-    rng: function rng(max = 2, min = 1) {
-        return Math.floor((Math.random() * (Math.floor(max) - Math.floor(min - 1)) + Math.floor(min - 1)))
+    rng: function rng(max = 1, min = 0) {
+        return Math.floor((Math.random() * (Math.floor(max + 1) - Math.floor(min)) + Math.floor(min)))
     },
+
+    xpCalc: function xpCalc(i) {
+        Math.floor(5 * Math.pow((984/11), 2) * ((Math.pow(10, 3) * Math.exp(-Math.pow(10, -3)* i) + i) - Math.pow(10, 3)))
+    }
 }
