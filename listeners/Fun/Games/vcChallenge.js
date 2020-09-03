@@ -12,7 +12,7 @@ class VcChallengeListener extends Listener {
 
     async exec(oldState, newState) {
     try{
-        
+        return;
         if(oldState.channel === newState.channel) return;
         
         const [ vc, tc ] = [ await this.client.channels.fetch(prism.guild.channelIDs.vcChallenge), await this.client.channels.fetch(prism.guild.channelIDs.vcChallengeText) ]
