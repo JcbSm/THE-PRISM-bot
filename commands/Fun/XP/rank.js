@@ -47,7 +47,7 @@ class RankCommand extends Command {
             message.channel.send({ embed: {
 
                 title: `${message.guild.name} RANK`,
-                description: `\`\`\`[${bar.join("")}]\`\`\`\n\`${data.xp - minXP}/${maxXP}\``,
+                description: `\`\`\`[${bar.join("")}]\`\`\`\n\`${data.xp - minXP}/${maxXP-minXP}\``,
                 fields: [
                     {
                         name: 'Level',
@@ -69,7 +69,7 @@ class RankCommand extends Command {
                     url: member.user.displayAvatarURL({size:1024})
                 },
                 color: colors.purple,
-                timestamp: new Date()
+                timestamp: Number(data.last_message_timestamp)
             }})
 
         } catch(e) {
