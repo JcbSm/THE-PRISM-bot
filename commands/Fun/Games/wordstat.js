@@ -33,7 +33,7 @@ class WordStatCommand extends Command {
             message.channel.send({ embed: {
 
                 title: `${message.guild.name} WORDING STATS`,
-                description: `${member} has earnt \`${data.total_points}\` points`,
+                description: `${member} has earned \`${data.total_points}\` points`,
                 fields: [
                     {
                         name: 'Total Words',
