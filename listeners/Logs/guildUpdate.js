@@ -76,7 +76,7 @@ try{
                 title: null,
                 description: `**Guild updated by ${executor}**`,
                 url: null,
-                color: rgb(color.purple),
+                color: rgb(config.color.purple),
                 fields: changesFields,
                 timestamp: new Date(),
                 tumbnail: null,
