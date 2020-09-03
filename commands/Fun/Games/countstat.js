@@ -38,9 +38,6 @@ class CountStatCommand extends Command {
             arr.sort((a, b) => b.counts - a.counts)
             const lbPos = arr.findIndex(u => u.user_id === member.id) + 1
 
-            console.log(lbPos)
-
-
             // Send Data
 
             const data = (await this.client.db.query(`SELECT * FROM tbl_counts WHERE user_id = ${member.user.id}`)).rows[0]
