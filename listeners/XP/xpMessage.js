@@ -1,6 +1,6 @@
 const { Listener } = require('discord-akairo');
 const { rng } = require('../../functions')
-const { prism, xpArray } = require('../../config')
+const { prism, xpArray, colors } = require('../../config')
 
 class XPMessageListener extends Listener {
     constructor() {
@@ -13,7 +13,7 @@ class XPMessageListener extends Listener {
     async exec(message) {
 
         try{
-
+            if(!message.guild) return;
             if(message.author.bot || message.content.startsWith(`${this.client.commandHandler.prefix}rank`) || message.guild.id !== prism.guild.id) return;
 
             const DB = this.client.db;
@@ -33,14 +33,24 @@ class XPMessageListener extends Listener {
 
             if(message.createdTimestamp - data.last_message_timestamp > 60000) {
 
-                const xpAdd = rng(3, 7)
+                const xpAdd = rng(7, 3)
                 let level;
                 
                 if(xpArray[data.level + 1] <= (data.xp + xpAdd)) {
 
                     level = data.level + 1;
 
-                    (await this.client.channels.fetch(prism.guild.channelIDs.levelUps)).send(`${message.member}, you just reached level ${level}`)
+                    (await this.client.channels.fetch(prism.guild.channelIDs.levelUps)).send({
+                        embed: {
+                            title: 'LEVEL UP!',
+                            description: `${message.author} you reached level ${level}! <:pogchamp:519201541274730496>`,
+                            timestamp: message.createdTimestamp,
+                            footer: {
+                                text: message.author.tag
+                            },
+                            color: colors.purple
+                        }
+                    })
                 } else {
                     level = data.level
                 }
