@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const { prism, xpArray, colors} = require('../../../config');
+const { prism, xpArray, colors, embeds} = require('../../../config');
 const { groupDigits, pad } = require('../../../functions')
 
 class RankCommand extends Command {
@@ -54,11 +54,6 @@ class RankCommand extends Command {
                 description: `\`\`\`                  LEVEL [${data.level}]\n[${bar.join("")}]\n${groupDigits(data.xp - minXP)} / ${groupDigits(maxXP-minXP)}\`\`\``,
                 fields: [
                     {
-                        name: 'Messages',
-                        value: `\`${groupDigits(data.messages)}\``,
-                        inline: true
-                    },
-                    {
                         name: 'Total XP',
                         value: `\`${groupDigits(data.xp)}\``,
                         inline: true
@@ -67,7 +62,19 @@ class RankCommand extends Command {
                         name: 'XP to next level',
                         value: `\`${groupDigits(xpArray[data.level + 1] - data.xp)}\``,
                         inline: true
-                    }
+                    },
+                    embeds.blankInline,
+                    {
+                        name: 'Messages',
+                        value: `\`${groupDigits(data.messages)}\``,
+                        inline: true
+                    },
+                    {
+                        name: 'Voice',
+                        value: `\`${groupDigits(data.voice_minutes)} minutes\``,
+                        inline: true
+                    },
+                    embeds.blankInline
                 ],
                 thumbnail: {
                     url: member.user.displayAvatarURL({size:1024})
