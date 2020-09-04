@@ -43,7 +43,7 @@ class XPVoiceListener extends Listener {
 
                                         const xpAdd = rng(7,3)
                                         
-                                        DB.query(`UPDATE tbl_users SET xp = xp WHERE user_id = ${member.id}`, async (err, res) => {
+                                        DB.query(`UPDATE tbl_users SET xp = xp + ${xpAdd} WHERE user_id = ${member.id}`, async (err, res) => {
 
                                             if(err) return console.log(err);
                                         })
