@@ -23,7 +23,19 @@ class XPVoiceListener extends Listener {
 
                 if(newID === afkID) return;
 
-                const isVoice = (await DB.query(`SELECT voice FROM tbl_users WHERE user_id = ${newState.member.id}`)).rows[0].voice
+                const data = (await DB.query(`SELECT voice FROM tbl_users WHERE user_id = ${newState.member.id}`)).rows
+
+                let isVoice;
+
+                if(data[0]) {
+                    isVoice = data[0].voice
+                } else {
+                    await DB.query(`INSERT INTO tbl_users (user_id, messages, xp, last_message_timestamp, level, voice) VALUES (${newState.member.id}, 0, 0, 0, 0, false)`, (err, res) => {
+
+                        if(err) return console.log(err);
+                        console.log(`Added ${newState.member.user.tag} to tbl_users with user_id ${newState.member.id}`)
+                    })
+                }
 
                 if(newState.channel && !isVoice) {
 
@@ -43,7 +55,7 @@ class XPVoiceListener extends Listener {
 
                                         const xpAdd = rng(7,3)
                                         
-                                        DB.query(`UPDATE tbl_users SET xp = xp + ${xpAdd} WHERE user_id = ${member.id}`, async (err, res) => {
+                                        await DB.query(`UPDATE tbl_users SET xp = xp + ${xpAdd} WHERE user_id = ${member.id}`, async (err, res) => {
 
                                             if(err) return console.log(err);
                                         })
