@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
 const { colors } = require('../../../config')
-const { pad } = require('../../../functions')
+const { pad, groupDigits } = require('../../../functions')
 
 class LevelsCommand extends Command {
     constructor() {
@@ -32,18 +32,27 @@ class LevelsCommand extends Command {
 
             for(let i = 0; i < arr.length; i++) {
 
-                let user;
-                try{
-                    user = await this.client.users.fetch(arr[i].user_id)
-                } catch(err) {
-                    continue;
-                }
-                arr2.push(`**\`${pad(i+1, 2)}.\`** • \`Lvl [${arr[i].level}]\` • ${user} • \`${arr[i].xp} xp\``)
+                arr2.push(`**\`${pad(i+1, 2)}.\`** • \`Lvl [${arr[i].level}]\` • <@${arr[i].user_id}> • \`${groupDigits(arr[i].xp)} xp\``)
             }
 
-            const footer = arr2.length < args.page*10 ? `Page ${args.page} | ${((args.page-1)*10)+1} - ${arr2.length} of ${arr2.length}` : `Page ${args.page} | ${((args.page-1)*10)+1} - ${args.page*10} of ${arr2.length}`
+            let page;
 
-            arr2 = arr2.slice((args.page-1)*10, args.page*10)
+            if(isNaN(Number(args.page))) {
+
+                const mem = this.client.util.resolveMember(args.page, message.guild.members.cache)
+                if(!mem) {
+                    page = 1
+                } else {
+                    let i = arr2.findIndex(s => s.includes(mem.id))
+                    page = Math.ceil((i+1)/10)
+                }   
+            } else {
+                page = args.page
+            }
+
+            const footer = arr2.length < page*10 ? `Page ${page} | ${((page-1)*10)+1} - ${arr2.length} of ${arr2.length}` : `Page ${page} | ${((page-1)*10)+1} - ${page*10} of ${arr2.length}`
+
+            arr2 = arr2.slice((page-1)*10, page*10)
 
             await sent.delete();
             await message.channel.send({embed: {

@@ -1,5 +1,6 @@
 const { Command } = require('discord-akairo');
 const { prism, xpArray, colors} = require('../../../config');
+const { groupDigits, pad } = require('../../../functions')
 
 class RankCommand extends Command {
     constructor() {
@@ -44,24 +45,27 @@ class RankCommand extends Command {
                 }
             }
 
+            const date = new Date(message.createdTimestamp - data.last_message_timestamp);
+            const footer = date.getUTCHours() === 0 ? `${pad(date.getUTCMinutes(), 2)}:${pad(date.getUTCSeconds(), 2)}` : null
+
             message.channel.send({ embed: {
 
                 title: `${message.guild.name} RANK`,
-                description: `\`\`\`[${bar.join("")}]\`\`\`\n\`${data.xp - minXP}/${maxXP-minXP}\``,
+                description: `\`\`\`                  LEVEL [${data.level}]\n[${bar.join("")}]\n${groupDigits(data.xp - minXP)} / ${groupDigits(maxXP-minXP)}\`\`\``,
                 fields: [
                     {
-                        name: 'Level',
-                        value: data.level,
+                        name: 'Messages',
+                        value: `\`${groupDigits(data.messages)}\``,
                         inline: true
                     },
                     {
                         name: 'Total XP',
-                        value: data.xp,
+                        value: `\`${groupDigits(data.xp)}\``,
                         inline: true
                     },
                     {
                         name: 'XP to next level',
-                        value: xpArray[data.level + 1] - data.xp,
+                        value: `\`${groupDigits(xpArray[data.level + 1] - data.xp)}\``,
                         inline: true
                     }
                 ],
@@ -69,7 +73,10 @@ class RankCommand extends Command {
                     url: member.user.displayAvatarURL({size:1024})
                 },
                 color: colors.purple,
-                timestamp: Number(data.last_message_timestamp)
+                timestamp: Number(data.last_message_timestamp),
+                footer: {
+                    text: footer
+                }
             }})
 
         } catch(e) {
