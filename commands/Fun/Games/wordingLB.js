@@ -6,7 +6,7 @@ class WordingLBCommand extends Command {
         super('wording', {
             aliases: ['wording', 'words'],
             description: {
-                content: 'Shows the leaderboard for #wording\nCategories: "points", "words", "fails", "worst" (worst fails)',
+                content: 'Shows the leaderboard for #wording\nCategories: "points", "words", "fails", "average" "worst" (worst fails)',
                 usage: 'wording <category> <page>'
             },
             args: [
@@ -51,13 +51,7 @@ class WordingLBCommand extends Command {
 
                     for(let i = 0; i < arr.length; i++) {
 
-                        let user;
-                        try{
-                            user = await this.client.users.fetch(arr[i].user_id)
-                        } catch(err) {
-                            continue;
-                        }
-                        arr2.push(`**${i+1}.** ${user} • \`${arr[i].total_points}\``)
+                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${arr[i].total_points}\``)
                     }
 
                     break;
@@ -70,13 +64,7 @@ class WordingLBCommand extends Command {
 
                     for(let i = 0; i < arr.length; i++) {
 
-                        let user;
-                        try{
-                            user = await this.client.users.fetch(arr[i].user_id)
-                        } catch(err) {
-                            continue;
-                        }
-                        arr2.push(`**${i+1}.** ${user} • \`${arr[i].total_words}\``)
+                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${arr[i].total_words}\``)
                     }
 
                     break;
@@ -89,13 +77,7 @@ class WordingLBCommand extends Command {
 
                     for(let i = 0; i < arr.length; i++) {
 
-                        let user;
-                        try{
-                            user = await this.client.users.fetch(arr[i].user_id)
-                        } catch(err) {
-                            continue;
-                        }
-                        arr2.push(`**${i+1}.** ${user} • \`${arr[i].total_fails}\``)
+                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${arr[i].total_fails}\``)
                     }
 
                     break;
@@ -108,13 +90,25 @@ class WordingLBCommand extends Command {
 
                     for(let i = 0; i < arr.length; i++) {
 
-                        let user;
-                        try{
-                            user = await this.client.users.fetch(arr[i].user_id)
-                        } catch(err) {
-                            continue;
-                        }
-                        arr2.push(`**${i+1}.** ${user} • \`${Number(arr[i].worst_fail)}\``)
+                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${Number(arr[i].worst_fail)}\``)
+                    }
+
+                    break;
+                
+                case 'average':
+                case 'av':
+
+                    title = 'Average Points (per word)'
+
+                    arr.sort((a, b) => (Number(b.total_points)/Number(b.total_words)) - (Number(a.total_points))/Number(a.total_words));
+
+                    let place = 1
+
+                    for(let i = 0; i < arr.length; i++) {
+
+                        if(arr[i].total_words < 15) continue;
+
+                        arr2.push(`**${place++}.** <@${arr[i].user_id}> • \`${(Math.round((Number(arr[i].total_points)/Number(arr[i].total_words))*100))/100}\``)
                     }
 
                     break;
