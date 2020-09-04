@@ -22,7 +22,7 @@ class XPMessageListener extends Listener {
 
             if(data === undefined) {
 
-                await DB.query(`INSERT INTO tbl_users (user_id, messages, xp, last_message_timestamp, level) VALUES (${message.author.id}, 0, 0, ${Number(message.createdTimestamp)}, 0)`, (err, res) => {
+                await DB.query(`INSERT INTO tbl_users (user_id, messages, xp, last_message_timestamp, level, voice_minutes) VALUES (${message.author.id}, 0, 0, ${Number(message.createdTimestamp)}, 0, 0)`, (err, res) => {
 
                     if(err) return console.log(err);
                     console.log(`Added ${message.author.tag} to tbl_users with user_id ${message.author.id}`)
