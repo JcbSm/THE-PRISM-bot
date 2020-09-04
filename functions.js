@@ -15,7 +15,7 @@ module.exports = {
         }
         let diff;
         diff = digits - count;
-        if (diff < 0 ) return;
+        if (diff < 0 ) return number;
         let numArray = number.toString().split("");
         for (i = 0; i < diff; i++) {
 
@@ -152,6 +152,16 @@ module.exports = {
     },
 
     xpCalc: function xpCalc(i) {
-        Math.floor(5 * Math.pow((984/11), 2) * ((Math.pow(10, 3) * Math.exp(-Math.pow(10, -3)* i) + i) - Math.pow(10, 3)))
+        return Math.floor(5 * Math.pow(135, 2) * ((Math.pow(10, 3) * Math.exp(-Math.pow(10, -3)* i) + i) - Math.pow(10, 3)))
+    },
+
+    groupDigits: function groupDigits(n) {
+        const arr = n.toString().split("").reverse();
+        for(let i = 0; i < arr.length; i++) {
+            if(Number.isInteger((i+1)/4)) {
+                arr.splice(i, 0, ",")
+            }
+        }
+        return arr.reverse().join("")
     }
 }
