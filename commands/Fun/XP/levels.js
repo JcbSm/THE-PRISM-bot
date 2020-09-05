@@ -24,7 +24,7 @@ class LevelsCommand extends Command {
 
             let sent = await message.channel.send('***Calculating...***')
 
-            const arr = (await DB.query(`SELECT * FROM tbl_users WHERE messages > 0`)).rows
+            const arr = (await DB.query(`SELECT * FROM tbl_users WHERE xp > 0`)).rows
 
             arr.sort((a, b) => b.xp - a.xp)
 
