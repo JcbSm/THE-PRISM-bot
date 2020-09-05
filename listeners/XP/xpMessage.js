@@ -31,6 +31,8 @@ class XPMessageListener extends Listener {
                 data = (await DB.query(`SELECT * FROM tbl_users WHERE user_id = ${message.author.id};`)).rows[0]
             }
 
+            await DB.query(`UPDATE tbl_users SET total_messages = total_messages + 1 WHERE user_id = ${message.author.id}`)
+
             if(message.createdTimestamp - data.last_message_timestamp > 60000) {
 
                 const xpAdd = rng(7, 3)

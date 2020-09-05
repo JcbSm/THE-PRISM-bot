@@ -19,6 +19,8 @@ class XPVoiceListener extends Listener {
 
             } else {
 
+                if(newState.channel.guild.id !== prism.guild.id) return;
+
                 const newID = newState.channel.id;
                 const afkID = '751190740725661748'
 
@@ -99,6 +101,36 @@ class XPVoiceListener extends Listener {
                     }
 
                     addXP(this.client)
+
+                    async function countMinutes(client) {
+
+                        setTimeout(async function() {
+
+                            try{
+
+                                data = (await DB.query(`SELECT voice, xp, level FROM tbl_users WHERE user_id = ${member.id}`)).rows[0]
+
+                                if(member.voice.channel) {
+
+                                    await DB.query(`UPDATE tbl_users SET total_voice_minutes = total_voice_minutes + 1 WHERE user_id = ${member.id}`)
+
+                                    countMinutes(client)
+
+                                } else {
+
+                                    if(data.voice) {
+                                        countMinutes(client)
+                                    } else {
+                                        //stop
+                                    }
+                                }
+
+                            } catch(e) {console.log(e)}
+
+                        }, 60000)
+                    }
+
+                    countMinutes(this.client)
                 }
             }
 
