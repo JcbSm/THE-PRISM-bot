@@ -11,7 +11,8 @@ class RankCommand extends Command {
                     id: 'member',
                     type: 'member'
                 }
-            ]
+            ],
+            category: 'stats'
         })
     }
 

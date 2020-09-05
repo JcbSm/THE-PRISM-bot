@@ -12,7 +12,8 @@ class LevelsCommand extends Command {
                     type: 'string',
                     default: 1
                 }
-            ]
+            ],
+            category: 'stats'
         })
     }
 
