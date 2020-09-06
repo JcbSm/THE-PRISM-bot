@@ -24,8 +24,6 @@ class XPVoiceListener extends Listener {
                 const newID = newState.channel.id;
                 const afkID = '751190740725661748'
 
-                if(newID === afkID) return;
-
                 let data = (await DB.query(`SELECT voice, xp, level FROM tbl_users WHERE user_id = ${newState.member.id}`)).rows[0]
 
                 let isVoice;
@@ -42,6 +40,8 @@ class XPVoiceListener extends Listener {
 
                     data = (await DB.query(`SELECT voice FROM tbl_users WHERE user_id = ${newState.member.id}`)).rows[0]
                 }
+
+                if(newID === afkID) return DB.query(`UPDATE tbl_users SET afk_count = afk_count + 1 WHERE user_id = ${newState.member.id}`)
 
                 if(newState.channel && !isVoice) {
 

@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
 const { groupDigits } = require('../../../functions');
-const { colors } = require('../../../config');
+const { colors, embeds } = require('../../../config');
 
 class StatsCommand extends Command {
     constructor() {
@@ -31,7 +31,7 @@ class StatsCommand extends Command {
 
             if(!data) return message.reply(`This user has no data to view.`);
 
-            const voiceTime = data.total_voice_minutes >= 120 ? `\`${Math.floor((data.total_voice_minutes/60)*10)/10}\` hours` : `\`${data.total_voice_minutes}\` minutes`
+            const voiceTime = data.total_voice_minutes >= 120 ? `\`${Math.round((data.total_voice_minutes/60)*10)/10}\` hours` : `\`${data.total_voice_minutes}\` minutes`
 
             message.channel.send({embed: {
 
@@ -46,6 +46,12 @@ class StatsCommand extends Command {
                     {
                         name: 'Total Voice Time',
                         value: voiceTime,
+                        inline: true
+                    },
+                    embeds.blankInline,
+                    {
+                        name: 'AFK Counter',
+                        value: `\`${data.afk_count}\``,
                         inline: true
                     }
                 ],

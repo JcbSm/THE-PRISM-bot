@@ -7,7 +7,7 @@ class TopCommand extends Command {
         super('top', {
             aliases: ['top', 'leaderboard', 'lb'],
             description: {
-                content: 'Show the server\'s leaderboard. Categories: "messages", "voice"',
+                content: 'Show the server\'s leaderboard. Categories: "messages", "voice", "afk"',
                 usage: 'leaderboard <category> <page>'
             },
             args: [
@@ -34,7 +34,7 @@ class TopCommand extends Command {
 
             const DB = this.client.db
 
-            let arr = (await DB.query(`SELECT user_id, total_messages, total_voice_minutes FROM tbl_users`)).rows
+            let arr = (await DB.query(`SELECT user_id, total_messages, total_voice_minutes, afk_count FROM tbl_users`)).rows
 
             let [arr2, title] = [[], null]
 
@@ -61,7 +61,19 @@ class TopCommand extends Command {
 
                     for(let i = 0; i < arr.length; i++) {
 
-                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${arr[i].total_voice_minutes}\``)
+                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${Math.round((arr[i].total_voice_minutes/60)*10)/10} hours\``)
+                    }
+                    break;
+
+                case 'afk':
+
+                    title = 'Most AFKs'
+    
+                    arr.sort((a, b) => b.afk_count - a.afk_count);
+    
+                    for(let i = 0; i < arr.length; i++) {
+
+                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${arr[i].afk_count}\``)
                     }
                     break;
             }
