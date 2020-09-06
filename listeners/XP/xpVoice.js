@@ -15,6 +15,8 @@ class XPVoiceListener extends Listener {
         try{
             const DB = this.client.db;
 
+            if(newState.member.user.bot) return;
+
             if(!newState.channel) {
 
             } else {
@@ -41,13 +43,13 @@ class XPVoiceListener extends Listener {
                     data = (await DB.query(`SELECT voice FROM tbl_users WHERE user_id = ${newState.member.id}`)).rows[0]
                 }
 
-                if(newID === afkID) return DB.query(`UPDATE tbl_users SET afk_count = afk_count + 1 WHERE user_id = ${newState.member.id}`)
-
                 if(newState.channel && !isVoice) {
 
                     const member = newState.member
 
                     await DB.query(`UPDATE tbl_users SET voice = true WHERE user_id = ${member.id}`)
+
+                    if(newID === afkID) DB.query(`UPDATE tbl_users SET afk_count = afk_count + 1 WHERE user_id = ${newState.member.id}`)
 
                     async function addXP(client) {
 
@@ -111,6 +113,11 @@ class XPVoiceListener extends Listener {
                                 data = (await DB.query(`SELECT voice, xp, level FROM tbl_users WHERE user_id = ${member.id}`)).rows[0]
 
                                 if(member.voice.channel) {
+
+                                    if(member.voice.selfMute || member.voice.selfDeafen || member.voice.channel.id === afkID) {
+
+                                        await DB.query(`UPDATE tbl_users SET total_mute_minutes = total_mute_minutes + 1 WHERE user_id = ${member.id}`)
+                                    }
 
                                     await DB.query(`UPDATE tbl_users SET total_voice_minutes = total_voice_minutes + 1 WHERE user_id = ${member.id}`)
 
