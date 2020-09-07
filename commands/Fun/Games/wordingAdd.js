@@ -27,7 +27,7 @@ class WordingAddCommand extends Command {
 
             fs.writeFileSync(file, JSON.stringify(dictionary, null, 2))
 
-            await message.channel.send(`***Added ${args.word} to the dictionary.***`)
+            await message.channel.send(`***Added ${args.word.toLowerCase()} to the dictionary.***`)
 
         } catch(e) {console.log(e)}
     }
