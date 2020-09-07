@@ -74,17 +74,7 @@ class XPVoiceListener extends Listener {
                         
                                             let level = Number(data.level) + 1;
                         
-                                            (await client.channels.fetch(prism.guild.channelIDs.levelUps)).send({
-                                                embed: {
-                                                    title: 'LEVEL UP!',
-                                                    description: `${member.user} you reached level ${level}! <:pogchamp:519201541274730496>`,
-                                                    timestamp: new Date(),
-                                                    footer: {
-                                                        text: member.user.tag
-                                                    },
-                                                    color: colors.purple
-                                                }
-                                            })
+                                            client.emit('levelUp', member, level)
 
                                             await DB.query(`UPDATE tbl_users SET level = ${level} WHERE user_id = ${member.id}`)
                                         }

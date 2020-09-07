@@ -42,17 +42,7 @@ class XPMessageListener extends Listener {
 
                     level = data.level + 1;
 
-                    (await this.client.channels.fetch(prism.guild.channelIDs.levelUps)).send({
-                        embed: {
-                            title: 'LEVEL UP!',
-                            description: `${message.author} you reached level ${level}! <:pogchamp:519201541274730496>`,
-                            timestamp: message.createdTimestamp,
-                            footer: {
-                                text: message.author.tag
-                            },
-                            color: colors.purple
-                        }
-                    })
+                    this.client.emit('levelUp', message.member, level)
                 } else {
                     level = data.level
                 }
