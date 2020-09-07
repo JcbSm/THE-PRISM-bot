@@ -30,7 +30,7 @@ class ServerInfoCommand extends Command {
         const botsSize = guildMembers.filter(b => b.user.bot).size
         const humanSize = membersSize - botsSize
         const onlineSize = guildMembers.filter(u => u.presence.status === 'online').size
-        const guildOwner = message.guild.owner.user.tag
+        const guildOwner = message.guild.owner
         const guildCreatedDate = new moment(message.guild.createdAt).format('DD MMM YYYY')
 
         //Region
@@ -73,7 +73,6 @@ class ServerInfoCommand extends Command {
             .addField('Voice Channels', voiceChannelSize, true)
             .addField('Emojis', eomjiSize, true)
             .addField('Roles', roleSize, true)
-            .addField('Verified', isVerified, true)
             .addField('Created', since(guildInfo.createdAt, 3))
         )
     }catch(e){console.log(e)}
