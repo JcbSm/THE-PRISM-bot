@@ -72,11 +72,7 @@ class XPVoiceListener extends Listener {
                 
                                         if(xpArray[data.level + 1] <= (data.xp + xpAdd)) {
                         
-                                            let level = Number(data.level) + 1;
-                        
-                                            client.emit('levelUp', member, level)
-
-                                            await DB.query(`UPDATE tbl_users SET level = ${level} WHERE user_id = ${member.id}`)
+                                            client.emit('levelUp', member, data.level)
                                         }
                                     }
 

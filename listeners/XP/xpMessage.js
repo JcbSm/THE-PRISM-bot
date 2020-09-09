@@ -40,18 +40,15 @@ class XPMessageListener extends Listener {
                 
                 if(xpArray[data.level + 1] <= (data.xp + xpAdd)) {
 
-                    level = data.level + 1;
-
-                    this.client.emit('levelUp', message.member, level)
+                    this.client.emit('levelUp', message.member, data.level)
+                    
                 } else {
-                    level = data.level
                 }
                 
                 await DB.query(`UPDATE tbl_users SET
                     messages = messages + 1,
                     xp = xp + ${xpAdd},
-                    last_message_timestamp = ${message.createdTimestamp},
-                    level = ${level}
+                    last_message_timestamp = ${message.createdTimestamp}
                     WHERE user_id = ${message.author.id}
                 `, (err, res) => {
 
