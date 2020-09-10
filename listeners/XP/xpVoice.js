@@ -34,7 +34,7 @@ class XPVoiceListener extends Listener {
                     isVoice = data.voice
                 } else {
 
-                    await DB.query(`INSERT INTO tbl_users (user_id, messages, xp, last_message_timestamp, level, voice, voice_minutes) VALUES (${newState.member.id}, 0, 0, 0, 0, false, 0)`, (err, res) => {
+                    await DB.query(`INSERT INTO tbl_users (user_id) VALUES (${newState.member.id})`, (err, res) => {
 
                         if(err) return console.log(err);
                         console.log(`Added ${newState.member.user.tag} to tbl_users with user_id ${newState.member.id}`)
