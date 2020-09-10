@@ -16,6 +16,8 @@ try{
 
         const message = messageReaction.message
 
+        if(!message.guild) return;
+
         if(message.guild.id !== config.prism.guild.id) return;
 
         if(message.channel.id === pinChannel.id) return;
