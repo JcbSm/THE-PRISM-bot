@@ -1,5 +1,6 @@
 const { Command } = require('discord-akairo');
 const { prism } = require('../../config')
+const { linkToMessage } = require('../../functions')
 
 
 class LeaveRoleCommand extends Command {
@@ -23,21 +24,30 @@ class LeaveRoleCommand extends Command {
 
     async exec(message, args) {
 
-        const selfRoles = prism.guild.selfRoles;
+        try{
 
-        const role = args.role
-        if(!role) return message.reply('No role found.')
+            if(message.guild.id !== prism.guild.id) return;
 
-        let joinableRole = selfRoles.find(r => r.id == role.id)
+            const rolesMessage = await linkToMessage(prism.guild.messageLinks.joinRoles, this.client)
 
-        if(!joinableRole) return message.reply(`This is not a removeable role.`)
+            const descArr = rolesMessage.embeds[0].description.split("\n-\n")
 
-        if(message.member.roles.cache.has(role.id)) {
-            message.member.roles.remove(role.id).then(message.channel.send(`***Successfully removed the ${role.name} role.***`))
-        } else {
-            message.reply('You don\'t have this role.')
-        }
+            descArr.shift();
+            console.log(true)
+            const arr = descArr.map(e => e.split("•")[1].trim().replace(/\D/gi, ''))
 
+            function remove(message, member, role) {
+                member.roles.remove(role.id)
+                message.channel.send(`***Removed ${member.user.tag} to the ${role.name} role.***`)
+            }
+
+            if(arr.includes(args.role.id)) {
+                message.member.roles.cache.has(args.role.id) ? remove(message, message.member, args.role) : message.reply('You already don\'t have this role')
+            } else {
+                message.reply('You can\'t remove yourself from this role.')
+            }
+
+        } catch(e) {console.log9e}
     }
 }
 
