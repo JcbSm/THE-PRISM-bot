@@ -21,19 +21,6 @@ class voiceStateUpdateListener extends Listener {
         
         //console.log(oldState.channel.name)
 
-        //Softban
-        
-        const bans = prism.guild.softBans
-
-        if(newState.channel) {
-
-            if(bans.map(u => u.id).includes(newState.id)) {
-
-                await newState.member.setMute(true)
-                
-            }
-        }
-
         if(oldState.channel == newState.channel) return;
 
         if(!oldState.channel) {
