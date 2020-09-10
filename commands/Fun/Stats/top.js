@@ -46,6 +46,7 @@ class TopCommand extends Command {
                     title = 'Total Messages'
 
                     arr.sort((a, b) => b.total_messages - a.total_messages);
+                    arr = arr.filter(u => u.total_messages > 0)
 
                     for(let i = 0; i < arr.length; i++) {
 
@@ -58,6 +59,7 @@ class TopCommand extends Command {
                     title = 'Total VC Time'
 
                     arr.sort((a, b) => b.total_voice_minutes - a.total_voice_minutes);
+                    arr = arr.filter(u => u.total_voice_minutes > 0)
 
                     for(let i = 0; i < arr.length; i++) {
 
@@ -70,6 +72,7 @@ class TopCommand extends Command {
                     title = 'Most AFKs'
     
                     arr.sort((a, b) => b.afk_count - a.afk_count);
+                    arr = arr.filter(u => u.afk_count > 0)
     
                     for(let i = 0; i < arr.length; i++) {
 
@@ -82,6 +85,9 @@ class TopCommand extends Command {
                     title = 'Most Time Spent Muted'
 
                     arr.sort((a, b) => b.total_mute_minutes - a.total_mute_minutes);
+                    arr = arr.filter(u => u.total_mute_minutes > 0)
+
+                    //console.log(arr.filter(u => u.total_mute_minutes === 0).length)
 
                     for(let i = 0; i < arr.length; i++) {
 
