@@ -43,13 +43,28 @@ class XPVoiceListener extends Listener {
                     data = (await DB.query(`SELECT voice FROM tbl_users WHERE user_id = ${newState.member.id}`)).rows[0]
                 }
 
+                if(newID === afkID) {
+
+                    if(!oldState.channel) {
+
+                        await DB.query(`UPDATE tbl_users SET afk_count = afk_count + 1 WHERE user_id = ${newState.member.id}`)
+                        console.log('+1')
+                    } else if(oldState.channel === newState.channel) {
+                        return;
+                    } else {
+
+                        await DB.query(`UPDATE tbl_users SET afk_count = afk_count + 1 WHERE user_id = ${newState.member.id}`)
+                        console.log('+1')
+                    }
+
+                    
+                }
+
                 if(newState.channel && !isVoice) {
 
                     const member = newState.member
 
                     await DB.query(`UPDATE tbl_users SET voice = true WHERE user_id = ${member.id}`)
-
-                    if(newID === afkID) DB.query(`UPDATE tbl_users SET afk_count = afk_count + 1 WHERE user_id = ${newState.member.id}`)
 
                     async function addXP(client) {
 
