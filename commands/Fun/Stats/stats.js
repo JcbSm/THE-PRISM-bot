@@ -32,7 +32,7 @@ class StatsCommand extends Command {
             if(!data) return message.reply(`This user has no data to view.`);
 
             const voiceTime = data.total_voice_minutes >= 120 ? `\`${Math.round((data.total_voice_minutes/60)*10)/10}\` hours` : `\`${data.total_voice_minutes}\` minutes`
-            const mutedTime = data.total_mute_minutes >= 120 ? `\`${Math.round((data.total_vmute_minutes/60)*10)/10}\` hours` : `\`${data.total_mute_minutes}\` minutes`
+            const mutedTime = data.total_mute_minutes >= 120 ? `\`${Math.round((data.total_mute_minutes/60)*10)/10}\` hours` : `\`${data.total_mute_minutes}\` minutes`
 
             message.channel.send({embed: {
 
