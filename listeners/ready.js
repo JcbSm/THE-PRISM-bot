@@ -30,7 +30,7 @@ class ReadyListener extends Listener {
                 this.client.listenerHandler.modules.size
             ];
             
-            (await this.client.users.fetch(this.client.ownerID)).send({embed: {
+            const sent = await (await this.client.users.fetch(this.client.ownerID)).send({embed: {
 
                 type: 'rich',
                 title: 'Online',
@@ -50,6 +50,8 @@ class ReadyListener extends Listener {
                 ],
                 timestamp: new Date()
             }});
+
+            sent.react('597841926451888130')
 
             //Restart VoiceXP
 
