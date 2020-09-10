@@ -18,6 +18,8 @@ class GuildMemberAddListener extends Listener {
         
         if(guild.id !== prism.guild.id) return;
 
+        await member.roles.add(prism.guild.roleIDs.main)
+
         await log.send({embed: {
             
             type: 'rich',
