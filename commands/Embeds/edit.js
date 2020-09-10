@@ -7,7 +7,7 @@ class EditEmbedCommand extends Command {
             aliases: ['embed-edit','embededit'],
             description: {
                 content: 'Edits an existing embed',
-                usage: `edit <message URL> <option> \n**Options:**\n- Title\n- Description\n- Color\n- Thumbnail \n- Image`
+                usage: `embed-edit <message URL> <option> \n**Options:**\n- Title\n- Description\n- Color\n- Thumbnail \n- Image`
             },
             category: 'embeds',
             userPermissions: 'MANAGE_MESSAGES',
@@ -59,6 +59,7 @@ class EditEmbedCommand extends Command {
         switch(args.option) {
             
             case 'color':
+            case 'colour':
 
                 try{
 
