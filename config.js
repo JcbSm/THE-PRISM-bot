@@ -173,6 +173,13 @@ module.exports =
                     levelUps: '447702125187825664'
                 },
 
+                messageLinks: {
+                    serverInfo: 'https://discordapp.com/channels/447504770719154192/597206042970947604/597206350388527108',
+                    joinRoles: 'https://discordapp.com/channels/447504770719154192/597206042970947604/753648818863734786',
+                    countingTop: 'https://discordapp.com/channels/447504770719154192/583742663627505669/749343323793260645',
+                    wordingTop: 'https://discordapp.com/channels/447504770719154192/740196706058108958/749406792282538035'
+                },
+
                 roleIDs: {
 
                     speaker: '627829247339266048',
@@ -220,19 +227,40 @@ module.exports =
                         category: 'Games'
                     },
                     {
-                        name: 'GTA V',
-                        id: '711960608228114543',
+                        name: 'Among Us',
+                        id: '753669334324215884',
                         category: 'Games'
                     },                
                 ],
 
-                softBans: [
+                shop: {
 
-                    {
-                        name: '',
-                        id: ''
-                    }
-                ]
+                    categories: [
+
+                        {
+                            id: 'levelUpMessages',
+                            items: [
+                                {
+                                    message: '',
+                                    price: null
+                                }
+                            ]
+                        },
+                        {
+                            id: 'backgrounds',
+                            items: [
+
+                            ]
+                        },
+                        {
+                            id: 'misc',
+                            items: [
+
+                                
+                            ]
+                        }
+                    ]
+                }
             }
         },
 
