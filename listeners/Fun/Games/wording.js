@@ -74,7 +74,7 @@ class WordingListener extends Listener {
             let pointsLost = 0
             let scoreDiff = 0
             let failed = 0
-            let first = false
+            let noStat = false
 
             function fail() {
 
@@ -132,7 +132,7 @@ class WordingListener extends Listener {
                     scoreDiff++;
                     firstMessage = message;
                     message.react(emoji.characters[scoreDiff]);
-                    first = true
+                    noStat = true
 
                 }
             }
@@ -150,15 +150,11 @@ class WordingListener extends Listener {
 
             const worstFail = pointsLost > data.worst_fail ? pointsLost : data.worst_fail
 
-            if(!first) {
+            if(!noStat) {
 
                 await DB.query(
 
                     `UPDATE tbl_wording SET
-                        total_points = ${data.total_points + scoreDiff},
-                        total_words = ${data.total_words + 1},
-                        total_fails = ${data.total_fails + failed},
-                        worst_fail = ${worstFail},
                         last_word = '${message.content}',
                         last_word_timestamp = ${message.createdTimestamp},
                         last_word_url = '${message.url}'
@@ -169,6 +165,27 @@ class WordingListener extends Listener {
                         if(err) console.log(err)
                     }
                 )
+
+                if(failed) {
+
+                    await DB.query(
+
+                        `UPDATE tbl_wording SET
+                            total_fails = total_fails + 1,
+                            worst_fail = ${worstFail}
+                        WHERE user_id = ${message.author.id}`
+                    )
+
+                } else {
+
+                    await DB.query(
+
+                        `UPDATE tbl_wording SET
+                            total_words = total_words + 1,
+                            total_points = total_points + ${scoreDiff}
+                        WHERE user_id = ${message.author.id}`
+                    )
+                }
             }
 
             // Editing the Scoreboards
