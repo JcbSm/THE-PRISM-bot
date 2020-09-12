@@ -48,13 +48,11 @@ class XPVoiceListener extends Listener {
                     if(!oldState.channel) {
 
                         await DB.query(`UPDATE tbl_users SET afk_count = afk_count + 1 WHERE user_id = ${newState.member.id}`)
-                        console.log('+1')
                     } else if(oldState.channel === newState.channel) {
                         return;
                     } else {
 
                         await DB.query(`UPDATE tbl_users SET afk_count = afk_count + 1 WHERE user_id = ${newState.member.id}`)
-                        console.log('+1')
                     }
 
                     
