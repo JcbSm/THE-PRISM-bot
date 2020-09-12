@@ -164,5 +164,9 @@ module.exports = {
         return arr.reverse().join("")
     },
 
+    mentionToID: function mentionToID(str) {
+        return str.replace(/\D/gi, '')
+    },
+
     
 }
