@@ -36,26 +36,44 @@ class QueryCommand extends Command {
                         message.reply('An error occurrded, https://dashboard.heroku.com/apps/prism-bot/logs')
                         return console.log(err)
                     };
+
+                    console.log(res);
+
+                    let desc;
+                    let fieldArr = [];
+
+                    fieldArr.push({
+                        name: 'Result',
+                        value: `\`\`\`js\n{\n    command: '${res.command}',\n    rowCount: ${res.rowCount},\n    oid: ${res.oid}\n}\`\`\``
+                    })
                     
                     if(res.rows.length === 0) {
 
-                        message.channel.send({embed: {
-
-                            description: `**RUNNING**\`\`\`${query}\`\`\``
-                        }})
+                        desc = `\`\`\`${query}\`\`\``
 
                     } else if(res.rows.length === 1) {
-                        message.channel.send({embed: {
 
-                            description: `**RUNNING**\`\`\`${query}\`\`\`\n **RESULT**\`\`\`json\n${JSON.stringify(res.rows[0], null, 2)}\`\`\``
-                        }})
+                        desc = `\`\`\`${query}\`\`\``;
+                        fieldArr.push({
+                            name: 'Rows',
+                            value: `\`\`\`json\n${JSON.stringify(res.rows[0], null, 2)}\`\`\``
+                        })
                         
                     } else if(res.rows.length > 1) {
-                        message.channel.send({embed: {
 
-                            description: `**RUNNING**\`\`\`${query}\`\`\`\n **RESULT**\`\`\`json\n${JSON.stringify(res.rows[0], null, 2)} \n ... ${res.rows.length - 1} more items.\`\`\``
-                        }})
+                        desc = `\`\`\`${query}\`\`\``;
+                        fieldArr.push({
+                            name: 'Rows',
+                            value: `\`\`\`json\n${JSON.stringify(res.rows[0], null, 2)} \n ... ${res.rows.length - 1} more items.\`\`\``
+                        })
                     }
+
+                    message.channel.send({embed: {
+                        title: 'Running query:',
+                        description: desc,
+                        fields: fieldArr
+                    }})
+
                 } catch(e) {console.log(e)}
             })
 
