@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const { prism, xpArray, colors, embeds} = require('../../../config');
 const { groupDigits, pad } = require('../../../functions')
-const { createCanvas, loadImage, Font, registerFont } = require('canvas')
+const { createCanvas, loadImage, registerFont } = require('canvas')
 const Discord = require('discord.js')
 
 class RankCommand extends Command {
@@ -47,7 +47,8 @@ class RankCommand extends Command {
                 main: userData.rank_card_color_main
             }
 
-            registerFont('./assets/fonts/BAHNSCHRIFT.TTF', {family: 'bahnschrift'})
+            registerFont('./assets/fonts/bahnschrift-main.ttf', {family: 'bahnschrift'})
+            registerFont('./assets/fonts/bahnschrift-semicondensed.ttf', {family: 'bahnschrift semicondensed'})
 
             const canvas = createCanvas(640, 192)
             const ctx = canvas.getContext('2d')
