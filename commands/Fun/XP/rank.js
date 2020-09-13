@@ -47,7 +47,7 @@ class RankCommand extends Command {
                 main: userData.rank_card_color_main
             }
 
-            registerFont('./assets/fonts/BAHNSCHRIFT.TTF', {family: 'bahnchrift'})
+            registerFont('./assets/fonts/BAHNSCHRIFT.TTF', {family: 'bahnschrift'})
 
             const canvas = createCanvas(640, 192)
             const ctx = canvas.getContext('2d')
