@@ -147,7 +147,7 @@ class RankCommand extends Command {
                 const ctx = canvas.getContext('2d');
                 let fontSize = size;
                 do {
-                    ctx.font = `${fontSize -= 5}px bahnschrift semicondensed`;
+                    ctx.font = `${fontSize -= 5}px "bahnschrift semicondensed"`;
                 } while (ctx.measureText(text).width > barLen);
                 return ctx.font;
             };
