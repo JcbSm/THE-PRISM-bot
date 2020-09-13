@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const { prism, xpArray, colors, embeds} = require('../../../config');
 const { groupDigits, pad } = require('../../../functions')
-const { createCanvas, loadImage } = require('canvas')
+const { createCanvas, loadImage, Font, registerFont } = require('canvas')
 const Discord = require('discord.js')
 
 class RankCommand extends Command {
@@ -40,6 +40,8 @@ class RankCommand extends Command {
                 border: '#1c1c1c',
                 main: data.rank_card_color_main
             }
+
+            registerFont('./assets/fonts/BAHNSCHRIFT.TTF', {family: 'bahnchrift'})
 
             const canvas = createCanvas(640, 192)
             const ctx = canvas.getContext('2d')
@@ -150,8 +152,8 @@ class RankCommand extends Command {
 
             ctx.font = applyText(canvas, member.user.tag, 32);
             ctx.fillStyle = colors.outline;
-            ctx.strokeText(member.user.tag, barX, barY-barRad-10)
-            ctx.fillText(member.user.tag, barX, barY-barRad-10)
+            ctx.strokeText(member.user.tag, barX, barY-barRad-15)
+            ctx.fillText(member.user.tag, barX, barY-barRad-15)
 
             //Progress
             const progStr = `${groupDigits(currentXP)} / ${groupDigits(maxXP - minXP)} xp`
@@ -162,11 +164,11 @@ class RankCommand extends Command {
             
             //Level
             ctx.fillStyle = colors.main
-            ctx.font = '48px bahnschrift';
+            ctx.font = '48px "bahnschrift"';
             const levelWidth = ctx.measureText(`${data.level}`).width;
             ctx.strokeText(`${data.level}`, 608-levelWidth, 52)
             ctx.fillText(`${data.level}`, 608-levelWidth, 52)
-            ctx.font = '32px bahnschrift';
+            ctx.font = '32px "bahnschrift"';
             const textWidth = ctx.measureText(`Level `).width;
             ctx.strokeText(`Level `, 608-textWidth-levelWidth, 52)
             ctx.fillText(`Level `, 608-textWidth-levelWidth, 52)
