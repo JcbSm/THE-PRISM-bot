@@ -29,6 +29,11 @@ module.exports = {
         return Color(inputColor).rgbNumber()
     },
 
+    hex: function hex(inputColor) {
+        const Color = require('color')
+        return Color(inputColor).hex()
+    },
+
     linkToMessage: async function linkToMessage(link, client = this.client) {
         let arr = link.split('/').slice(Math.max(link.split('/').length - 2, 0));
         return await (await client.channels.fetch(arr[0])).messages.fetch(arr[1]);
