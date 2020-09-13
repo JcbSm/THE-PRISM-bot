@@ -22,56 +22,30 @@ class HelpCommand extends Command {
     
     async exec(message, args) {
 
-        let categories = this.handler.categories.filter(c => c.id !== 'default').sort((a, b) => a.size - b.size)
-        let commands = this.handler.modules
+        try{
 
-        if(!args.command) {
+            let categories = this.handler.categories.filter(c => c.id !== 'default').sort((a, b) => a.size - b.size)
+            let commands = this.handler.modules
 
-            let fieldArray = [];
+            if(!args.command) {
 
-            for(const [id, category] of categories) {
+                let fieldArray = [];
 
-                fieldArray.push({
-                    name: id.toUpperCase(),
-                    value: `- ${category.map(c => c.id).join("\n - ")}\n---------------`,
-                    inline: false
-                })
-            }
+                for(const [id, category] of categories) {
 
-            message.author.send({ embed: {
-
-                type: 'rich',
-                title: `COMMANDS`,
-                fields: fieldArray,
-                color: colors.purple,
-                thumbnail: {
-                    url: this.client.user.avatarURL()
-                },
-                author: {
-                    name: this.client.user.username,
-                    icon_url: this.client.user.avatarURL()
-                    },
-                footer: {
-                    text: `Type ${prefix}help <command> for more information.`
+                    fieldArray.push({
+                        name: id.toUpperCase(),
+                        value: `- ${category.map(c => c.id).join("\n - ")}\n---------------`,
+                        inline: false
+                    })
                 }
 
-            }})
-
-        } else if(args.command) {
-
-            if(categories.map(c => c.id.toLocaleLowerCase()).includes(args.command.toLowerCase())) {
-
-                let list = categories.filter(c => c.id === args.command).map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
-                message.channel.send({ embed: {
+                message.author.send({ embed: {
 
                     type: 'rich',
-                    color: rgb(colors.purple),
-                    fields: [
-                        {
-                            name: '**Commands**',
-                            value: list
-                        }
-                    ],
+                    title: `COMMANDS`,
+                    fields: fieldArray,
+                    color: colors.purple,
                     thumbnail: {
                         url: this.client.user.avatarURL()
                     },
@@ -82,38 +56,68 @@ class HelpCommand extends Command {
                     footer: {
                         text: `Type ${prefix}help <command> for more information.`
                     }
+
                 }})
-            }
 
-            else if(commands.map(c => c.id).includes(args.command)) {
+            } else if(args.command) {
 
-                let command = commands.get(args.command)
+                if(categories.map(c => c.id.toLowerCase()).includes(args.command.toLowerCase())) {
 
-                message.channel.send({ embed: {
+                    let list = categories.filter(c => c.id.toLowerCase() === args.command.toLowerCase()).map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
+                    message.channel.send({ embed: {
 
-                    title: `${prefix} ${command.id}`.toLocaleUpperCase(),
-                    color: rgb(colors.purple),
-                    fields: [
-                        {
-                            name: 'Description',
-                            value: command.description.content,
+                        type: 'rich',
+                        color: rgb(colors.purple),
+                        fields: [
+                            {
+                                name: '**Commands**',
+                                value: list
+                            }
+                        ],
+                        thumbnail: {
+                            url: this.client.user.avatarURL()
                         },
-                        {
-                            name: 'Usage',
-                            value: `${prefix}${command.description.usage}`
-                        },
-                        {
-                            name: 'Aliases',
-                            value: command.aliases
+                        author: {
+                            name: this.client.user.username,
+                            icon_url: this.client.user.avatarURL()
+                            },
+                        footer: {
+                            text: `Type ${prefix}help <command> for more information.`
                         }
-                    ]
-                }})
+                    }})
+                }
 
-            } else {
+                else if(commands.map(c => c.id.toLowerCase()).includes(args.command.toLowerCase())) {
 
-                message.reply(`No commands or categories found, check ${prefix}help to view them all.`)
+                    let command = commands.find(c => c.id.toLowerCase() === args.command.toLowerCase())
+
+                    message.channel.send({ embed: {
+
+                        title: `${prefix} ${command.id}`.toLocaleUpperCase(),
+                        color: rgb(colors.purple),
+                        fields: [
+                            {
+                                name: 'Description',
+                                value: command.description.content,
+                            },
+                            {
+                                name: 'Usage',
+                                value: `${prefix}${command.description.usage}`
+                            },
+                            {
+                                name: 'Aliases',
+                                value: command.aliases
+                            }
+                        ]
+                    }})
+
+                } else {
+
+                    message.reply(`No commands or categories found, check ${prefix}help to view them all.`)
+                }
             }
-        }
+
+        } catch(e) {console.log(e)}
     }
 }
 module.exports = HelpCommand;
