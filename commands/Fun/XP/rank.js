@@ -38,7 +38,7 @@ class RankCommand extends Command {
                 bg: '#242424',
                 outline: '#ffffff',
                 border: '#1c1c1c',
-                main: '#944ad3'
+                main: data.rank_card_color_main
             }
 
             const canvas = createCanvas(640, 192)
@@ -84,6 +84,9 @@ class RankCommand extends Command {
             //Outline Avatar
             ctx.beginPath();
             ctx.arc(96, 96, 70, 0, Math.PI * 2, true);
+            ctx.strokeStyle = colors.bg
+            ctx.lineWidth = 8;
+            ctx.stroke();
             ctx.strokeStyle = colors.outline
             ctx.lineWidth = 2;
             ctx.stroke();
@@ -110,6 +113,9 @@ class RankCommand extends Command {
             ctx.lineTo(barX+barLen, barY+(barRad+2));
             ctx.arc(barX+barLen, barY, (barRad+2), Math.PI/2, -Math.PI/2, true);
             ctx.lineTo(barX, barY-(barRad+2));
+            ctx.strokeStyle = colors.bg
+            ctx.lineWidth = 8;
+            ctx.stroke();
             ctx.strokeStyle = colors.outline;
             ctx.lineWidth = 2;
             ctx.stroke();
@@ -121,6 +127,10 @@ class RankCommand extends Command {
             ctx.lineTo(barX+newBarLen, barY+(barRad-2));
             ctx.arc(barX+newBarLen, barY, (barRad-2), Math.PI/2, -Math.PI/2, true);
             ctx.lineTo(barX, barY-(barRad-2));
+
+            ctx.strokeStyle = colors.bg
+            ctx.lineWidth = 5
+            ctx.stroke();
             ctx.fillStyle = colors.main;
             ctx.fill();
 
@@ -135,21 +145,31 @@ class RankCommand extends Command {
             };
 
             //Name
+            ctx.strokeStyle = colors.bg
+            ctx.lineWidth = 5
+
             ctx.font = applyText(canvas, member.user.tag, 32);
             ctx.fillStyle = colors.outline;
+            ctx.strokeText(member.user.tag, barX, barY-barRad-10)
             ctx.fillText(member.user.tag, barX, barY-barRad-10)
 
             //Progress
             const progStr = `${groupDigits(currentXP)} / ${groupDigits(maxXP - minXP)} xp`
             ctx.font = applyText(canvas, progStr, 26);
+            ctx.strokeText(progStr, barX, barY+barRad+28)
             ctx.fillStyle = '#ababab';
             ctx.fillText(progStr, barX, barY+barRad+28)
             
             //Level
-            ctx.font = '48px bahnschrift';
-            const textWidth = ctx.measureText(`Level ${data.level}`).width;
             ctx.fillStyle = colors.main
-            ctx.fillText(`Level ${data.level}`, 608-textWidth, 52)
+            ctx.font = '48px bahnschrift';
+            const levelWidth = ctx.measureText(`${data.level}`).width;
+            ctx.strokeText(`${data.level}`, 608-levelWidth, 52)
+            ctx.fillText(`${data.level}`, 608-levelWidth, 52)
+            ctx.font = '32px bahnschrift';
+            const textWidth = ctx.measureText(`Level `).width;
+            ctx.strokeText(`Level `, 608-textWidth-levelWidth, 52)
+            ctx.fillText(`Level `, 608-textWidth-levelWidth, 52)
 
             
 
