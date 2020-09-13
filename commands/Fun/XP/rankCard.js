@@ -37,6 +37,11 @@ class RankCardCommand extends Command {
                 case 'color':
                 case 'colour':
 
+                    if(!args.value) {
+
+                        return message.reply(`Your current Rank Card colour is \`${data.rank_card_color_main}\``)
+                    }
+
                     try {
 
                         let hexVal;
