@@ -30,15 +30,21 @@ class RankCommand extends Command {
 
             const member = args.member ? args.member : message.member
 
-            const data = (await DB.query(`SELECT * FROM tbl_users WHERE user_id = ${member.id}`)).rows[0]
-            if(!data) return message.reply('No data to view')
+            const userData = (await DB.query(`SELECT * FROM tbl_users WHERE user_id = ${member.id}`)).rows[0]
+            if(!userData) return message.reply('No data to view')
+
+            //Rank
+            const data = (await DB.query(`SELECT user_id, xp FROM tbl_users`)).rows
+            data.sort((a, b) => b.xp - a.xp);
+            const rank = data.findIndex(u => u.user_id === member.id) + 1;
 
             //Colours
             const colors = {
                 bg: '#242424',
-                outline: '#ffffff',
+                highlight: '#ffffff',
+                highlightDark: '#ababab',
                 border: '#1c1c1c',
-                main: data.rank_card_color_main
+                main: userData.rank_card_color_main
             }
 
             registerFont('./assets/fonts/BAHNSCHRIFT.TTF', {family: 'bahnchrift'})
@@ -89,7 +95,7 @@ class RankCommand extends Command {
             ctx.strokeStyle = colors.bg
             ctx.lineWidth = 8;
             ctx.stroke();
-            ctx.strokeStyle = colors.outline
+            ctx.strokeStyle = colors.highlight
             ctx.lineWidth = 2;
             ctx.stroke();
 
@@ -104,10 +110,10 @@ class RankCommand extends Command {
             
             //Bar constants
             const [barX, barY, barRad, barLen] = [192, 128, 16, 400]
-            const minXP = xpArray[data.level];
-            const maxXP = xpArray[data.level +1];
-            const currentXP = data.xp-minXP;
-            const progress = (data.xp - minXP)/(maxXP - minXP)
+            const minXP = xpArray[userData.level];
+            const maxXP = xpArray[userData.level +1];
+            const currentXP = userData.xp-minXP;
+            const progress = (userData.xp - minXP)/(maxXP - minXP)
 
             //Outline Bar
             ctx.beginPath();
@@ -118,7 +124,7 @@ class RankCommand extends Command {
             ctx.strokeStyle = colors.bg
             ctx.lineWidth = 8;
             ctx.stroke();
-            ctx.strokeStyle = colors.outline;
+            ctx.strokeStyle = colors.highlight;
             ctx.lineWidth = 2;
             ctx.stroke();
 
@@ -141,7 +147,7 @@ class RankCommand extends Command {
                 const ctx = canvas.getContext('2d');
                 let fontSize = size;
                 do {
-                    ctx.font = `${fontSize -= 5}px bahnschrift`;
+                    ctx.font = `${fontSize -= 5}px bahnschrift semicondensed`;
                 } while (ctx.measureText(text).width > barLen);
                 return ctx.font;
             };
@@ -151,27 +157,41 @@ class RankCommand extends Command {
             ctx.lineWidth = 5
 
             ctx.font = applyText(canvas, member.user.tag, 32);
-            ctx.fillStyle = colors.outline;
-            ctx.strokeText(member.user.tag, barX, barY-barRad-15)
-            ctx.fillText(member.user.tag, barX, barY-barRad-15)
+            ctx.fillStyle = colors.highlight;
+            ctx.strokeText(member.user.tag, barX, barY-barRad-10)
+            ctx.fillText(member.user.tag, barX, barY-barRad-10)
 
             //Progress
             const progStr = `${groupDigits(currentXP)} / ${groupDigits(maxXP - minXP)} xp`
             ctx.font = applyText(canvas, progStr, 26);
             ctx.strokeText(progStr, barX, barY+barRad+28)
-            ctx.fillStyle = '#ababab';
+            ctx.fillStyle = colors.highlightDark;
             ctx.fillText(progStr, barX, barY+barRad+28)
             
             //Level
             ctx.fillStyle = colors.main
-            ctx.font = '48px "bahnschrift"';
-            const levelWidth = ctx.measureText(`${data.level}`).width;
-            ctx.strokeText(`${data.level}`, 608-levelWidth, 52)
-            ctx.fillText(`${data.level}`, 608-levelWidth, 52)
-            ctx.font = '32px "bahnschrift"';
-            const textWidth = ctx.measureText(`Level `).width;
-            ctx.strokeText(`Level `, 608-textWidth-levelWidth, 52)
-            ctx.fillText(`Level `, 608-textWidth-levelWidth, 52)
+            ctx.font = '48px "bahnschrift condensed"';
+            let numWidth = ctx.measureText(`${userData.level}`).width;
+            ctx.strokeText(`${userData.level}`, 608-numWidth, 52)
+            ctx.fillText(`${userData.level}`, 608-numWidth, 52)
+            ctx.font = '32px "bahnschrift semicondensed"';
+            let textWidth = ctx.measureText(`Level `).width;
+            ctx.strokeText(`Level `, 608-textWidth-numWidth, 52)
+            ctx.fillText(`Level `, 608-textWidth-numWidth, 52)
+
+            const levelWidth = numWidth+textWidth;
+
+            //Rank
+            ctx.fillStyle = colors.highlightDark
+            ctx.font = '48px "bahnschrift condensed"';
+            numWidth = ctx.measureText(`#${rank}`).width;
+            ctx.strokeText(`#${rank}`, 592-numWidth-levelWidth, 52)
+            ctx.fillText(`#${rank}`, 592-numWidth-levelWidth, 52)
+            ctx.font = '32px "bahnschrift semicondensed"';
+            textWidth = ctx.measureText(`Rank `).width;
+            ctx.strokeText(`Rank `, 592-textWidth-numWidth-levelWidth, 52)
+            ctx.fillText(`Rank `, 592-textWidth-numWidth-levelWidth, 52)
+
 
             
 
