@@ -48,7 +48,6 @@ class RankCommand extends Command {
             }
 
             registerFont('./assets/fonts/bahnschrift-main.ttf', {family: 'bahnschrift'})
-            registerFont('./assets/fonts/bahnschrift-semicondensed.ttf', {family: 'bahnschrift semicondensed'})
 
             const canvas = createCanvas(640, 192)
             const ctx = canvas.getContext('2d')
@@ -148,7 +147,7 @@ class RankCommand extends Command {
                 const ctx = canvas.getContext('2d');
                 let fontSize = size;
                 do {
-                    ctx.font = `${fontSize -= 5}px "bahnschrift semicondensed"`;
+                    ctx.font = `${fontSize -= 5}px "bahnschrift"`;
                 } while (ctx.measureText(text).width > barLen);
                 return ctx.font;
             };
@@ -171,11 +170,11 @@ class RankCommand extends Command {
             
             //Level
             ctx.fillStyle = colors.main
-            ctx.font = '48px "bahnschrift condensed"';
+            ctx.font = '48px "bahnschrift"';
             let numWidth = ctx.measureText(`${userData.level}`).width;
             ctx.strokeText(`${userData.level}`, 608-numWidth, 52)
             ctx.fillText(`${userData.level}`, 608-numWidth, 52)
-            ctx.font = '32px "bahnschrift semicondensed"';
+            ctx.font = '32px "bahnschrift"';
             let textWidth = ctx.measureText(`Level `).width;
             ctx.strokeText(`Level `, 608-textWidth-numWidth, 52)
             ctx.fillText(`Level `, 608-textWidth-numWidth, 52)
@@ -184,11 +183,11 @@ class RankCommand extends Command {
 
             //Rank
             ctx.fillStyle = colors.highlightDark
-            ctx.font = '48px "bahnschrift condensed"';
+            ctx.font = '48px "bahnschrift"';
             numWidth = ctx.measureText(`#${rank}`).width;
             ctx.strokeText(`#${rank}`, 592-numWidth-levelWidth, 52)
             ctx.fillText(`#${rank}`, 592-numWidth-levelWidth, 52)
-            ctx.font = '32px "bahnschrift semicondensed"';
+            ctx.font = '32px "bahnschrift"';
             textWidth = ctx.measureText(`Rank `).width;
             ctx.strokeText(`Rank `, 592-textWidth-numWidth-levelWidth, 52)
             ctx.fillText(`Rank `, 592-textWidth-numWidth-levelWidth, 52)
