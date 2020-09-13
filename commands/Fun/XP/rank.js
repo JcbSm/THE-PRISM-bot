@@ -2,6 +2,7 @@ const { Command } = require('discord-akairo');
 const { prism, xpArray, colors, embeds} = require('../../../config');
 const { groupDigits, pad } = require('../../../functions')
 const { createCanvas, loadImage, registerFont } = require('canvas')
+const Color = require('color');
 const Discord = require('discord.js')
 
 class RankCommand extends Command {
