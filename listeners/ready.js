@@ -69,6 +69,22 @@ class ReadyListener extends Listener {
                 }
             }
 
+            //Cache tbl_users
+
+            const idArr = (await DB.query(`SELECT user_id FROM tbl_users`)).rows
+            
+            for(let i = 0; i < idArr.length; i++) {
+                if(i === 0) {
+                    console.log("Caching tbl_users...")
+                    this.client.caching = true
+                }
+                await this.client.users.fetch(idArr[i].user_id)
+                if(i+1 === idArr.length) {
+                    console.log("Done!")
+                    this.client.caching = false
+                }
+            }
+
         }catch(e){console.log(e)}
     }
 }
