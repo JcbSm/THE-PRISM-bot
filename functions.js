@@ -173,5 +173,12 @@ module.exports = {
         return str.replace(/\D/gi, '')
     },
 
-    
+    repeat: function repeat(funct, time, max = null, n = 0) {
+        if(max && n >= max) return;
+        n++
+        funct();
+        setTimeout(function() {
+            repeat(funct, time, max, n)
+        }, time)
+    }
 }
