@@ -37,8 +37,6 @@ class QueryCommand extends Command {
                         return console.log(err)
                     };
 
-                    console.log(res);
-
                     let desc;
                     let fieldArr = [];
 
@@ -73,6 +71,8 @@ class QueryCommand extends Command {
                         description: desc,
                         fields: fieldArr
                     }})
+
+                    console.log(res);
 
                 } catch(e) {console.log(e)}
             })
