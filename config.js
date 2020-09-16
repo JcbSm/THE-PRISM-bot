@@ -236,6 +236,21 @@ module.exports =
                                     id: 6,
                                     name: 'sunset',
                                     file: 'sunset.png'
+                                },
+                                {
+                                    id: 7,
+                                    name: 'dragonborn',
+                                    file: 'skyrim.png'
+                                },
+                                {
+                                    id: 8,
+                                    name: 'neon',
+                                    file: 'neon.png'
+                                },
+                                {
+                                    id: 9,
+                                    name: 'flame',
+                                    file: 'flame.png'
                                 }
                             ]
                         },
