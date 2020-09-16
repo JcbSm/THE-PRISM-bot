@@ -3,7 +3,8 @@ const { prism, xpArray, colors, embeds} = require('../../../config');
 const { groupDigits, pad } = require('../../../functions')
 const { createCanvas, loadImage, registerFont } = require('canvas')
 const Color = require('color');
-const Discord = require('discord.js')
+const Discord = require('discord.js');
+const { indexOf } = require('ffmpeg-static');
 
 class RankCommand extends Command {
     constructor() {
@@ -69,12 +70,24 @@ class RankCommand extends Command {
                     statusColor = '#545454'
                     break;
             }
-        
+
             ctx.save()
 
-            //Fill BG
-            ctx.fillStyle = colors.bg
-            ctx.fillRect(0, 0, canvas.width, canvas.height)
+            //Background
+            const bg = prism.guild.shop.categories.find(c => c.id === 'backgrounds').items.find(i => i.id === userData.rank_card_background_id)
+      
+            if(bg.file) {
+
+                //Draw BG
+                const img = await loadImage(`./assets/images/backgrounds/${bg.file}`)
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+
+            } else {
+
+                //Fill BG
+                ctx.fillStyle = colors.bg
+                ctx.fillRect(0, 0, canvas.width, canvas.height)
+            }
 
             //Outline
             ctx.lineWidth = 10
