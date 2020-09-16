@@ -202,7 +202,21 @@ module.exports =
                         {
                             id: 'backgrounds',
                             items: [
-
+                                {
+                                    id: 0,
+                                    name: 'default',
+                                    file: null
+                                },
+                                {
+                                    id: 1,
+                                    name: 'poly',
+                                    file: 'poly.png'
+                                },
+                                {
+                                    id: 2,
+                                    name: 'mordor',
+                                    file: 'mordor.png'
+                                }
                             ]
                         },
                         {
