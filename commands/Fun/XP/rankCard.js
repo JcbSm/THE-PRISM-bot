@@ -1,5 +1,7 @@
 const { Command } = require('discord-akairo');
 const { hex } = require('../../../functions')
+const { prism } = require('../../../config')
+const Discord = require('discord.js')
 
 class RankCardCommand extends Command {
     constructor() {
@@ -47,7 +49,7 @@ class RankCardCommand extends Command {
                         let hexVal;
 
                         if(args.value.toLowerCase() === 'default' || args.value.toLowerCase() === 'reset') {
-                            hexVal = '#944ad3'
+                            hexVal = '#944AD3'
                         } else {
                             hexVal = hex(args.value)
                         }
@@ -59,6 +61,44 @@ class RankCardCommand extends Command {
                         message.reply('Unable to resolve a colour.')
                     }
 
+                    break;
+
+                case 'bg':
+                case 'background':
+
+                    const items = prism.guild.shop.categories.find(c => c.id === 'backgrounds').items
+                    const current = items.find(i => i.id === data.rank_card_background_id)
+
+                    if(!args.value) {
+
+                        message.channel.send({embed: {
+                            title: 'Available backgrounds',
+                            description: items.map(i => `**ID: \`${i.id}\`** • **NAME:** *"${i.name}"*`).join("\n"),
+                            fields: [
+                                {
+                                    name: 'Current Background',
+                                    value: `**ID: \`${current.id}\`** • **NAME:** *"${current.name}"*`
+                                }
+                            ]
+                        }})
+                    } else if(args.value === 'view') {
+                        try{
+                            const attachment = new Discord.MessageAttachment(`./assets/images/backgrounds/${current.file}`, 'Rank.png');
+                            message.channel.send('', attachment);
+                        } catch(e) {console.log(e)}
+                    } else {
+
+                        if(items.map(i => i.id).includes(Number(args.value))) {
+
+                            await DB.query(`UPDATE tbl_users SET rank_card_background_id = ${args.value} WHERE user_id = ${message.author.id}`)
+                            message.channel.send(`***Changed your rank card's main colour to \`${args.value}\`***`)
+
+                        } else {
+
+                            message.reply('No bacgkround found with that ID.')
+                        }
+
+                    }
                     break;
             }
 
