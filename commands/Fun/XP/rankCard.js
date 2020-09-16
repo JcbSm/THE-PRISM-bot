@@ -91,7 +91,7 @@ class RankCardCommand extends Command {
                         if(items.map(i => i.id).includes(Number(args.value))) {
 
                             await DB.query(`UPDATE tbl_users SET rank_card_background_id = ${args.value} WHERE user_id = ${message.author.id}`)
-                            message.channel.send(`***Changed your rank card's main colour to \`${args.value}\`***`)
+                            message.channel.send(`***Changed your rank card's background to \`${args.value}\`***`)
 
                         } else {
 
