@@ -36,6 +36,10 @@ class RankCardCommand extends Command {
 
             switch (args.option) {
 
+                default:
+                    message.reply("Unkown option...")
+                    break;
+
                 case 'color':
                 case 'colour':
 
