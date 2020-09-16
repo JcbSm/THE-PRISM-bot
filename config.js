@@ -216,6 +216,16 @@ module.exports =
                                     id: 2,
                                     name: 'mordor',
                                     file: 'mordor.png'
+                                },
+                                {
+                                    id: 3,
+                                    name: 'ferns',
+                                    file: 'ferns.png'
+                                },
+                                {
+                                    id: 4,
+                                    name: 'cyberpunk',
+                                    file: 'cyberpunk.png'
                                 }
                             ]
                         },
