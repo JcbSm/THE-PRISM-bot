@@ -266,6 +266,11 @@ module.exports =
                                     id: 12,
                                     name: 'water',
                                     file: 'water.png'
+                                },
+                                {
+                                    id: 13,
+                                    name: 'cityscape',
+                                    file: 'city.png'
                                 }
                             ]
                         },
