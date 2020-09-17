@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
 const { hex } = require('../../../functions')
-const { prism, colors } = require('../../../config')
+const { prism, colors, embeds } = require('../../../config')
 const Discord = require('discord.js')
 
 class RankCardCommand extends Command {
@@ -72,10 +72,10 @@ class RankCardCommand extends Command {
 
                     const items = prism.guild.shop.categories.find(c => c.id === 'backgrounds').items
                     const current = items.find(i => i.id === data.rank_card_background_id)
-                    const attachment = new Discord.MessageAttachment(`./assets/images/backgrounds/${current.file}`, current.file);
+                    const attachment = current.id > 0 ? new Discord.MessageAttachment(`./assets/images/backgrounds/${current.file}`, current.file) : null
 
                     if(!args.value) {
-
+                        try{
                         const embed = {
                             title: 'Available backgrounds',
                             description: items.map(i => `**ID: \`${i.id}\`** • **NAME:** *"${i.name}"*`).join("\n"),
@@ -85,13 +85,18 @@ class RankCardCommand extends Command {
                                     value: `**ID: \`${current.id}\`** • **NAME:** *"${current.name}"*`
                                 }
                             ],
-                            image: {
-                                url: `attachment://${current.file}`
-                            },
                             color: colors.purple
                         }
 
-                        message.channel.send({ files: [attachment], embed: embed})
+                        if(current.id > 0) {
+
+                            embed.image = {url: `attachment://${current.file}`}
+                            message.channel.send({ files: [attachment], embed: embed})
+                        } else {
+
+                            message.channel.send({embed: embed})
+                        }
+                    } catch(e){console.log(e)}
                     } else if(args.value.startsWith('view')) {
 
                         const first = args.value.split(" ")[1] ? Number(args.value.split(" ")[1]) : 1;
@@ -111,10 +116,16 @@ class RankCardCommand extends Command {
                         if(items.map(i => i.id).includes(Number(args.value))) {
 
                             const newBg = items.find(i => i.id == args.value)
-                            const newBgImg = new Discord.MessageAttachment(`./assets/images/backgrounds/${newBg.file}`, newBg.file)
+                            await DB.query(`UPDATE tbl_users SET rank_card_background_id = ${newBg.id} WHERE user_id = ${message.author.id}`);
 
-                            await DB.query(`UPDATE tbl_users SET rank_card_background_id = ${newBg.id} WHERE user_id = ${message.author.id}`)
-                            message.channel.send(`***Changed your rank card's background to \`${newBg.name.toUpperCase()}\`***`, newBgImg)
+                            if(newBg.id > 0) {
+
+                                const newBgImg = new Discord.MessageAttachment(`./assets/images/backgrounds/${newBg.file}`, newBg.file)
+                                message.channel.send(`***Changed your rank card's background to \`${newBg.name.toUpperCase()}\`***`, newBgImg)
+                            } else {
+
+                                message.channel.send(`***Changed your rank card's background to \`${newBg.name.toUpperCase()}\`***`)
+                            }
 
                         } else {
 

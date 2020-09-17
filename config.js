@@ -251,6 +251,21 @@ module.exports =
                                     id: 9,
                                     name: 'flame',
                                     file: 'flame.png'
+                                },
+                                {
+                                    id: 10,
+                                    name: 'adeptus mechanicus',
+                                    file: 'adeptus mechanicus.png'
+                                },
+                                {
+                                    id: 11,
+                                    name: 'metallic neon',
+                                    file: 'purple metallic.png'
+                                },
+                                {
+                                    id: 12,
+                                    name: 'water',
+                                    file: 'water.png'
                                 }
                             ]
                         },
