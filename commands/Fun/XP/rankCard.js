@@ -17,7 +17,7 @@ class RankCardCommand extends Command {
                 }
             ],
             description: {
-                content: 'Allows you to edit the look of your rank card\nOptions: "colour"',
+                content: 'Allows you to edit the look of your rank card\nOptions: "colour", "background"',
                 usage: 'rankcard <option> <value>'
             },
             category: 'stats'
