@@ -31,7 +31,7 @@ class CountingFailsListener extends Listener {
                 video: null,
                 author: {
                     name: message.member.user.tag,
-                    icon_url: message.member.user.avatarURL
+                    icon_url: message.member.user.avatarURL()
                     },
                 provider: null,
                 footer: {
