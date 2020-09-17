@@ -123,7 +123,6 @@ class RankCardCommand extends Command {
                                 const newBgImg = new Discord.MessageAttachment(`./assets/images/backgrounds/${newBg.file}`, newBg.file)
                                 message.channel.send(`***Changed your rank card's background to \`${newBg.name.toUpperCase()}\`***`, newBgImg)
                             } else {
-
                                 message.channel.send(`***Changed your rank card's background to \`${newBg.name.toUpperCase()}\`***`)
                             }
 
