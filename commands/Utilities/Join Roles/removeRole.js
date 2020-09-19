@@ -11,7 +11,8 @@ class RemoveRoleCommand extends Command {
                     id: 'role',
                     type: 'role'
                 }
-            ]
+            ],
+            userPermissions: 'ADMINISTRATOR'
         })
     }
 
