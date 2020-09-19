@@ -43,11 +43,11 @@ class LevelUpListener extends Listener {
 
                 const roleLevel = Number(role.name.split(" ")[1])
 
-                if(level >= roleLevel && !member.roles.cache.has(id)) {
+                if(level + 1 >= roleLevel && !member.roles.cache.has(id)) {
 
                     member.roles.add(id)
                     
-                } else if(level < roleLevel && member.roles.cache.has(id)) {
+                } else if(level + 1 < roleLevel && member.roles.cache.has(id)) {
 
                     member.roles.remove(id)
                 }
