@@ -45,7 +45,7 @@ class LevelsCommand extends Command {
                     }
                 }
 
-                arr2.push(`**\`${pad(i+1, 2)}.\`** • \`Lvl [${arr[i].level}]\` • ${mention} • \`${groupDigits(arr[i].xp)} xp\``)
+                arr2.push(`**\`${pad(i+1, 2)}.\`** • \`Lvl [${pad(arr[i].level, 2)}]\` • ${mention} • \`${groupDigits(arr[i].xp)} xp\``)
             }
 
             let page;
