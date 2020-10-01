@@ -52,16 +52,14 @@ class AutoResponderListener extends Listener {
         //Bad Words
         {
             if(/nigg/i.test(message.content.split(" ").join("").split(/\W/).join("").split("_").join("").split(/1/).join("i").split(/4/).join("a").split(/3/).join("e").split(/\d/).join(""))) {
-                /*if(message.guild.ownerID === message.author.id) {
-                    message.channel.send("Jacob has the N pass")
-                } else {*/
-                    message.channel.send(`${message.member} is a racist!`)
-                    message.delete()
-                //}
+
+                if(message.channel.id !== prism.guild.channelIDs.wording) message.channel.send(`${message.member} is a racist!`)
+                message.delete()
+
             }
         }
 
-        if(message.channel.id === prism.guild.channelIDs.um) return;
+        if(message.channel.id === prism.guild.channelIDs.wording) return;
 
         if(message.mentions.roles.size > 0) {
 
