@@ -6,7 +6,7 @@ class WordingLBCommand extends Command {
         super('wording', {
             aliases: ['wording', 'words'],
             description: {
-                content: 'Shows the leaderboard for #wording\nCategories: "points", "words", "fails", "average" "worst" (worst fails)',
+                content: 'Shows the leaderboard for #wording\nCategories: "points", "words", "fails", "loss", "average", "worst"',
                 usage: 'wording <category> <page>'
             },
             args: [
@@ -109,6 +109,21 @@ class WordingLBCommand extends Command {
                         if(arr[i].total_words < 15) continue;
 
                         arr2.push(`**${place++}.** <@${arr[i].user_id}> • \`${(Math.round((Number(arr[i].total_points)/Number(arr[i].total_words))*100))/100}\``)
+                    }
+
+                    break;
+                
+                case 'loss':
+                case 'losses':
+                case 'lose':
+
+                    title = 'Total Points Lost'
+
+                    arr.sort((a, b) => Number(b.total_fail_points) - Number(a.total_fail_points));
+
+                    for(let i = 0; i < arr.length; i++) {
+
+                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${Number(arr[i].total_fail_points)}\``)
                     }
 
                     break;

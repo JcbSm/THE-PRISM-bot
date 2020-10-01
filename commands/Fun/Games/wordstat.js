@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const { colors } = require('../../../config')
+const { colors, embeds } = require('../../../config')
 
 class WordStatCommand extends Command {
     constructor() {
@@ -40,20 +40,27 @@ class WordStatCommand extends Command {
                         value: `\`${data.total_words}\``,
                         inline: true
                     },
+                    embeds.blankInline,
                     {
                         name: 'Total Fails',
                         value: `\`${data.total_fails}\``,
                         inline: true
                     },
                     {
+                        name: 'Points Lost',
+                        value: `\`${Number(data.total_fail_points)}\` points`,
+                        inline: true
+                    },
+                    embeds.blankInline,
+                    {
+                        name: 'Worst fail',
+                        value: `\`${Number(data.worst_fail)}\` points`,
+                        inline: true
+                    },
+                    {
                         name: 'Average points per word',
                         value: `\`${Math.round((Number(data.total_points) / Number(data.total_words)) * 100) / 100}\``,
                         inline: false
-                    },
-                    {
-                        name: 'Worst fail',
-                        value: `\`${Number(data.worst_fail)}\` points thrown away`,
-                        inline: true
                     },
                     {
                         name: 'Last Word',
