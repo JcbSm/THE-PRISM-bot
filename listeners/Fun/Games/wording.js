@@ -172,7 +172,8 @@ class WordingListener extends Listener {
 
                         `UPDATE tbl_wording SET
                             total_fails = total_fails + 1,
-                            worst_fail = ${worstFail}
+                            worst_fail = ${worstFail},
+                            total_fail_points = total_fail_points + ${pointsLost}
                         WHERE user_id = ${message.author.id}`
                     )
 
