@@ -11,6 +11,11 @@ class CountingLBCommand extends Command {
             },
             args: [
                 {
+                    id: 'category',
+                    type: 'string',
+                    default: 'counts'
+                },
+                {
                     id: 'page',
                     type: 'number',
                     default: 1
@@ -23,27 +28,63 @@ class CountingLBCommand extends Command {
 
         try{
 
-            let sent = await message.channel.send('***Calculating...***')
+            let sent = this.client.caching ? await message.channel.send('***Calculating...***\n`Due to the bot recently restarting, users are still being cached. This may take some time...`') : await message.channel.send('***Calculating...***')
 
-            const arr = (await this.client.db.query(`
-                SELECT user_id, counts
-                FROM tbl_counts
-                WHERE counts > 0;
-            `)).rows
-
-            arr.sort((a, b) => b.counts - a.counts)
+            const arr = (await this.client.db.query(`SELECT * FROM tbl_counts WHERE counts > 0`)).rows
 
             let arr2 = [];
+            let title;
 
-            for(let i = 0; i < arr.length; i++) {
+            switch (args.category) {
+                
+                case 'counts':
 
-                let user;
-                try{
-                    user = await this.client.users.fetch(arr[i].user_id)
-                } catch(err) {
-                    continue;
-                }
-                arr2.push(`**${i+1}.** ${user} • \`${arr[i].counts}\``)
+                    title = 'Total Counts';
+
+                    arr.sort((a, b) => b.counts - a.counts)
+
+                    for(let i = 0; i < arr.length; i++) {
+
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}.** ${mention} • \`${arr[i].counts}\``)
+                    }
+
+                    break;
+
+                case 'last':
+                case 'oldest':
+
+                    title = 'Oldest Count'
+
+                    arr.sort((a, b) => a.last_count - b.last_count)
+
+                    for(let i = 0; i < arr.length; i++) {
+
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}.** ${mention} • \`${arr[i].last_count}\``)
+                    }
+
+                    break;
             }
 
             const footer = arr2.length < args.page*10 ? `Page ${args.page} | ${((args.page-1)*10)+1} - ${arr2.length} of ${arr2.length}` : `Page ${args.page} | ${((args.page-1)*10)+1} - ${args.page*10} of ${arr2.length}`
@@ -54,7 +95,7 @@ class CountingLBCommand extends Command {
             await message.channel.send({embed: {
 
                 title: `${message.guild.name} COUNTING LEADERBOARD`,
-                description: arr2.join("\n"),
+                description: `*${title}:*\n\n${arr2.join("\n")}`,
                 color: colors.purple,
                 thumbnail: {
                     url: message.guild.iconURL()
