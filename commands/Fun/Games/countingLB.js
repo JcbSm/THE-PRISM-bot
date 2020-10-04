@@ -35,8 +35,9 @@ class CountingLBCommand extends Command {
             let arr2 = [];
             let title;
 
-            switch (args.category) {
+            switch (args.category.toLowerCase()) {
                 
+                default:
                 case 'counts':
 
                     title = 'Total Counts';
@@ -63,6 +64,7 @@ class CountingLBCommand extends Command {
 
                 case 'last':
                 case 'oldest':
+                case 'old':
 
                     title = 'Oldest Count'
 
@@ -81,7 +83,7 @@ class CountingLBCommand extends Command {
                             }
                         }
 
-                        arr2.push(`**${i+1}.** ${mention} • \`${arr[i].last_count}\``)
+                        arr2.push(`**${i+1}.** ${mention} • [\`${arr[i].last_count}\`](${arr[i].last_count_url})`)
                     }
 
                     break;

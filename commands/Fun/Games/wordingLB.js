@@ -29,13 +29,9 @@ class WordingLBCommand extends Command {
 
         try{
 
-            let sent = await message.channel.send('***Calculating...***')
-
-            const arr = (await this.client.db.query(`
-                SELECT *
-                FROM tbl_wording
-                WHERE total_words > 0;
-            `)).rows
+            let sent = this.client.caching ? await message.channel.send('***Calculating...***\n`Due to the bot recently restarting, users are still being cached. This may take some time...`') : await message.channel.send('***Calculating...***')
+            
+            const arr = (await this.client.db.query(`SELECT * FROM tbl_wording WHERE total_words > 0`)).rows
 
             let arr2 = [];
             let title;
@@ -51,7 +47,18 @@ class WordingLBCommand extends Command {
 
                     for(let i = 0; i < arr.length; i++) {
 
-                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${arr[i].total_points}\``)
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}.** ${mention} • \`${arr[i].total_points}\``)
                     }
 
                     break;
@@ -64,7 +71,18 @@ class WordingLBCommand extends Command {
 
                     for(let i = 0; i < arr.length; i++) {
 
-                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${arr[i].total_words}\``)
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}.** ${mention} • \`${arr[i].total_words}\``)
                     }
 
                     break;
@@ -77,7 +95,18 @@ class WordingLBCommand extends Command {
 
                     for(let i = 0; i < arr.length; i++) {
 
-                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${arr[i].total_fails}\``)
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}.** ${mention} • \`${arr[i].total_fails}\``)
                     }
 
                     break;
@@ -90,7 +119,18 @@ class WordingLBCommand extends Command {
 
                     for(let i = 0; i < arr.length; i++) {
 
-                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${Number(arr[i].worst_fail)}\``)
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}.** ${mention} • \`${Number(arr[i].worst_fail)}\``)
                     }
 
                     break;
@@ -108,7 +148,18 @@ class WordingLBCommand extends Command {
 
                         if(arr[i].total_words < 15) continue;
 
-                        arr2.push(`**${place++}.** <@${arr[i].user_id}> • \`${(Math.round((Number(arr[i].total_points)/Number(arr[i].total_words))*100))/100}\``)
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${place++}.** ${mention} • \`${(Math.round((Number(arr[i].total_points)/Number(arr[i].total_words))*100))/100}\``)
                     }
 
                     break;
@@ -123,7 +174,18 @@ class WordingLBCommand extends Command {
 
                     for(let i = 0; i < arr.length; i++) {
 
-                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${Number(arr[i].total_fail_points)}\``)
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}.** ${mention} • \`${Number(arr[i].total_fail_points)}\``)
                     }
 
                     break;

@@ -30,7 +30,7 @@ class TopCommand extends Command {
 
         try{
 
-            const sent = await message.channel.send('***Calculating...***')
+            let sent = this.client.caching ? await message.channel.send('***Calculating...***\n`Due to the bot recently restarting, users are still being cached. This may take some time...`') : await message.channel.send('***Calculating...***')
 
             const DB = this.client.db
 
@@ -50,7 +50,18 @@ class TopCommand extends Command {
 
                     for(let i = 0; i < arr.length; i++) {
 
-                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${groupDigits(arr[i].total_messages)}\``)
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}.** ${mention} • \`${groupDigits(arr[i].total_messages)}\``)
                     }
                     break;
 
@@ -63,7 +74,22 @@ class TopCommand extends Command {
 
                     for(let i = 0; i < arr.length; i++) {
 
-                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${Math.round((arr[i].total_voice_minutes/60)*10)/10} hours\``)
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        const field = arr[i].total_voice_minutes;
+                        let time = field > 6000 ? `\`${Math.round(field/60)} hours\`` : `\`${Math.round((field/60)*10)/10} hours\``
+                        if(field < 120) time = `\`${field} minutes\``
+
+                        arr2.push(`**${i+1}.** ${mention} • ${time}`)
                     }
                     break;
 
@@ -76,7 +102,18 @@ class TopCommand extends Command {
     
                     for(let i = 0; i < arr.length; i++) {
 
-                        arr2.push(`**${i+1}.** <@${arr[i].user_id}> • \`${arr[i].afk_count}\``)
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}.** ${mention} • \`${arr[i].afk_count}\``)
                     }
                     break;
 
@@ -87,11 +124,24 @@ class TopCommand extends Command {
                     arr.sort((a, b) => b.total_mute_minutes - a.total_mute_minutes);
                     arr = arr.filter(u => u.total_mute_minutes > 0)
 
-                    //console.log(arr.filter(u => u.total_mute_minutes === 0).length)
-
                     for(let i = 0; i < arr.length; i++) {
 
-                        arr2.push(`**${i+1}. ** <@${arr[i].user_id}> • \`${arr[i].total_mute_minutes}\``)
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        const field = arr[i].total_mute_minutes;
+                        let time = field > 6000 ? `\`${Math.round(field/60)} hours\`` : `\`${Math.round((field/60)*10)/10} hours\``
+                        if(field < 600) time = `\`${field} minutes\``
+
+                        arr2.push(`**${i+1}. ** ${mention} • ${time}`)
                     }
                     break;
             }
