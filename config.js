@@ -269,8 +269,13 @@ module.exports =
                                 },
                                 {
                                     id: 13,
-                                    name: 'cityscape',
+                                    name: 'city',
                                     file: 'city.png'
+                                },
+                                {
+                                    id: 14,
+                                    name: 'skyline',
+                                    file: 'skyline.png'
                                 }
                             ]
                         },
