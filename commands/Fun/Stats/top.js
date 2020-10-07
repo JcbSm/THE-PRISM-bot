@@ -118,6 +118,7 @@ class TopCommand extends Command {
                     break;
 
                 case 'muted':
+                case 'mute':
 
                     title = 'Most Time Spent Muted'
 
@@ -143,6 +144,32 @@ class TopCommand extends Command {
 
                         arr2.push(`**${i+1}. ** ${mention} • ${time}`)
                     }
+                    break;
+
+                case 'muted%':
+                case 'mute%':
+
+                    title = 'Percentage of Time Spent Muted'
+
+                    arr = arr.filter(u => u.total_voice_minutes > 60)
+                    arr.sort((a, b) => ((b.total_mute_minutes/b.total_voice_minutes)*100000) - ((a.total_mute_minutes/a.total_voice_minutes)*100000));
+
+                    for(let i = 0; i < arr.length; i++) {
+
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}. ** ${mention} • \`${Math.round((arr[i].total_mute_minutes/arr[i].total_voice_minutes)*10000)/100}%\``)
+                    }
+
                     break;
             }
 

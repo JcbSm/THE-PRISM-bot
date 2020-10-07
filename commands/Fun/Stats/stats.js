@@ -57,7 +57,7 @@ class StatsCommand extends Command {
                     },
                     {
                         name: 'Time spent muted',
-                        value: mutedTime,
+                        value: `${mutedTime}, \`${Math.round((data.total_mute_minutes/data.total_voice_minutes)*10000)/100}%\``,
                         inline: true
                     },
                     embeds.blankInline
