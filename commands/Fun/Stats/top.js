@@ -34,7 +34,7 @@ class TopCommand extends Command {
 
             const DB = this.client.db
 
-            let arr = (await DB.query(`SELECT user_id, total_messages, total_voice_minutes, afk_count, total_mute_minutes FROM tbl_users`)).rows
+            let arr = (await DB.query(`SELECT user_id, total_messages, total_voice_minutes, afk_count, total_mute_minutes, funny_points FROM tbl_users`)).rows
 
             let [arr2, title] = [[], null]
 
@@ -171,6 +171,29 @@ class TopCommand extends Command {
                     }
 
                     break;
+
+                case 'funny':
+
+                    title = 'Funny Points';
+
+                    arr = arr.filter(u => u.funny_points !== 0)
+                    arr.sort((a, b) => b.funny_points - a.funny_points);
+
+                    for(let i = 0; i < arr.length; i++) {
+
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}. ** ${mention} • \`${arr[i].funny_points}\``)
+                    }
             }
 
             let page;

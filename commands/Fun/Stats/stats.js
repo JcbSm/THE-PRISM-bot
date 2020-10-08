@@ -60,7 +60,12 @@ class StatsCommand extends Command {
                         value: `${mutedTime}, \`${Math.round((data.total_mute_minutes/data.total_voice_minutes)*10000)/100}%\``,
                         inline: true
                     },
-                    embeds.blankInline
+                    embeds.blankInline,
+                    {
+                        name: 'Funny Points',
+                        value: `\`${data.funny_points}\``,
+                        inline: true
+                    }
                 ],
                 thumbnail: {
                     url: member.user.displayAvatarURL({size:1024})
