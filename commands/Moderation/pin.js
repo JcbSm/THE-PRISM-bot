@@ -10,7 +10,7 @@ class PinCommand extends Command {
                 content: 'pins a message to #pins',
                 usage: 'pin <message link>'
             },
-            //userPermissions: 'MANAGE_MESSAGES',
+            userPermissions: 'MANAGE_MESSAGES',
             args: [
                 {
                     id: 'link',
@@ -33,7 +33,9 @@ class PinCommand extends Command {
 
             if((await pinMessage.reactions.cache).map(e => e.emoji.name).includes('📌')) {
 
-                if(await pinMessage.reactions.cache.get('📌').users.map(u => u.id).includes(this.client.user.id)) {
+                console.log(await pinMessage.reactions.cache.get('📌').users.cache)
+
+                if(await pinMessage.reactions.cache.get('📌').users.caches.map(u => u.id).includes(this.client.user.id)) {
                     return message.reply('I have already pinned that message')
                 }
                 
