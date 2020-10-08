@@ -63,7 +63,7 @@ class StatsCommand extends Command {
                     embeds.blankInline,
                     {
                         name: 'Funny Points',
-                        value: `\`${data.funny_points}\``,
+                        value: `\`${data.funny_points}\` points.\nAwarded \`${data.funny_points_awarded}\``,
                         inline: true
                     }
                 ],

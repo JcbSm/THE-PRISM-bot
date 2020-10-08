@@ -36,11 +36,12 @@ class FunnyCommand extends Command {
 
         if(!member) return message.reply('Please provide a member')
         if(member.id === message.author.id) return message.reply('You can only give other people funny points')
+        if(args.points > 10 || args.points < 1) return message.reply('You can only give between 1-10 points.')
 
         const data = (await DB.query(`SELECT * FROM tbl_users WHERE user_id = ${member.id}`)).rows[0]
 
         DB.query(`UPDATE tbl_users SET funny_points = funny_points + ${args.points} WHERE user_id = ${member.id}`)
-        DB.query(`UPDATE tbl_users SET funny_points_last_awarded = ${message.createdTimestamp} WHERE user_id = ${message.author.id}`)
+        DB.query(`UPDATE tbl_users SET funny_points_last_awarded = ${message.createdTimestamp}, funny_points_awarded = funny_points_awarded + ${args.points} WHERE user_id = ${message.author.id}`)
 
         message.channel.send({ embed: {
 
