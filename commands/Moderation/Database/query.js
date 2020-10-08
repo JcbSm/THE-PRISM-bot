@@ -33,8 +33,19 @@ class QueryCommand extends Command {
                 try{
 
                     if(err) {
-                        message.reply('An error occurrded, https://dashboard.heroku.com/apps/prism-bot/logs')
-                        return console.log(err)
+
+                        console.log(err)
+
+                        return message.channel.send({embed: {
+                            title: 'ERROR',
+                            description: `\`\`\`${query}\`\`\``,
+                            fields: [
+                                {
+                                    name: 'ERROR',
+                                    value: `\`\`\`${err}\`\`\``
+                                }
+                            ]
+                        }})
                     };
 
                     let desc;
