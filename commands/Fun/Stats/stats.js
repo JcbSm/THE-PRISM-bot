@@ -33,6 +33,7 @@ class StatsCommand extends Command {
 
             const voiceTime = data.total_voice_minutes >= 120 ? `\`${Math.round((data.total_voice_minutes/60)*10)/10}\` hours` : `\`${data.total_voice_minutes}\` minutes`
             const mutedTime = data.total_mute_minutes >= 120 ? `\`${Math.round((data.total_mute_minutes/60)*10)/10}\` hours` : `\`${data.total_mute_minutes}\` minutes`
+            const mutedStr = data.total_voice_minutes > 0 ? `, \`${Math.round((data.total_mute_minutes/data.total_voice_minutes)*10000)/100}%\`` : ''
 
             message.channel.send({embed: {
 
@@ -57,7 +58,7 @@ class StatsCommand extends Command {
                     },
                     {
                         name: 'Time spent muted',
-                        value: `${mutedTime}, \`${Math.round((data.total_mute_minutes/data.total_voice_minutes)*10000)/100}%\``,
+                        value: `${mutedTime + mutedStr}`,
                         inline: true
                     },
                     embeds.blankInline,
