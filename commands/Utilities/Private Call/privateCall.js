@@ -30,7 +30,7 @@ class PrivateCallCommand extends Command {
             
         const command = await this.client.commandHandler.parseCommand(message)
         
-        if(message.guild.id === prism.guild.id || message.guild.id === '742026925156860026') {
+        if(message.guild.id === prism.guild.id || message.guild.id === '742026925156860026' || message.guild.id === '361569079514890252') {
 
             let voiceParent;
 
@@ -38,6 +38,8 @@ class PrivateCallCommand extends Command {
                 voiceParent = prism.guild.channelIDs.voiceParent
             } else if(message.guild.id === '742026925156860026') {
                 voiceParent = '742026925156860029'
+            } else if(message.guild.id === '361569079514890252') {
+                voiceParent = '361576773399347201'
             }
 
             const guild = message.guild

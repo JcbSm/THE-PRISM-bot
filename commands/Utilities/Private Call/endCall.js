@@ -15,7 +15,7 @@ class PrivateCallDeleteCommand extends Command {
     async exec(message, args) {
         try{        
         
-        if(message.guild.id === '447504770719154192' || message.guild.id === '742026925156860026') {
+        if(message.guild.id === '447504770719154192' || message.guild.id === '742026925156860026' || message.guild.id === '361569079514890252') {
 
             const guild = message.guild
             const everyoneRole = message.guild.roles.cache.find(r => r.name === '@everyone')
