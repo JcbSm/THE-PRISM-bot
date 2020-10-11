@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const Discord = require('discord.js')
 const moment = require('moment')
-const { colors } = require('../../config');
+const { colors, embeds } = require('../../config');
 const { rgb, since } = require('../../functions');
 
 class ServerInfoCommand extends Command {
@@ -59,9 +59,8 @@ class ServerInfoCommand extends Command {
        
         //Embed
         message.channel.send(new Discord.MessageEmbed()
-            .setAuthor(message.guild.name, message.guild.iconURL)
+            .setAuthor(message.guild.name, message.guild.iconURL())
             .setColor(colors.purple)
-            .setFooter(`ID: ${message.guild.id} | Created: ${guildCreatedDate}`)
             .addField('Owner', guildOwner, true)
             .addField('Region', guildRegion, true)
             .addField('Members', membersSize,true)
@@ -73,7 +72,8 @@ class ServerInfoCommand extends Command {
             .addField('Voice Channels', voiceChannelSize, true)
             .addField('Emojis', eomjiSize, true)
             .addField('Roles', roleSize, true)
-            .addField('Created', since(guildInfo.createdAt, 3))
+            .addField('Created', guildCreatedDate, true)
+            .addField('Age', `${since(guildInfo.createdAt, 3)} old`)
         )
     }catch(e){console.log(e)}
     }
