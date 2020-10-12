@@ -51,7 +51,7 @@ class AutoResponderListener extends Listener {
 
         //Bad Words
         {
-            if(/nigg/i.test(message.content.split(" ").join("").split(/\W/).join("").split("_").join("").split(/1/).join("i").split(/4/).join("a").split(/3/).join("e").split(/\d/).join(""))) {
+            if(/nigg/i.test(message.content.split(" ").join("").split(/\W/).join("").split("_").join("").split(/1/).join("i").split(/l/).join("i").split(/4/).join("a").split(/3/).join("e").split(/\d/).join(""))) {
 
                 if(message.channel.id !== prism.guild.channelIDs.wording) message.channel.send(`${message.member} is a racist!`)
                 message.delete()
