@@ -1,10 +1,10 @@
 const { Command } = require('discord-akairo');
 const { colors } = require('../../../config')
 
-class UnfunnyCommand extends Command { 
+class UncringeCommand extends Command { 
     constructor() {
-        super('unfunny', {
-            aliases: ['unfunny'],
+        super('uncringe', {
+            aliases: ['uncringe'],
             args: [
                 {
                     id: 'member',
@@ -17,8 +17,8 @@ class UnfunnyCommand extends Command {
                 }
             ],
             description: {
-                usage: 'unfunny <member> <points>',
-                content: 'Revokes a member of some funny points.'
+                usage: 'uncringe <member> <points>',
+                content: 'Revokes a member of some cringe points.'
             },
             userPermissions: 'ADMINISTRATOR'
         })
@@ -29,21 +29,22 @@ class UnfunnyCommand extends Command {
 
         const member = args.member
         const DB =  this.client.db
+        const points = Math.round(args.points)
 
         if(!member) return message.reply('Please provide a member')
 
         const data = (await DB.query(`SELECT * FROM tbl_users WHERE user_id = ${member.id}`)).rows[0]
 
-        DB.query(`UPDATE tbl_users SET funny_points = funny_points - ${args.points} WHERE user_id = ${member.id}`)
+        DB.query(`UPDATE tbl_users SET cringe_points = cringe_points - ${points} WHERE user_id = ${member.id}`)
 
         message.channel.send({ embed: {
 
-            title: 'Funny Points Revoked',
-            description: `\`${args.points}\` points.`,
+            title: 'Cringe Points Revoked',
+            description: `\`${points}\` points.`,
             fields: [
                 {
                     name: 'Revoked from:',
-                    value: `${member}, \`${data.funny_points - args.points} total\``
+                    value: `${member}, \`${data.cringe_points - points} total\``
                 },
                 {
                     name: 'By:',
@@ -59,4 +60,4 @@ class UnfunnyCommand extends Command {
     }
 }
 
-module.exports = UnfunnyCommand;
+module.exports = UncringeCommand;

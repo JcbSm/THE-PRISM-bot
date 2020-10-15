@@ -34,7 +34,7 @@ class TopCommand extends Command {
 
             const DB = this.client.db
 
-            let arr = (await DB.query(`SELECT user_id, total_messages, total_voice_minutes, afk_count, total_mute_minutes, funny_points, funny_points_awarded FROM tbl_users`)).rows
+            let arr = (await DB.query(`SELECT * FROM tbl_users`)).rows
 
             let [arr2, title] = [[], null]
 
@@ -197,6 +197,31 @@ class TopCommand extends Command {
 
                     break;
 
+                case 'cringe':
+
+                    title = 'Cringe Points';
+
+                    arr = arr.filter(u => u.cringe_points !== 0)
+                    arr.sort((a, b) => b.cringe_points - a.cringe_points);
+
+                    for(let i = 0; i < arr.length; i++) {
+
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}. ** ${mention} • \`${arr[i].cringe_points}\``)
+                    }
+
+                    break;
+
                 case 'awarded':
 
                     title = 'Funny Points Awarded';
@@ -219,6 +244,35 @@ class TopCommand extends Command {
 
                         arr2.push(`**${i+1}. ** ${mention} • \`${arr[i].funny_points_awarded}\``)
                     }
+
+                    break;
+
+                case 'cringed':
+
+                    title = 'Most Cringed';
+
+                    arr = arr.filter(u => u.cringe_points_awarded > 0)
+                    arr.sort((a, b) => b.cringe_points_awarded - a.cringe_points_awarded);
+
+                    for(let i = 0; i < arr.length; i++) {
+
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}. ** ${mention} • \`${arr[i].cringe_points_awarded}\``)
+                    }
+
+                    break;
+
+                
             }
 
             let page;

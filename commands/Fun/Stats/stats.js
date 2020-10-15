@@ -66,7 +66,13 @@ class StatsCommand extends Command {
                         name: 'Funny Points',
                         value: `\`${data.funny_points}\` points.\nAwarded \`${data.funny_points_awarded}\``,
                         inline: true
-                    }
+                    },
+                    {
+                        name: 'Cringe Points',
+                        value: `\`${data.cringe_points}\` points.\nCringed \`${data.cringe_points_awarded}\` times.`,
+                        inline: true
+                    },
+                    embeds.blankInline,
                 ],
                 thumbnail: {
                     url: member.user.displayAvatarURL({size:1024})
