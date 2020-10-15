@@ -25,7 +25,7 @@ class LevelsCommand extends Command {
 
             let sent = this.client.caching ? await message.channel.send('***Calculating...***\n`Due to the bot recently restarting, users are still being cached. This may take some time...`') : await message.channel.send('***Calculating...***')
 
-            const arr = (await DB.query(`SELECT * FROM tbl_users WHERE xp > 0`)).rows
+            const arr = (await DB.query(`SELECT * FROM tbl_users`)).rows
 
             arr.sort((a, b) => b.xp - a.xp)
 
