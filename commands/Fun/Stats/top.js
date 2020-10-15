@@ -273,6 +273,7 @@ class TopCommand extends Command {
                     break;
 
                 case 'score':
+                case 'overall':
 
                     title = 'Overall Score';
 
