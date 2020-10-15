@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const { colors } = require('../../../config');
+const { colors, prism } = require('../../../config');
 const { milliToTime } = require('../../../functions');
 
 class FunnyCommand extends Command { 
@@ -26,6 +26,8 @@ class FunnyCommand extends Command {
 
     async exec(message, args) {
 
+        if(message.guild.id !== prism.guild.id) return message.reply('This only works in PRISM, sorry...')
+
         const member = args.member
         const DB = this.client.db;
         const points = Math.round(args.points)
@@ -40,6 +42,8 @@ class FunnyCommand extends Command {
         if(points > 10 || points < 1) return message.reply('You can only give between 1-10 points.')
 
         const data = (await DB.query(`SELECT * FROM tbl_users WHERE user_id = ${member.id}`)).rows[0]
+
+        if(!data) return message.reply('This person is not on the database.')
 
         DB.query(`UPDATE tbl_users SET funny_points = funny_points + ${points} WHERE user_id = ${member.id}`)
         DB.query(`UPDATE tbl_users SET funny_points_last_awarded = ${message.createdTimestamp}, funny_points_awarded = funny_points_awarded + ${points} WHERE user_id = ${message.author.id}`)

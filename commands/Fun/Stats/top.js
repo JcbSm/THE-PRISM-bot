@@ -226,7 +226,7 @@ class TopCommand extends Command {
 
                     title = 'Funny Points Awarded';
 
-                    arr = arr.filter(u => u.funny_points_awarded > 0)
+                    arr = arr.filter(u => u.funny_points_awarded !== 0)
                     arr.sort((a, b) => b.funny_points_awarded - a.funny_points_awarded);
 
                     for(let i = 0; i < arr.length; i++) {
@@ -251,7 +251,7 @@ class TopCommand extends Command {
 
                     title = 'Most Cringed';
 
-                    arr = arr.filter(u => u.cringe_points_awarded > 0)
+                    arr = arr.filter(u => u.cringe_points_awarded !== 0)
                     arr.sort((a, b) => b.cringe_points_awarded - a.cringe_points_awarded);
 
                     for(let i = 0; i < arr.length; i++) {
@@ -272,7 +272,31 @@ class TopCommand extends Command {
 
                     break;
 
-                
+                case 'score':
+
+                    title = 'Overall Score';
+
+                    arr = arr.filter(u => u.cringe_points_awarded !== 0 || u.funny_points_awarded !== 0)
+                    arr.sort((a, b) => (b.funny_points - b.cringe_points) - (a.funny_points - a.cringe_points));
+
+                    for(let i = 0; i < arr.length; i++) {
+
+                        let mention;
+                        if(message.guild.members.cache.has(arr[i].user_id)) {
+                            mention = `<@${arr[i].user_id}>`
+                        } else {
+                            try{
+                                mention = (await this.client.users.fetch(arr[i].user_id)).tag
+                            } catch(err) {
+                                mention = `\`Deleted User\``
+                            }
+                        }
+
+                        arr2.push(`**${i+1}. ** ${mention} • \`${arr[i].funny_points - arr[i].cringe_points}\``)
+
+                    }
+
+                    break;
             }
 
             let page;
