@@ -13,7 +13,7 @@ class CringeCommand extends Command {
                 }
             ],
             description: {
-                usage: 'cringe <member> <points>',
+                usage: 'cringe <member>',
                 content: 'Awards a member with some cringe points.'
             }
         })
@@ -30,7 +30,7 @@ class CringeCommand extends Command {
         const points = Math.round(1)
 
         const authorData = (await DB.query(`SELECT * FROM tbl_users WHERE user_id = ${message.author.id}`)).rows[0]
-        if(message.author.id !== this.client.ownerID && (message.createdTimestamp - authorData.cringe_points_last_awarded) < (1000*3600)*12) {
+        if(message.author.id !== this.client.ownerID && (message.createdTimestamp - authorData.cringe_points_last_awarded) < (1000*3600)*3) {
             return message.reply(`You can cringe again in \`${milliToTime(((1000*3600)*3 - (message.createdTimestamp - authorData.cringe_points_last_awarded)))}\``)
         }
 
