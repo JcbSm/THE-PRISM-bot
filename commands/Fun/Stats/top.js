@@ -277,7 +277,7 @@ class TopCommand extends Command {
 
                     title = 'Overall Score';
 
-                    arr = arr.filter(u => u.cringe_points_awarded !== 0 || u.funny_points_awarded !== 0)
+                    arr = arr.filter(u => u.cringe_points !== 0 || u.funny_points !== 0)
                     arr.sort((a, b) => (b.funny_points - b.cringe_points) - (a.funny_points - a.cringe_points));
 
                     for(let i = 0; i < arr.length; i++) {
