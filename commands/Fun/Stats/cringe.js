@@ -10,11 +10,6 @@ class CringeCommand extends Command {
                 {
                     id: 'member',
                     type: 'member'
-                },
-                {
-                    id: 'points',
-                    type: 'number',
-                    default: 0
                 }
             ],
             description: {
@@ -32,11 +27,11 @@ class CringeCommand extends Command {
 
         const member = args.member
         const DB = this.client.db;
-        const points = Math.round(args.points)
+        const points = Math.round(1)
 
         const authorData = (await DB.query(`SELECT * FROM tbl_users WHERE user_id = ${message.author.id}`)).rows[0]
         if(message.author.id !== this.client.ownerID && (message.createdTimestamp - authorData.cringe_points_last_awarded) < (1000*3600)*12) {
-            return message.reply(`You can award points again in \`${milliToTime(((1000*3600)*12 - (message.createdTimestamp - authorData.cringe_points_last_awarded)))}\``)
+            return message.reply(`You can cringe again in \`${milliToTime(((1000*3600)*3 - (message.createdTimestamp - authorData.cringe_points_last_awarded)))}\``)
         }
 
         if(!member) return message.reply('Please provide a member')
