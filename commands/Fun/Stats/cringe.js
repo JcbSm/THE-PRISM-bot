@@ -30,11 +30,12 @@ class CringeCommand extends Command {
         const points = Math.round(1)
 
         const authorData = (await DB.query(`SELECT * FROM tbl_users WHERE user_id = ${message.author.id}`)).rows[0]
-        if(message.author.id !== this.client.ownerID && (message.createdTimestamp - authorData.cringe_points_last_awarded) < (1000*3600)*4) {
+        if((message.createdTimestamp - authorData.cringe_points_last_awarded) < (1000*3600)*4) {
             return message.reply(`You can cringe again in \`${milliToTime(((1000*3600)*4 - (message.createdTimestamp - authorData.cringe_points_last_awarded)))}\``)
         }
 
         if(!member) return message.reply('Please provide a member')
+        if(member.user.bot) return message.reply('You can only give humans cringe points')
         if(member.id === message.author.id) return message.reply('You can only give other people cringe points')
         if(points > 10 || points < 1) return message.reply('You can only give between 1-10 points.')
 

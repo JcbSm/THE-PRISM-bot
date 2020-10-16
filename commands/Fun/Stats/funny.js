@@ -33,11 +33,12 @@ class FunnyCommand extends Command {
         const points = Math.round(args.points)
 
         const authorData = (await DB.query(`SELECT * FROM tbl_users WHERE user_id = ${message.author.id}`)).rows[0]
-        if(message.author.id !== this.client.ownerID && (message.createdTimestamp - authorData.funny_points_last_awarded) < (1000*3600)*12) {
+        if((message.createdTimestamp - authorData.funny_points_last_awarded) < (1000*3600)*12) {
             return message.reply(`You can award points again in \`${milliToTime(((1000*3600)*12 - (message.createdTimestamp - authorData.funny_points_last_awarded)))}\``)
         }
 
         if(!member) return message.reply('Please provide a member')
+        if(member.user.bot) return message.reply('You can only give humans funny points')
         if(member.id === message.author.id) return message.reply('You can only give other people funny points')
         if(points > 10 || points < 1) return message.reply('You can only give between 1-10 points.')
 
