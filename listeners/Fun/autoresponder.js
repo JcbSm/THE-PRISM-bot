@@ -96,7 +96,7 @@ class AutoResponderListener extends Listener {
         //Memes 
 
         {
-            if(/ligma/gi.test(message.content.split('').join(''))) message.channel.send('What\'s Ligma?')
+            if(/when did i ask/gi.test(message.content.toLowerCase().split('').join(''))) message.reply('You\'re an asshole')
         }
 
         //Normal stuff
