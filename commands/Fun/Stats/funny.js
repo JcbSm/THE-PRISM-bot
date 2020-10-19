@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const { colors, prism } = require('../../../config');
+const { colors } = require('../../../config');
 const { milliToTime } = require('../../../functions');
 
 class FunnyCommand extends Command { 
@@ -26,28 +26,35 @@ class FunnyCommand extends Command {
 
     async exec(message, args) {
 
-        if(message.guild.id !== prism.guild.id) return message.reply('This only works in PRISM, sorry...')
-
         const member = args.member
         const DB = this.client.db;
         const points = Math.round(args.points)
 
         const authorData = (await DB.query(`SELECT * FROM tbl_users WHERE user_id = ${message.author.id}`)).rows[0]
-        if((message.createdTimestamp - authorData.funny_points_last_awarded) < (1000*3600)*12) {
+        if(/*message.author.id !== this.client.ownerID &&*/ (message.createdTimestamp - authorData.funny_points_last_awarded) < (1000*3600)*12 && authorData.funny_points_cooldown >= 10) {
             return message.reply(`You can award points again in \`${milliToTime(((1000*3600)*12 - (message.createdTimestamp - authorData.funny_points_last_awarded)))}\``)
         }
 
         if(!member) return message.reply('Please provide a member')
-        if(member.user.bot) return message.reply('You can only give humans funny points')
         if(member.id === message.author.id) return message.reply('You can only give other people funny points')
         if(points > 10 || points < 1) return message.reply('You can only give between 1-10 points.')
+        if(10 - authorData.funny_points_cooldown < points) return message.reply(`You currently only have \`${10-authorData.funny_points_cooldown}\` points left. You can award points again in \`${milliToTime(((1000*3600)*12 - (message.createdTimestamp - authorData.funny_points_last_awarded)))}\``)
 
         const data = (await DB.query(`SELECT * FROM tbl_users WHERE user_id = ${member.id}`)).rows[0]
 
-        if(!data) return message.reply('This person is not on the database.')
+        await DB.query(`UPDATE tbl_users SET funny_points = funny_points + ${points} WHERE user_id = ${member.id}`)
+        //DB.query(`UPDATE tbl_users SET funny_points_last_awarded = ${message.createdTimestamp}, funny_points_awarded = funny_points_awarded + ${points} WHERE user_id = ${message.author.id}`)
+        await DB.query(`UPDATE tbl_users SET funny_points_awarded = funny_points_awarded + ${points} WHERE user_id = ${message.author.id}`, async (err, res) => {
 
-        DB.query(`UPDATE tbl_users SET funny_points = funny_points + ${points} WHERE user_id = ${member.id}`)
-        DB.query(`UPDATE tbl_users SET funny_points_last_awarded = ${message.createdTimestamp}, funny_points_awarded = funny_points_awarded + ${points} WHERE user_id = ${message.author.id}`)
+            if(err) return console.log(err);
+
+            if((message.createdTimestamp - authorData.funny_points_last_awarded) < (1000*3600)*12) {
+
+                await DB.query(`UPDATE tbl_users SET funny_points_cooldown = funny_points_cooldown + ${points} WHERE user_id = ${message.author.id}`)
+            } else {
+                await DB.query(`UPDATE tbl_users SET funny_points_cooldown = ${points}, funny_points_last_awarded = ${message.createdTimestamp} WHERE user_id = ${message.author.id}`)
+            }
+        })
 
         message.channel.send({ embed: {
 
