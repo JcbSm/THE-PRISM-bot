@@ -38,7 +38,7 @@ class FunnyCommand extends Command {
         if(!member) return message.reply('Please provide a member')
         if(member.id === message.author.id) return message.reply('You can only give other people funny points')
         if(points > 10 || points < 1) return message.reply('You can only give between 1-10 points.')
-        if(10 - authorData.funny_points_cooldown < points) return message.reply(`You currently only have \`${10-authorData.funny_points_cooldown}\` points left. You can award points again in \`${milliToTime(((1000*3600)*12 - (message.createdTimestamp - authorData.funny_points_last_awarded)))}\``)
+        if(10 - authorData.funny_points_cooldown < points && (message.createdTimestamp - authorData.funny_points_last_awarded) < (1000*3600)*12) return message.reply(`You currently only have \`${10-authorData.funny_points_cooldown}\` points left. You'll get more in \`${milliToTime(((1000*3600)*12 - (message.createdTimestamp - authorData.funny_points_last_awarded)))}\``)
 
         const data = (await DB.query(`SELECT * FROM tbl_users WHERE user_id = ${member.id}`)).rows[0]
 
