@@ -44,25 +44,19 @@ class CringeCommand extends Command {
         if(!data) return message.reply('This person is not on the database.')
 
         DB.query(`UPDATE tbl_users SET cringe_points = cringe_points + ${points} WHERE user_id = ${member.id}`)
-        DB.query(`UPDATE tbl_users SET cringe_points_last_awarded = ${message.createdTimestamp}, cringe_points_awarded = cringe_points_awarded + ${points} WHERE user_id = ${message.author.id}`, (err, res) => {
-            console.log(err, res)
-        })
+        DB.query(`UPDATE tbl_users SET cringe_points_last_awarded = ${message.createdTimestamp}, cringe_points_awarded = cringe_points_awarded + ${points} WHERE user_id = ${message.author.id}`)
 
         message.channel.send({ embed: {
 
-            title: 'Cringe Points Awarded',
-            description: `\`${points}\` points.`,
+            title: 'CRINGE',
+            description: `${member}, you made ${message.member} **cringe...**`,
             fields: [
                 {
-                    name: 'Awarded to:',
-                    value: `${member}, \`${data.cringe_points + points} total\``
-                },
-                {
-                    name: 'By:',
-                    value: message.member
+                    value: `*Total Cringe Points: \`${data.cringe_points + points}\`*`,
+                    name: `\u200b`
                 }
             ],
-            color: colors.good,
+            color: colors.bad,
             thumbnail: {
                 url: member.user.displayAvatarURL()
             }
