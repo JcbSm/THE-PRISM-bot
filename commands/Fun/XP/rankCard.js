@@ -75,7 +75,7 @@ class RankCardCommand extends Command {
                     const attachment = current.id > 0 ? new Discord.MessageAttachment(`./assets/images/backgrounds/${current.file}`, current.file) : null
 
                     if(!args.value) {
-                        try{
+                        
                         const embed = {
                             title: 'Available backgrounds',
                             description: items.map(i => `**ID: \`${i.id}\`** • **NAME:** *"${i.name}"*`).join("\n"),
@@ -88,15 +88,16 @@ class RankCardCommand extends Command {
                             color: colors.purple
                         }
 
-                        if(current.id > 0) {
+                        if(current.id > 1) {
 
                             embed.image = {url: `attachment://${current.file}`}
                             message.channel.send({ files: [attachment], embed: embed})
+                            
                         } else {
 
                             message.channel.send({embed: embed})
                         }
-                    } catch(e){console.log(e)}
+
                     } else if(args.value.startsWith('view')) {
 
                         const first = args.value.split(" ")[1] ? Number(args.value.split(" ")[1]) : 1;
@@ -111,19 +112,53 @@ class RankCardCommand extends Command {
                             color: colors.purple,
                         }})
 
+                    } else if(isNaN(args.value)) {
+                        
+                        await DB.query(`UPDATE tbl_users SET rank_card_custom_url = '${args.value}' WHERE user_id = ${message.author.id}`, async (err, res) => {
+
+                            if(err) {
+
+                                message.reply('An error occurred... Sorry??')
+                                console.log(err)
+
+                            } else {
+
+                                const newBgImg = new Discord.MessageAttachment(args.value);
+
+                                message.channel.send(`***Changed your rank card's custom background***`, newBgImg)
+
+                            }
+                        })
+
                     } else {
 
                         if(items.map(i => i.id).includes(Number(args.value))) {
 
-                            const newBg = items.find(i => i.id == args.value)
-                            await DB.query(`UPDATE tbl_users SET rank_card_background_id = ${newBg.id} WHERE user_id = ${message.author.id}`);
+                            if(args.value == 1) {
 
-                            if(newBg.id > 0) {
+                                if(data.rank_card_custom) {
 
-                                const newBgImg = new Discord.MessageAttachment(`./assets/images/backgrounds/${newBg.file}`, newBg.file)
-                                message.channel.send(`***Changed your rank card's background to \`${newBg.name.toUpperCase()}\`***`, newBgImg)
+                                    const newBg = items.find(i => i.id == args.value)
+                                    await DB.query(`UPDATE tbl_users SET rank_card_background_id = ${newBg.id} WHERE user_id = ${message.author.id}`);
+                                    message.channel.send(`***Changed your rank card's background to \`${newBg.name.toUpperCase()}\`***`)
+                                    
+                                } else {
+
+                                    message.reply('You don\'t have permission to use custom rank card backgrounds :(')
+                                }
+
                             } else {
-                                message.channel.send(`***Changed your rank card's background to \`${newBg.name.toUpperCase()}\`***`)
+
+                                const newBg = items.find(i => i.id == args.value)
+                                await DB.query(`UPDATE tbl_users SET rank_card_background_id = ${newBg.id} WHERE user_id = ${message.author.id}`);
+
+                                if(newBg.id > 0) {
+
+                                    const newBgImg = new Discord.MessageAttachment(`./assets/images/backgrounds/${newBg.file}`, newBg.file)
+                                    message.channel.send(`***Changed your rank card's background to \`${newBg.name.toUpperCase()}\`***`, newBgImg)
+                                } else {
+                                    message.channel.send(`***Changed your rank card's background to \`${newBg.name.toUpperCase()}\`***`)
+                                }
                             }
 
                         } else {
@@ -132,6 +167,7 @@ class RankCardCommand extends Command {
                         }
 
                     }
+
                     break;
             }
 

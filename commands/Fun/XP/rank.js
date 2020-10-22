@@ -5,6 +5,7 @@ const { createCanvas, loadImage, registerFont } = require('canvas')
 const Color = require('color');
 const Discord = require('discord.js');
 const { indexOf } = require('ffmpeg-static');
+const { CategoryChannel } = require('discord.js');
 
 class RankCommand extends Command {
     constructor() {
@@ -84,9 +85,21 @@ class RankCommand extends Command {
 
             } else {
 
-                //Fill BG
-                ctx.fillStyle = colors.bg
-                ctx.fillRect(0, 0, canvas.width, canvas.height)
+                if(userData.rank_card_background_id >= 1 && userData.rank_card_custom_url) {
+
+                    try{
+
+                        const img = await loadImage(userData.rank_card_custom_url);
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+
+                    } catch(e) {
+
+                        //Fill BG
+                        ctx.fillStyle = colors.bg
+                        ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+                    }
+                }
             }
 
             //Outline
