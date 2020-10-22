@@ -95,7 +95,8 @@ class RankCardCommand extends Command {
                             
                         } else if(current.id === 1) {
 
-                            embed.image = {url: data.rank_card_custom_url}
+                            embed.image = {url: data.rank_card_custom_url};
+                            embed.footer = {text: 'Custom backgrounds should be 640x192px. If not they will be stretched.'};
                             message.channel.send({embed: embed})
 
                         } else {
