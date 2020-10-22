@@ -36,8 +36,7 @@ class AutoResponderListener extends Listener {
                 message.embeds[0].color === rgb(colors.test) ? shutDown(this.client) : ''
             }
 
-            
-
+    
         }
 
         if(!message.guild) return;
