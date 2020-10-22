@@ -298,6 +298,8 @@ class TopCommand extends Command {
                     }
 
                     break;
+
+                
             }
 
             let page;
