@@ -93,6 +93,11 @@ class RankCardCommand extends Command {
                             embed.image = {url: `attachment://${current.file}`}
                             message.channel.send({ files: [attachment], embed: embed})
                             
+                        } else if(current.id === 1) {
+
+                            embed.image = {url: data.rank_card_custom_url}
+                            message.channel.send({embed: embed})
+
                         } else {
 
                             message.channel.send({embed: embed})
