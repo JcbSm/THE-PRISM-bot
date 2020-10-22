@@ -209,71 +209,76 @@ module.exports =
                                 },
                                 {
                                     id: 1,
+                                    name: 'custom',
+                                    file: null
+                                },
+                                {
+                                    id: 2,
                                     name: 'poly',
                                     file: 'poly.png'
                                 },
                                 {
-                                    id: 2,
+                                    id: 3,
                                     name: 'mordor',
                                     file: 'mordor.png'
                                 },
                                 {
-                                    id: 3,
+                                    id: 4,
                                     name: 'ferns',
                                     file: 'ferns.png'
                                 },
                                 {
-                                    id: 4,
+                                    id: 5,
                                     name: 'cyberpunk',
                                     file: 'cyberpunk.png'
                                 },
                                 {
-                                    id: 5,
+                                    id: 6,
                                     name: 'cold',
                                     file: 'cold.jpg'
                                 },
                                 {
-                                    id: 6,
+                                    id: 7,
                                     name: 'sunset',
                                     file: 'sunset.png'
                                 },
                                 {
-                                    id: 7,
+                                    id: 8,
                                     name: 'dragonborn',
                                     file: 'skyrim.png'
                                 },
                                 {
-                                    id: 8,
+                                    id: 9,
                                     name: 'neon',
                                     file: 'neon.png'
                                 },
                                 {
-                                    id: 9,
+                                    id: 10,
                                     name: 'flame',
                                     file: 'flame.png'
                                 },
                                 {
-                                    id: 10,
+                                    id: 11,
                                     name: 'adeptus mechanicus',
                                     file: 'adeptus mechanicus.png'
                                 },
                                 {
-                                    id: 11,
+                                    id: 12,
                                     name: 'metallic neon',
                                     file: 'purple metallic.png'
                                 },
                                 {
-                                    id: 12,
+                                    id: 13,
                                     name: 'water',
                                     file: 'water.png'
                                 },
                                 {
-                                    id: 13,
+                                    id: 14,
                                     name: 'city',
                                     file: 'city.png'
                                 },
                                 {
-                                    id: 14,
+                                    id: 15,
                                     name: 'skyline',
                                     file: 'skyline.png'
                                 }
