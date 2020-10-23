@@ -61,6 +61,8 @@ class HelpCommand extends Command {
 
             } else if(args.command) {
 
+                console.log(categories.map(c => c.id.toLowerCase()))
+
                 if(categories.map(c => c.id.toLowerCase()).includes(args.command.toLowerCase())) {
 
                     let list = categories.filter(c => c.id.toLowerCase() === args.command.toLowerCase()).map(c => `**${c.id.toLocaleUpperCase()}:** \n- ${c.keyArray().join('\n- ')}\n`)
