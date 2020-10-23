@@ -32,7 +32,8 @@ class UnmuteCommand extends Command {
 
         //Unmutes target memeber.
         return args.member.roles.remove(mutedRole).then(() => {
-            return message.channel.send(`***${args.member.user.tag} has been unmuted.***`);
+            message.channel.send(`***${args.member.user.tag} has been unmuted.***`);
+            this.client.db.query(`UPDATE tbl_users SET temp_mute_timestamp = null WHERE user_id = ${args.member.id}`)
         });
     }
 }

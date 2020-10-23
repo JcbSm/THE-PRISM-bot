@@ -69,6 +69,14 @@ class ReadyListener extends Listener {
                 }
             }
 
+            //Restart Temp Mutes
+
+            const mutedArr = (await DB.query(`SELECT user_id, temp_mute_timestamp FROM tbl_users WHERE temp_mute_timestamp IS NOT NULL`)).rows
+            mutedArr.forEach(async row => {
+                const member = await guild.members.fetch(row.user_id)
+                this.client.emit('tempMute', member, row.temp_mute_timestamp)
+            })
+
             //Cache tbl_users
 
             const idArr = (await DB.query(`SELECT user_id FROM tbl_users`)).rows
