@@ -180,5 +180,41 @@ module.exports = {
         setTimeout(function() {
             repeat(funct, time, max, n)
         }, time)
+    },
+
+    parseTime: function parseTime(str) {
+        let time = {
+            d: 0,
+            h: 0,
+            m: 0,
+            s: 0
+        };
+
+        let arr = str.split(" ");
+        arr.forEach(str => {
+
+            const inc = str.replace(/[^smhd]/gi, '');
+            const val = Number(str.replace(/\D/gi, ''));
+
+            if(!val || !inc) return;
+            
+            switch(inc.toLowerCase()) {
+                
+                case 's':
+                    time.s += val
+                    break;
+                case 'm':
+                    time.m += val
+                    break;
+                case 'h':
+                    time.h += val
+                    break;
+                case 'd':
+                    time.d += val
+                    break;
+            }
+        })
+
+        return time;
     }
 }
