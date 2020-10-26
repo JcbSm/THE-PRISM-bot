@@ -18,6 +18,8 @@ class GuildMemberAddListener extends Listener {
         
         if(guild.id !== prism.guild.id) return;
 
+        if(prism.guild.banIDs.includes(member.id)) return member.kick('Blacklist')
+
         await member.roles.add(prism.guild.roleIDs.main)
 
         await log.send({embed: {
@@ -35,7 +37,7 @@ class GuildMemberAddListener extends Listener {
             author: {
                 name: member.user.tag,
                 icon_url: member.user.avatarURL()
-                },
+            },
             provider: null,
             footer: {
             text: `ID: ${member.user.id}`
