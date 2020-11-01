@@ -99,6 +99,11 @@ class RankCommand extends Command {
                         ctx.fillRect(0, 0, canvas.width, canvas.height)
 
                     }
+                } else {
+
+                    //Fill BG
+                    ctx.fillStyle = colors.bg
+                    ctx.fillRect(0, 0, canvas.width, canvas.height)
                 }
             }
 
