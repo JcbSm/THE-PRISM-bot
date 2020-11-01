@@ -42,10 +42,10 @@ class TempMuteCommand extends Command {
 
         let milli = 0;
         const time = parseTime(args.time);
-        const str = [`${time.d}d`, `${time.h}h`, `${time.m}m`]
-        milli += time.m*1000*60
-        milli += time.h*1000*60*60
-        milli += time.d*1000*60*60*24
+        let arr = []
+        if(time.d) { arr.push(`${time.d}d`); milli += time.d*1000*60*60*24 }
+        if(time.h) { arr.push(`${time.h}h`); milli += time.h*1000*60*60 }
+        if(time.m) { arr.push(`${time.m}m`); milli += time.m*1000*60 }
 
         if(milli == 0) return message.reply('Please specify a valid time to mute the member.')
 
@@ -55,6 +55,8 @@ class TempMuteCommand extends Command {
 
             this.client.emit('tempMute', member, message.createdTimestamp+milli)
 
+            member.roles.add(prism.guild.roleIDs.muted)
+
             message.channel.send({ embed: {
     
                 title: 'Member Muted',
@@ -62,7 +64,7 @@ class TempMuteCommand extends Command {
                 fields: [
                     {
                         name: 'Time Period',
-                        value: `\`${str.join(" ")}\``
+                        value: `\`${arr.join(" ")}\``
                     }
                 ],
                 footer: {
