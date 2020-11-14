@@ -224,9 +224,6 @@ class RankCommand extends Command {
             ctx.strokeText(`Rank `, 592-textWidth-numWidth-levelWidth, 52)
             ctx.fillText(`Rank `, 592-textWidth-numWidth-levelWidth, 52)
 
-
-            
-
             const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'Rank-.png');
 
 	        message.channel.send('', attachment);
