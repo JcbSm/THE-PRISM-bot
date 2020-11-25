@@ -13,8 +13,6 @@ class ShutdownCommand extends Command {
     }
 
     async exec(message) {
-
-        if(message.author.id !== '227848397447626752') return;
         
         console.log(`Process remotely shut down by ${message.author.tag} in ${message.guild}`)
         await message.channel.send( {embed: {
