@@ -6,27 +6,15 @@ console.log('\x1b[31m%s\x1b[0m','Initialising...')
 
 try {
 
-	function getConfig() {
-		let testing;
-		try {
-			const keys = require('./keys.json')
-			const token = keys.token;
-			const dbURL = keys.database.url
-			const prefix = config.testPrefix;
-			testing = true
-			console.log('Starting using locally stored value for token.');
-			return {'token': token, 'prefix': prefix, 'dbURL': dbURL, 'testing': testing}
-		}
-		catch(error) {
-			const token = process.env.TOKEN;
-			const dbURL = process.env.DATABASE_URL
-			const prefix = config.prefix;
-			testing = false
-			console.log('Starting using token stored on Heroku');
-			return {'token': token, 'prefix': prefix, 'dbURL': dbURL, 'testing': testing}
-		}
+	let token, dbURL, prefix, testing;
+	try{
+		const credentials = require('./keys.json');
+		token = credentials.token; dbURL = credentials.database.url; prefix = config.testPrefix; testing = true;
+		console.log('Starting locally.')
+	} catch(error) {
+		token = process.env.TOKEN; dbURL = process.env.DATABASE_URL; prefix = config.prefix; testing = false;
+		console.log('Starting on heroku.')
 	}
-	const cfg = getConfig();
 
 	class BotClient extends AkairoClient {
 		constructor() {
@@ -41,7 +29,7 @@ try {
 				this,
 				{
 					directory: './commands/',
-					prefix: cfg['prefix']
+					prefix: prefix
 				}
 			);
 			this.inhibitorHandler = new InhibitorHandler(this, {
@@ -69,9 +57,11 @@ try {
 		}
 	}
 	const client = new BotClient();
+
+	client.testing = testing
 	
 	client.db = new Client({
-		connectionString: cfg['dbURL'],
+		connectionString: dbURL,
 		ssl: {
 			rejectUnauthorized: false
 		}
@@ -89,8 +79,6 @@ try {
 		}
 	}())
 
-	client.testing = cfg['testing']
-
 	client.on('raw', async packet => { 
  		if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t)) return;
 		const channel = await client.channels.fetch(packet.d.channel_id);
@@ -107,7 +95,7 @@ try {
 			}
 		});
 	});
-	client.login(cfg['token']);
+	client.login(token);
 } catch(e) {
 
 	console.log(e)
